@@ -28,17 +28,17 @@ yarn dev
 ```json
 {
     "properties": {
-        "colors": [...],
+        "colors": [],
         "stitchWidth": 30,
         "stitchHeight": 30,
         "notes": ""
     },
-    "fullStitches": [...],
-    "threeQuarterStitches": [...],
-    "halfStitches": [...],
-    "quarterStitches": [...],
-    "backStitches": [...],
-    "longStitches": [...]
+    "fullStitches": [],
+    "threeQuarterStitches": [],
+    "halfStitches": [],
+    "quarterStitches": [],
+    "backStitches": [],
+    "longStitches": []
 }
 ```
 
