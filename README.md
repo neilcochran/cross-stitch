@@ -25,6 +25,7 @@ yarn dev
 
 ### **Cross Stitch Pattern Schema:**
 
+See a full example [below](#full-schema-example)
 ```json
 {
     "properties": {
