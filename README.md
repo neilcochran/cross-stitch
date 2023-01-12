@@ -29,10 +29,10 @@ See a full example [below](#full-schema-example)
 ```json
 {
     "properties": {
-        "colors": [],
         "stitchWidth": 30,
         "stitchHeight": 30,
-        "notes": ""
+        "notes": "",
+        "colors": []
     },
     "fullStitches": [],
     "threeQuarterStitches": [],
@@ -45,13 +45,13 @@ See a full example [below](#full-schema-example)
 
 * `properties` - holds top level information about the cross stitch pattern, such as color and dimension information.
 
-    * `colors` - an array of [`color`](#color-schema) objects defining all colors used in the pattern.
-
     * `stitchWidth` - a non negative integer representing the width, counted in stitches, of the pattern. This is not required.
 
     * `stitchHeight` - a non negative integer representing the height, counted in stitches, of the pattern. This is not required.
 
     * `notes` - an optional string for any notes/comment about the pattern.
+
+    * `colors` - an array of [`color`](#color-schema) objects defining all colors used in the pattern.
 
 * `fullStitches` - an array of [`full stitch`](#full-stitch-schema) objects defining all the full stitches in the pattern.
 
@@ -73,9 +73,9 @@ See a full example [below](#full-schema-example)
 ```json
 {
     "colorId": 1,
-    "strands": [],
     "colorName": "Burnt Orange",
     "patternSymbol": "@",
+    "strands": [],
     "totalFullStitches": 75,
     "totalThreeQuarterStitches": 0,
     "totalHalfStitches": 0,
@@ -87,11 +87,11 @@ See a full example [below](#full-schema-example)
 
 * `colorId` - a non negative integer identifier. Each color within the pattern must have a unique `colorId`
 
-* `strands` - an array of [`strand`](#strand-schema) objects defining all the strands of thread that make up the color
-
 * `colorName` - a name for the overall color (since it could be a blend)
 
 * `patternSymbol` - the ASCII character used to represent the color on the pattern visually. This must be unique within all the `color` objects in the `colors` array
+
+* `strands` - an array of [`strand`](#strand-schema) objects defining all the strands of thread that make up the color
 
 * `totalFullStitches` - the count of full stitches that use this color in the pattern. This is not required.
 * `totalThreeQuarterStitches` - the count of three quarter stitches that use this color in the pattern. This is not required.
@@ -571,9 +571,14 @@ Here is the corresponding JSON that describes the stitches in the above image:
 ```json
 {
     "properties": {
+        "stitchWidth": 3,
+        "stitchHeight": 3,
+        "notes": "This is a tiny 3x3 contrived example 'pattern'. Enjoy!",
         "colors": [
             {
                 "colorId": 0,
+                "colorName": "Dark Blue",
+                "patternSymbol": "@",
                 "strands": [
                     {
                         "colorName": "Dark Blue",
@@ -581,8 +586,6 @@ Here is the corresponding JSON that describes the stitches in the above image:
                         "strandCount": 2
                     }
                 ],
-                "colorName": "Dark Blue",
-                "patternSymbol": "@",
                 "totalFullStitches": 1,
                 "totalThreeQuarterStitches": 1,
                 "totalHalfStitches": 0,
@@ -592,6 +595,8 @@ Here is the corresponding JSON that describes the stitches in the above image:
             },
             {
                 "colorId": 1,
+                "colorName": "Orange Blend",
+                "patternSymbol": "&",
                 "strands": [
                     {
                         "colorName": "Orange Spice",
@@ -604,8 +609,6 @@ Here is the corresponding JSON that describes the stitches in the above image:
                         "strandCount": 1
                     }
                 ],
-                "colorName": "Orange Blend",
-                "patternSymbol": "&",
                 "totalFullStitches": 0,
                 "totalThreeQuarterStitches": 0,
                 "totalHalfStitches": 1,
@@ -613,10 +616,7 @@ Here is the corresponding JSON that describes the stitches in the above image:
                 "totalBackStitches": 1,
                 "totalLongStitches": 1
             }
-        ],
-        "stitchWidth": 3,
-        "stitchHeight": 3,
-        "notes": "This is a tiny 3x3 contrived example 'pattern'. Enjoy!"
+        ]
     },
     "fullStitches": [
         {
