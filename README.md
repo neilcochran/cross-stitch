@@ -30,7 +30,8 @@ yarn dev
     "properties": {
         "colors": [...],
         "stitchWidth": 30,
-        "stitchHeight": 30
+        "stitchHeight": 30,
+        "notes": ""
     },
     "fullStitches": [...],
     "threeQuarterStitches": [...],
@@ -46,7 +47,10 @@ yarn dev
     * `colors` - an array of [`color`](#color-schema) objects defining all colors used in the pattern.
 
     * `stitchWidth` - a non negative integer representing the width, counted in stitches, of the pattern. This is not required.
+
     * `stitchHeight` - a non negative integer representing the height, counted in stitches, of the pattern. This is not required.
+
+    * `notes` - an optional string for any notes/comment about the pattern.
 
 * `fullStitches` - an array of [`full stitch`](#full-stitch-schema) objects defining all the full stitches in the pattern.
 
@@ -104,13 +108,13 @@ yarn dev
 
 ### **Strand Schema:**
 
+Each [`color`](#color-schema) is made up of at least one `strand` object. Each `strand` is at least a single DMC thread strand, but can be increased using `strandCount`.
+
 ```json
 {
     "colorName": "Orange Spice",
     "dmcThreadCode": "721",
-    "fullStitchStrandCount": 2,
-    "backStitchStrandCount": 1,
-    "longStitchStrandCount": 2
+    "strandCount": 2
 }
 ```
 
@@ -118,16 +122,14 @@ yarn dev
 
 * `dmcThreadCode` - the DMC color code. This is typically numeric string like `'721'` or `3746` but there are a few alpha color codes like `'blanc'` and `'ecru'`.
 
-* `fullStitchStrandCount` - The number of strands of to be used in the parent `color` for full stitches. This is only required if full stitches are used in the pattern.
-
-* `backStitchStrandCount` - The number of strands of to be used in the parent `color` for back stitches. This is only required if back stitches are used in the pattern.
-
-* `longStitchStrandCount` - The number of strands of to be used in the parent `color` for long stitches. This is only required if long stitches are used in the pattern.
+* `strandCount` - an integer greater than one representing the number of strands of this definition to be used in the parent `color`. 
 
 <hr/>
 <br/>
 
 ### **Full Stitch Schema:**
+
+A full stitch covers an entire square on the grid in an 'X' shape. It is the combination of 2 opposing angle half stitches.
 
 ```json
 {
@@ -137,12 +139,30 @@ yarn dev
 }
 ```
 
-A full stitch covers an entire square on the grid in an 'X' shape. It is the combination of 2 opposite angle half stitches.
+* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+
+* `x` - the x coordinate of the lower left side of the square on the grid.
+
+* `y` - the y coordinate of the lower left corner of square on the grid.
+
+**Example:**
+
+![full stitch](images/full-stitch.png)
+
+```json
+{
+    "colorId": 1,
+    "x": 1,
+    "y": 1
+}
+```
 
 <hr/>
 <br/>
 
 ### **Three Quarter Stitch Schema:**
+
+A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and a [half stitch](#half-stitch-schema) combined. Therefore, the half stitch angle and the quarter stitch placement must be given. For a 45 degree angle half stitch `top-right` and `bottom-left` are valid `quarterStitchPlacement` values. Conversely, for a 135 degree angle half stitch `top-left` and `bottom-right` are valid `quarterStitchPlacement` values.
 
 ```json
 {
@@ -154,7 +174,15 @@ A full stitch covers an entire square on the grid in an 'X' shape. It is the com
 }
 ```
 
-A three quarter stitch is simply a quarter stitch and a half stitch combined. Therefore, the half stitch angle and the quarter stitch placement must be given. For a 45 degree angle half stitch `top-right` and `bottom-left` are valid `quarterStitchPlacement` values. Conversely, for a 135 degree angle half stitch `top-left` and `bottom-right` are valid `quarterStitchPlacement` values.
+* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+
+* `x` - the x coordinate of the lower left side of the square on the grid.
+
+* `y` - the y coordinate of the lower left corner of square on the grid.
+
+* `halfStitchAngle` - the angle of the half stitch which can be either `45` or `135`. See the [`half stitch`](#half-stitch-schema) schema for more information.
+
+* `quarterStitchPlacement` - one of 4 values: `top-right`, `top-left`, `bottom-right`, `bottom-left` indicating the placement of the quarter stitch. See the [`quarter stitch`](#quarter-stitch-schema) schema for more information.
 
 **Examples:**
     
@@ -164,7 +192,9 @@ A three quarter stitch is simply a quarter stitch and a half stitch combined. Th
 
 ```json
 {
-    ...
+    "colorId": 1,
+    "x": 1,
+    "y": 1,
     "halfStitchAngle": 45,
     "quarterStitchPlacement": "top-right"
 }
@@ -179,7 +209,9 @@ A three quarter stitch is simply a quarter stitch and a half stitch combined. Th
 
 ```json
 {
-    ...
+    "colorId": 1,
+    "x": 1,
+    "y": 1,
     "halfStitchAngle": 45,
     "quarterStitchPlacement": "bottom-left"
 }
@@ -194,7 +226,9 @@ A three quarter stitch is simply a quarter stitch and a half stitch combined. Th
 
 ```json
 {
-    ...
+    "colorId": 1,
+    "x": 1,
+    "y": 1,
     "halfStitchAngle": 135,
     "quarterStitchPlacement": "top-left"
 }
@@ -209,7 +243,9 @@ A three quarter stitch is simply a quarter stitch and a half stitch combined. Th
 
 ```json
 {
-    ...
+    "colorId": 1,
+    "x": 1,
+    "y": 1,
     "halfStitchAngle": 135,
     "quarterStitchPlacement": "bottom-right"
 }
@@ -220,6 +256,8 @@ A three quarter stitch is simply a quarter stitch and a half stitch combined. Th
 
 ### **Half Stitch Schema:**
 
+Half stitches comes in two forms, one going between the top left and bottom right forming a 45 degree line. The other goes between the top right and bottom left forming a 135 degree line. Thus `45` and `135` are the only valid values for `stitchAngle`.
+
 ```json
 {
     "colorId": 1,
@@ -229,7 +267,13 @@ A three quarter stitch is simply a quarter stitch and a half stitch combined. Th
 }
 ```
 
-Half stitches comes in two forms, one going between the top left and bottom right forming a 45 degree line. The other goes between the top right and bottom left forming a 135 degree line. Thus `45` and `135` are the only valid values for `stitchAngle`.
+* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+
+* `x` - the x coordinate of the lower left side of the square on the grid.
+
+* `y` - the y coordinate of the lower left corner of square on the grid.
+
+* `stitchAngle` - the angle of the half stitch which can be either `45` or `135`.
 
 **Examples:**
 
@@ -239,7 +283,9 @@ Half stitches comes in two forms, one going between the top left and bottom righ
 
 ```json
 {
-    ...
+    "colorId": 1,
+    "x": 1,
+    "y": 1,
     "stitchAngle": 45
 }
 ```
@@ -253,7 +299,9 @@ Half stitches comes in two forms, one going between the top left and bottom righ
 
 ```json
 {
-    ...
+    "colorId": 1,
+    "x": 1,
+    "y": 1,
     "stitchAngle": 135
 }
 ```
@@ -262,6 +310,8 @@ Half stitches comes in two forms, one going between the top left and bottom righ
 <br/>
 
 ### **Quarter Stitch Schema:**
+
+A quarter stitch can be located in either the `top-right`, `bottom-right`, `bottom-left`, or `top-left` as indicated by the `placement` field.
 
 ```json
 {
@@ -272,7 +322,13 @@ Half stitches comes in two forms, one going between the top left and bottom righ
 }
 ```
 
-A quarter stitch can be located in either the `top-right`, `bottom-right`, `bottom-left`, or `top-left` as indicated by the `placement` field.
+* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+
+* `x` - the x coordinate of the lower left corner of the square on the grid
+
+* `y` - the y coordinate of the lower left corner of the square on the grid
+
+* `placement` - the placement of the quarter stitch within the square on the grid
 
 **Examples:**
 
@@ -282,7 +338,9 @@ A quarter stitch can be located in either the `top-right`, `bottom-right`, `bott
 
 ```json
 {
-    ...
+    "colorId": 1,
+    "x": 1,
+    "y": 1,
     "placement": "top-right"
 }
 ```
@@ -296,7 +354,9 @@ A quarter stitch can be located in either the `top-right`, `bottom-right`, `bott
 
 ```json
 {
-    ...
+    "colorId": 1,
+    "x": 1,
+    "y": 1,
     "placement": "bottom-right"
 }
 ```
@@ -310,7 +370,9 @@ A quarter stitch can be located in either the `top-right`, `bottom-right`, `bott
 
 ```json
 {
-    ...
+    "colorId": 1,
+    "x": 1,
+    "y": 1,
     "placement": "bottom-left"
 }
 ```
@@ -324,7 +386,9 @@ A quarter stitch can be located in either the `top-right`, `bottom-right`, `bott
 
 ```json
 {
-    ...
+    "colorId": 1,
+    "x": 1,
+    "y": 1,
     "placement": "top-left"
 }
 ```
@@ -333,6 +397,8 @@ A quarter stitch can be located in either the `top-right`, `bottom-right`, `bott
 <br/>
 
 ### **Back Stitch Schema:**
+
+Back stitches can go laterally, vertically, or diagonally. A back stitch typically moves a full space in any of the possible directions, but 1/2 space fractional amounts are supported for any of the 4 coordinate values. A single back stitch can move across at most 1 grid space in any supported direction. For example if a single back stitch segment spans 1.5 spaces, it must be defined as 2 back stitches, one moving a full space, and one moving a half space.
 
 ```json
 {
@@ -344,7 +410,15 @@ A quarter stitch can be located in either the `top-right`, `bottom-right`, `bott
 }
 ```
 
-Back stitches can go laterally, vertically, or diagonally. A back stitch typically moves a full space in any of the possible directions, but 1/2 space fractional amounts are supported for any of the 4 coordinate values. A single back stitch can move across at most 1 grid space in any supported direction. For example if a single back stitch segment spans 1.5 spaces, it must be defined as 2 back stitches, one moving a full space, and one moving a half space.
+* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+
+* `x1` - the x coordinate of the start of the stitch
+
+* `y1` - the y coordinate of the start of the stitch
+
+* `x2` - the x coordinate of the end of the stitch
+
+* `y2` - the y coordinate of the end of the stitch
 
 **Examples:**
 
@@ -356,7 +430,7 @@ Red:
 
 ```json
     {
-    ...
+    "colorId": 1,
     "x1": 1,
     "y1": 1,
     "x2": 2,
@@ -368,7 +442,7 @@ Green:
 
 ```json
 {
-    ...
+    "colorId": 1,
     "x1": 1,
     "y1": 2,
     "x2": 1.5,
@@ -387,7 +461,7 @@ Red:
 
 ```json
 {
-    ...
+    "colorId": 1,
     "x1": 2,
     "y1": 1,
     "x2": 2,
@@ -399,7 +473,7 @@ Green:
 
 ```json
 {
-    ...
+    "colorId": 1,
     "x1": 1,
     "y1": 1,
     "x2": 1,
@@ -418,7 +492,7 @@ Red:
 
 ```json
 {
-    ...
+    "colorId": 1,
     "x1": 1,
     "y1": 2,
     "x2": 2,
@@ -430,7 +504,7 @@ Green:
 
 ```json
 {
-    ...
+    "colorId": 1,
     "x1": 0,
     "y1": 1,
     "x2": 0.5,
@@ -445,7 +519,7 @@ Green:
 
 ```json
 {
-    ...
+    "colorId": 1,
     "x1": 0,
     "y1": 0,
     "x2": 5,
@@ -462,7 +536,7 @@ Red:
 
 ```json
 {
-    ...
+    "colorId": 1,
     "x1": 0,
     "y1": 3,
     "x2": 2.5,
@@ -474,7 +548,7 @@ Green:
 
 ```json
 {
-    ...
+    "colorId": 1,
     "x1": 0,
     "y1": 3,
     "x2": 3,
@@ -487,12 +561,114 @@ Green:
 
 ### **Full Schema Example:**
 
-TODO ADD!
+An example of each stitch being used can be seen in the below image:
 
-```
-"Burnt Orange - 947"
-"Orange Spice - 721"
-"Dark Blue - 825"
+![full pattern example](images/full-pattern-example.png)
+
+Here is the corresponding JSON that describes the stitches in the above image:
+
+```json
+{
+    "properties": {
+        "colors": [
+            {
+                "colorId": 0,
+                "strands": [
+                    {
+                        "colorName": "Dark Blue",
+                        "dmcThreadCode": "825",
+                        "strandCount": 2
+                    }
+                ],
+                "colorName": "Dark Blue",
+                "patternSymbol": "@",
+                "totalFullStitches": 1,
+                "totalThreeQuarterStitches": 1,
+                "totalHalfStitches": 0,
+                "totalQuarterStitches": 0,
+                "totalBackStitches": 0,
+                "totalLongStitches": 0
+            },
+            {
+                "colorId": 1,
+                "strands": [
+                    {
+                        "colorName": "Orange Spice",
+                        "dmcThreadCode": "721",
+                        "strandCount": 1
+                    },
+                    {
+                        "colorName": "Burnt Orange",
+                        "dmcThreadCode": "947",
+                        "strandCount": 1
+                    }
+                ],
+                "colorName": "Orange Blend",
+                "patternSymbol": "&",
+                "totalFullStitches": 0,
+                "totalThreeQuarterStitches": 0,
+                "totalHalfStitches": 1,
+                "totalQuarterStitches": 1,
+                "totalBackStitches": 1,
+                "totalLongStitches": 1
+            }
+        ],
+        "stitchWidth": 3,
+        "stitchHeight": 3,
+        "notes": "This is a tiny 3x3 contrived example 'pattern'. Enjoy!"
+    },
+    "fullStitches": [
+        {
+            "colorId": 0,
+            "x": 0,
+            "y": 1
+        }
+    ],
+    "threeQuarterStitches": [
+        {
+            "colorId": 0,
+            "x": 2,
+            "y": 1,
+            "halfStitchAngle": 45,
+            "quarterStitchPlacement": "top-right"
+        }
+    ],
+    "halfStitches": [
+        {
+            "colorId": 1,
+            "x": 1,
+            "y": 1,
+            "stitchAngle": 135
+        }
+    ],
+    "quarterStitches": [
+        {
+            "colorId": 1,
+            "x": 2,
+            "y": 0,
+            "placement": "bottom-right"
+        }
+    ],
+    "backStitches": 
+    [
+        {
+            "colorId": 1,
+            "x1": 0,
+            "y1": 0,
+            "x2": 1,
+            "y2": 0
+        }
+    ],
+    "longStitches": [
+        {    
+            "colorId": 1,
+            "x1": 0,
+            "y1": 3,
+            "x2": 3,
+            "y2": 2
+        }
+    ]
+}
 ```
 
 ## Versions
