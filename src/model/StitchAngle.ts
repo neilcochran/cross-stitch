@@ -1,0 +1,1 @@
+export type StitchAngle = 45 | 135;
