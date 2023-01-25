@@ -22,7 +22,7 @@ export class BackStitch {
      * @param x2 - The x2 coordinate of the end of the stitch
      * @param y2 - The y2 coordinate of the end of the stitch
      *
-     * @throws {@link Error} if invalid coordinates or colorId is passed
+     * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
         colorId: number,

@@ -124,7 +124,7 @@ Each [`color`](#color-schema) is made up of at least one `strand` object. Each `
 
 * `dmcThreadCode` - the DMC color code. This is typically numeric string like `'721'` or `3746` but there are a few alpha color codes like `'blanc'` and `'ecru'`.
 
-* `strandCount` - an integer greater than zero, representing the number of strands of this definition to be used in the parent `color`. 
+* `strandCount` - an integer greater than zero, representing the number of times the strand should be used in the given color.
 
 <hr/>
 <br/>

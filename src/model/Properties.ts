@@ -1,11 +1,20 @@
 import { validateNonNegativeInteger } from '../validation';
 import { Color } from './Color';
 
+/**
+ * Model class representing a pattern's properties.
+ */
 export class Properties {
     private colors!: Color[];
     private stitchWidth?: number;
     private stitchHeight?: number;
 
+    /**
+     * @param colors - The list of colors that are used in the pattern.
+     * @param stitchWidth - The width, in stitches, of the pattern.
+     * @param stitchHeight - The height, in stitches, of the pattern.
+     * @param notes - Any notes or comments about the pattern.
+     */
     constructor(
         colors: Color[],
         stitchWidth?: number,
