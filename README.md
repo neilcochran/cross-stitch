@@ -70,6 +70,7 @@ See a full example [below](#full-schema-example)
 
 ### **Color Schema:**
 
+A color represents a color used in the pattern. The color is made up of one or more [`strands`](#strand-schema) of thread. Each strand can be a different color, allowing blended colors to be defined.
 ```json
 {
     "colorId": 1,
@@ -123,14 +124,14 @@ Each [`color`](#color-schema) is made up of at least one `strand` object. Each `
 
 * `dmcThreadCode` - the DMC color code. This is typically numeric string like `'721'` or `3746` but there are a few alpha color codes like `'blanc'` and `'ecru'`.
 
-* `strandCount` - an integer greater than zero, representing the number of strands of this definition to be used in the parent `color`. 
+* `strandCount` - an integer greater than zero, representing the number of times the strand should be used in the given color.
 
 <hr/>
 <br/>
 
 ### **Full Stitch Schema:**
 
-A full stitch covers an entire square on the grid in an 'X' shape. It is the combination of 2 opposing angle half stitches.
+A full stitch covers a single square on the pattern in an 'X' shape. It is the combination of 2 opposing angle half stitches.
 
 ```json
 {
@@ -142,9 +143,9 @@ A full stitch covers an entire square on the grid in an 'X' shape. It is the com
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x` - the x coordinate of the lower left side of the square on the grid.
+* `x` - the x coordinate of the lower left corner of the stitch.
 
-* `y` - the y coordinate of the lower left corner of square on the grid.
+* `y` - the y coordinate of the lower left corner of stitch.
 
 **Example:**
 
@@ -177,9 +178,9 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x` - the x coordinate of the lower left side of the square on the grid.
+* `x` - the x coordinate of the lower left corner of the space on the grid.
 
-* `y` - the y coordinate of the lower left corner of square on the grid.
+* `y` - the y coordinate of the lower left corner of space on the grid.
 
 * `halfStitchAngle` - the angle of the half stitch which can be either `45` or `135`. See the [`half stitch`](#half-stitch-schema) schema for more information.
 
@@ -257,7 +258,7 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 
 ### **Half Stitch Schema:**
 
-Half stitches comes in two forms, one going between the top left and bottom right forming a 45 degree line. The other goes between the top right and bottom left forming a 135 degree line. Thus `45` and `135` are the only valid values for `stitchAngle`.
+Half stitches comes in two forms. The first form goes between the top left and bottom right corners of the space on the grid forming a 45 degree line. The other form goes between the top right and bottom left corners of the space on the grid forming a 135 degree line. This is why `45` and `135` are the only valid values for `stitchAngle`.
 
 ```json
 {
@@ -270,7 +271,7 @@ Half stitches comes in two forms, one going between the top left and bottom righ
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x` - the x coordinate of the lower left side of the square on the grid.
+* `x` - the x coordinate of the lower left corner of the square on the grid.
 
 * `y` - the y coordinate of the lower left corner of square on the grid.
 
@@ -312,7 +313,7 @@ Half stitches comes in two forms, one going between the top left and bottom righ
 
 ### **Quarter Stitch Schema:**
 
-A quarter stitch can be located in either the `top-right`, `bottom-right`, `bottom-left`, or `top-left` as indicated by the `placement` field.
+A quarter stitch spans a quarter of a space on the grid and can be located in either the `top-right`, `bottom-right`, `bottom-left`, or `top-left` quadrant of a grid space as indicated by the `placement` field. A quarter stitch is a half stitch cut in half vertically. Therefore, one end of the quarter stitch is always in the center of a grid space, while the other extends to the corner indicated by the `placement` value.
 
 ```json
 {
@@ -413,13 +414,13 @@ Back stitches can go laterally, vertically, or diagonally. A back stitch typical
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x1` - the x coordinate of the start of the stitch
+* `x1` - the x1 coordinate of the start of the stitch
 
-* `y1` - the y coordinate of the start of the stitch
+* `y1` - the y1 coordinate of the start of the stitch
 
-* `x2` - the x coordinate of the end of the stitch
+* `x2` - the x2 coordinate of the end of the stitch
 
-* `y2` - the y coordinate of the end of the stitch
+* `y2` - the y2 coordinate of the end of the stitch
 
 **Examples:**
 
@@ -518,6 +519,8 @@ Green:
 
 ### **Long Stitch Schema:**
 
+Long stitches are stitches that span more than 1 space. They can move laterally, vertically, or diagonally (just like back stitches). Long stitch coordinates also support 1/2 space fractional values.
+
 ```json
 {
     "colorId": 1,
@@ -527,7 +530,16 @@ Green:
     "y2": 2
 }
 ```
-Long stitches are stitches that span more than 1 space. They can move laterally, vertically, or diagonally (just like back stitches). Long stitch coordinates also support 1/2 space fractional values.
+
+* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+
+* `x1` - the x1 coordinate of the start of the stitch
+
+* `y1` - the y1 coordinate of the start of the stitch
+
+* `x2` - the x2 coordinate of the end of the stitch
+
+* `y2` - the y2 coordinate of the end of the stitch
 
 **Examples:**
 
