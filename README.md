@@ -130,7 +130,7 @@ Each [`color`](#color-schema) is made up of at least one `strand` object. Each `
 
 ### **Full Stitch Schema:**
 
-A full stitch covers an entire square on the grid in an 'X' shape. It is the combination of 2 opposing angle half stitches.
+A full stitch covers a single square on the pattern in an 'X' shape. It is the combination of 2 opposing angle half stitches.
 
 ```json
 {
@@ -142,9 +142,9 @@ A full stitch covers an entire square on the grid in an 'X' shape. It is the com
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x` - the x coordinate of the lower left side of the square on the grid.
+* `x` - the x coordinate of the lower left corner of the stitch.
 
-* `y` - the y coordinate of the lower left corner of square on the grid.
+* `y` - the y coordinate of the lower left corner of stitch.
 
 **Example:**
 
@@ -177,9 +177,9 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x` - the x coordinate of the lower left side of the square on the grid.
+* `x` - the x coordinate of the lower left corner of the stitch.
 
-* `y` - the y coordinate of the lower left corner of square on the grid.
+* `y` - the y coordinate of the lower left corner of stitch.
 
 * `halfStitchAngle` - the angle of the half stitch which can be either `45` or `135`. See the [`half stitch`](#half-stitch-schema) schema for more information.
 
@@ -270,9 +270,9 @@ Half stitches comes in two forms, one going between the top left and bottom righ
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x` - the x coordinate of the lower left side of the square on the grid.
+* `x` - the x coordinate of the lower left corner of the stitch.
 
-* `y` - the y coordinate of the lower left corner of square on the grid.
+* `y` - the y coordinate of the lower left corner of stitch.
 
 * `stitchAngle` - the angle of the half stitch which can be either `45` or `135`.
 
@@ -325,11 +325,11 @@ A quarter stitch can be located in either the `top-right`, `bottom-right`, `bott
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x` - the x coordinate of the lower left corner of the square on the grid
+* `x` - the x coordinate of the lower left corner of the stitch
 
-* `y` - the y coordinate of the lower left corner of the square on the grid
+* `y` - the y coordinate of the lower left corner of the stitch
 
-* `placement` - the placement of the quarter stitch within the square on the grid
+* `placement` - the placement of the quarter stitch within the stitch
 
 **Examples:**
 
