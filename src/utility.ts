@@ -76,7 +76,7 @@ export function jsonToModel(json: string): CrossStitchPattern {
         longStitches.push(new LongStitch(longStitch.colorId, longStitch.x1, longStitch.y1, longStitch.x2, longStitch.y2));
     }
 
-    return new CrossStitchPattern(
+    return {
         properties,
         fullStitches,
         threeQuarterStitches,
@@ -84,5 +84,5 @@ export function jsonToModel(json: string): CrossStitchPattern {
         quarterStitches,
         backStitches,
         longStitches
-    );
+    };
 }
