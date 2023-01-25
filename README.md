@@ -177,9 +177,9 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x` - the x coordinate of the lower left corner of the stitch.
+* `x` - the x coordinate of the lower left corner of the space on the grid.
 
-* `y` - the y coordinate of the lower left corner of stitch.
+* `y` - the y coordinate of the lower left corner of space on the grid.
 
 * `halfStitchAngle` - the angle of the half stitch which can be either `45` or `135`. See the [`half stitch`](#half-stitch-schema) schema for more information.
 
