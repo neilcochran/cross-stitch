@@ -13,11 +13,11 @@ export class FullStitch {
     private y!: number;
 
     /**
-     * @param colorId - The id of the desired color of the stitch
+     * @param colorId - The id of the desired color of the stitch.
      * @param x - The x coordinate of the lower left corner of the stitch.
      * @param y - The y coordinate of the lower left corner of stitch.
      *
-     * @throws {@link Error} if invalid coordinates or colorId is passed
+     * @throws {@link Error} if invalid coordinates or colorId is passed.
      */
     constructor(
         colorId: number,
@@ -36,11 +36,11 @@ export class FullStitch {
     }
 
     /**
-     * Set the colorId of the stitch
+     * Set the colorId of the stitch.
      *
-     * @param colorId - The id of the desired color of the stitch
+     * @param colorId - The id of the desired color of the stitch.
      *
-     * @returns True if the colorId provided was valid and set, or false if it was invalid and not set
+     * @returns True if the colorId provided was valid and set, or false if it was invalid and not set.
      */
     public setColorId(colorId: number): boolean {
         if(validateNonNegativeInteger(colorId)){
@@ -84,11 +84,11 @@ export class FullStitch {
     }
 
     /**
-     * Set the y coordinate of the lower left corner of the stitch
+     * Set the y coordinate of the lower left corner of the stitch.
      *
      * @param y - The y coordinate of the lower left corner of the stitch.
      *
-     * @returns True if the y value provided was valid and set, or false if it was invalid and not set
+     * @returns True if the y value provided was valid and set, or false if it was invalid and not set.
      */
     public setY(y: number): boolean {
         if(validateNonNegativeDecimalPrecision(y)){
@@ -99,8 +99,9 @@ export class FullStitch {
     }
 
     /**
-     * Get the y coordinate of the lower left corner of the stitch
-     * @returns The y coordinate of the lower left corner of the stitch
+     * Get the y coordinate of the lower left corner of the stitch.
+     *
+     * @returns The y coordinate of the lower left corner of the stitch.
      */
     public getY(): number {
         return this.y;

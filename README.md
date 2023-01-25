@@ -257,7 +257,7 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 
 ### **Half Stitch Schema:**
 
-Half stitches comes in two forms, one going between the top left and bottom right forming a 45 degree line. The other goes between the top right and bottom left forming a 135 degree line. Thus `45` and `135` are the only valid values for `stitchAngle`.
+Half stitches comes in two forms. The first form goes between the top left and bottom right corners of the space on the grid forming a 45 degree line. The other form goes between the top right and bottom left corners of the space on the grid forming a 135 degree line. This is why `45` and `135` are the only valid values for `stitchAngle`.
 
 ```json
 {
@@ -270,9 +270,9 @@ Half stitches comes in two forms, one going between the top left and bottom righ
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x` - the x coordinate of the lower left corner of the stitch.
+* `x` - the x coordinate of the lower left corner of the square on the grid.
 
-* `y` - the y coordinate of the lower left corner of stitch.
+* `y` - the y coordinate of the lower left corner of square on the grid.
 
 * `stitchAngle` - the angle of the half stitch which can be either `45` or `135`.
 
@@ -325,11 +325,11 @@ A quarter stitch can be located in either the `top-right`, `bottom-right`, `bott
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x` - the x coordinate of the lower left corner of the stitch
+* `x` - the x coordinate of the lower left corner of the grid
 
-* `y` - the y coordinate of the lower left corner of the stitch
+* `y` - the y coordinate of the lower left corner of the grid
 
-* `placement` - the placement of the quarter stitch within the stitch
+* `placement` - the placement of the quarter stitch within the grid
 
 **Examples:**
 
