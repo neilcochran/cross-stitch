@@ -18,3 +18,5 @@ export function validateSingleSpaceDistance(x1: number, y1: number, x2: number, 
 export function validatePatternSymbol(patternSymbol: string): boolean {
     return patternSymbol.length === 1 && patternSymbol.trim().length === 1;
 }
+
+//TODO validation for each type if stitch - ensure distances are within limits.
