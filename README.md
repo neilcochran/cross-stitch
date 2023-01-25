@@ -70,6 +70,7 @@ See a full example [below](#full-schema-example)
 
 ### **Color Schema:**
 
+A color represents a color used in the pattern. The color is made up of one or more [`strands`](#strand-schema) of thread. Each strand can be a different color, allowing blended colors to be defined.
 ```json
 {
     "colorId": 1,

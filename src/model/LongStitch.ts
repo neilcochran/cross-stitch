@@ -21,7 +21,7 @@ export class LongStitch {
      * @param x2 - The x2 coordinate of the end of the stitch
      * @param y2 - The y2 coordinate of the end of the stitch
      *
-     * @throws {@link Error} if invalid coordinates or colorId is passed
+     * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
         colorId: number,
@@ -47,13 +47,6 @@ export class LongStitch {
         }
     }
 
-    /**
-     * Set the colorId of the stitch
-     *
-     * @param colorId - The id of the desired color of the stitch
-     *
-     * @returns True if the colorId provided was valid and set, or false if it was invalid and not set
-     */
     public setColorId(colorId: number): boolean {
         if(validateNonNegativeInteger(colorId)){
             this.colorId = colorId;
@@ -62,22 +55,10 @@ export class LongStitch {
         return false;
     }
 
-    /**
-     * Get the colorId of the stitch
-     *
-     * @returns The colorId of the stitch
-     */
     public getColorId(): number {
         return this.colorId;
     }
 
-    /**
-     * Set the x1 coordinate of the start of the stitch
-     *
-     * @param x1 - The x1 coordinate of the start of the stitch
-     *
-     * @returns True if the x1 value provided was valid and set, or false if it was invalid and not set
-     */
     public setX1(x1: number): boolean {
         if(validateNonNegativeDecimalPrecision(x1)){
             this.x1 = x1;
@@ -86,22 +67,10 @@ export class LongStitch {
         return false;
     }
 
-    /**
-     * Get the x1 coordinate of the start of the stitch
-     *
-     * @returns The x1 coordinate of the start of the stitch
-     */
     public getX1(): number {
         return this.x1;
     }
 
-    /**
-     * Set the y1 coordinate of the start of the stitch
-     *
-     * @param y1 - The y1 coordinate of the start of the stitch
-     *
-     * @returns True if the y1 value provided was valid and set, or false if it was invalid and not set
-     */
     public setY1(y1: number): boolean {
         if(validateNonNegativeDecimalPrecision(y1)){
             this.y1 = y1;
@@ -110,22 +79,10 @@ export class LongStitch {
         return false;
     }
 
-    /**
-     * Get the y1 coordinate of the start of the stitch
-     *
-     * @returns The y1 coordinate of the start of the stitch
-     */
     public getY1(): number {
         return this.y1;
     }
 
-    /**
-     * Set the x2 coordinate of the end of the stitch
-     *
-     * @param x2 - The x2 coordinate of the end of the stitch
-     *
-     * @returns True if the x2 value provided was valid and set, or false if it was invalid and not set
-     */
     public setX2(x2: number): boolean {
         if(validateNonNegativeDecimalPrecision(x2)){
             this.x2 = x2;
@@ -134,22 +91,10 @@ export class LongStitch {
         return false;
     }
 
-    /**
-     * Get the x2 coordinate of the end of the stitch
-     *
-     * @returns The x2 coordinate of the end of the stitch
-     */
     public getX2(): number {
         return this.x2;
     }
 
-    /**
-     * Set the y2 coordinate of the end of the stitch
-     *
-     * @param y2 - The y2 coordinate of the start of the stitch
-     *
-     * @returns True if the y2 value provided was valid and set, or false if it was invalid and not set
-     */
     public setY2(y2: number): boolean {
         if(validateNonNegativeDecimalPrecision(y2)){
             this.y2 = y2;
@@ -158,11 +103,6 @@ export class LongStitch {
         return false;
     }
 
-    /**
-     * Get the y2 coordinate of the end of the stitch
-     *
-     * @returns The y2 coordinate of the end of the stitch
-     */
     public getY2(): number {
         return this.y2;
     }

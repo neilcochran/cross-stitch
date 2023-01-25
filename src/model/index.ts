@@ -8,3 +8,5 @@ export { HalfStitch } from './HalfStitch';
 export { QuarterStitch } from './QuarterStitch';
 export { BackStitch }  from './BackStitch';
 export { LongStitch } from './LongStitch';
+export { StitchAngle } from './StitchAngle';
+export { StitchPlacement } from './StitchPlacement';
