@@ -413,13 +413,13 @@ Back stitches can go laterally, vertically, or diagonally. A back stitch typical
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x1` - the x coordinate of the start of the stitch
+* `x1` - the x1 coordinate of the start of the stitch
 
-* `y1` - the y coordinate of the start of the stitch
+* `y1` - the y1 coordinate of the start of the stitch
 
-* `x2` - the x coordinate of the end of the stitch
+* `x2` - the x2 coordinate of the end of the stitch
 
-* `y2` - the y coordinate of the end of the stitch
+* `y2` - the y2 coordinate of the end of the stitch
 
 **Examples:**
 
@@ -518,6 +518,8 @@ Green:
 
 ### **Long Stitch Schema:**
 
+Long stitches are stitches that span more than 1 space. They can move laterally, vertically, or diagonally (just like back stitches). Long stitch coordinates also support 1/2 space fractional values.
+
 ```json
 {
     "colorId": 1,
@@ -527,7 +529,16 @@ Green:
     "y2": 2
 }
 ```
-Long stitches are stitches that span more than 1 space. They can move laterally, vertically, or diagonally (just like back stitches). Long stitch coordinates also support 1/2 space fractional values.
+
+* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+
+* `x1` - the x1 coordinate of the start of the stitch
+
+* `y1` - the y1 coordinate of the start of the stitch
+
+* `x2` - the x2 coordinate of the end of the stitch
+
+* `y2` - the y2 coordinate of the end of the stitch
 
 **Examples:**
 
