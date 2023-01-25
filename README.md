@@ -312,7 +312,7 @@ Half stitches comes in two forms. The first form goes between the top left and b
 
 ### **Quarter Stitch Schema:**
 
-A quarter stitch can be located in either the `top-right`, `bottom-right`, `bottom-left`, or `top-left` as indicated by the `placement` field.
+A quarter stitch spans a quarter of a space on the grid and can be located in either the `top-right`, `bottom-right`, `bottom-left`, or `top-left` quadrant of a grid space as indicated by the `placement` field. A quarter stitch is a half stitch cut in half vertically. Therefore, one end of the quarter stitch is always in the center of a grid space, while the other extends to the corner indicated by the `placement` value.
 
 ```json
 {
@@ -325,11 +325,11 @@ A quarter stitch can be located in either the `top-right`, `bottom-right`, `bott
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x` - the x coordinate of the lower left corner of the grid
+* `x` - the x coordinate of the lower left corner of the square on the grid
 
-* `y` - the y coordinate of the lower left corner of the grid
+* `y` - the y coordinate of the lower left corner of the square on the grid
 
-* `placement` - the placement of the quarter stitch within the grid
+* `placement` - the placement of the quarter stitch within the square on the grid
 
 **Examples:**
 
