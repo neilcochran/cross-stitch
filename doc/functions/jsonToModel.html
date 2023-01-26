@@ -19,14 +19,23 @@
 <ul class="tsd-signatures tsd-kind-function">
 <li class="tsd-signature tsd-anchor-link" id="jsonToModel">json<wbr/>To<wbr/>Model<span class="tsd-signature-symbol">(</span>json<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/CrossStitchPattern.html" class="tsd-signature-type" data-tsd-kind="Interface">CrossStitchPattern</a><a href="#jsonToModel" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Parse JSON implementing the cross stitch pattern schema into the corresponding typescript objects. Constructor validation will enforce validity.
+Note that if resulting type information and object validation is not desired, the builtin JSON.parse() will of course work just fine.</p>
+
+<h3>Returns</h3><p>A CrossStitchPattern object.</p>
+
+<h3>Throws</h3><p>Error if the JSON is malformed or does properly follow the schema specifications.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>json: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h5>json: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The json string to be parsed into a CrossStitchPattern model object.</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/CrossStitchPattern.html" class="tsd-signature-type" data-tsd-kind="Interface">CrossStitchPattern</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/neilcochran/cross-stitch/blob/35238f4/src/utility.ts#L18">utility.ts:18</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/neilcochran/cross-stitch/blob/4c66a47/src/utility.ts#L25">utility.ts:25</a></li></ul></aside></li></ul></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">

@@ -1,3 +1,8 @@
+## Version 0.2.1 
+- Add TSDoc for `validation.ts` functions.
+- Add TSDoc for `utility.ts` functions.
+- Update generated documentation
+
 ## Version 0.2.0
 - Create JSON schema definitions and documentation
 - Create TypeScript models with constructor validation

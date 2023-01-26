@@ -12,9 +12,16 @@ import {
 } from './model';
 
 
-//While JSON.parse() will properly parse the json, it will do so into untyped objects.
-//This means constructor validations cannot take place. If validation is desired during parsing, the below
-//jsonToModel() function should be used in place of JSON.parse().
+/**
+ * Parse JSON implementing the cross stitch pattern schema into the corresponding typescript objects. Constructor validation will enforce validity.
+ * Note that if resulting type information and object validation is not desired, the builtin JSON.parse() will of course work just fine.
+ *
+ * @param json - The json string to be parsed into a CrossStitchPattern model object.
+ *
+ * @returns A CrossStitchPattern object.
+ *
+ * @throws {@link Error} if the JSON is malformed or does properly follow the schema specifications.
+ */
 export function jsonToModel(json: string): CrossStitchPattern {
     const jsonData = JSON.parse(json);
 
