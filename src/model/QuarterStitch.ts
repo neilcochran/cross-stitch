@@ -1,4 +1,4 @@
-import { validateNonNegativeInteger, validateNonNegativeDecimalPrecision } from '../validation';
+import { Stitch } from './Stitch';
 import { StitchPlacement } from './StitchPlacement';
 
 /**
@@ -9,11 +9,7 @@ import { StitchPlacement } from './StitchPlacement';
  * half stitch cut in half vertically. Therefore, one end of the quarter stitch is always in the center of a grid space,
  * while the other extends to the corner indicated by the `placement` value.
  */
-export class QuarterStitch {
-
-    private colorId!: number;
-    private x!: number;
-    private y!: number;
+export class QuarterStitch extends Stitch {
 
     /**
      * @param colorId - The id of the desired color of the stitch.
@@ -28,50 +24,6 @@ export class QuarterStitch {
         y: number,
         public placement: StitchPlacement
     ){
-        if(!this.setColorId(colorId)) {
-            throw new Error(`invalid colorId provided: ${colorId}`);
-        }
-        if(!this.setX(x)) {
-            throw new Error(`invalid x provided: ${x}`);
-        }
-        if(!this.setY(y)) {
-            throw new Error(`invalid y provided: ${y}`);
-        }
-    }
-
-    public setColorId(colorId: number): boolean {
-        if(validateNonNegativeInteger(colorId)){
-            this.colorId = colorId;
-            return true;
-        }
-        return false;
-    }
-
-    public getColorId(): number {
-        return this.colorId;
-    }
-
-    public setX(x: number): boolean {
-        if(validateNonNegativeDecimalPrecision(x)){
-            this.x = x;
-            return true;
-        }
-        return false;
-    }
-
-    public getX(): number {
-        return this.x;
-    }
-
-    public setY(y: number): boolean {
-        if(validateNonNegativeDecimalPrecision(y)){
-            this.y = y;
-            return true;
-        }
-        return false;
-    }
-
-    public getY(): number {
-        return this.y;
+        super(colorId, x, y);
     }
 }

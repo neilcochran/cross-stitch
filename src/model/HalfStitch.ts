@@ -1,4 +1,5 @@
-import { validateNonNegativeInteger, validateNonNegativeDecimalPrecision } from '../validation';
+import { validateNonNegativeInteger } from '../validation';
+import { Stitch } from './Stitch';
 import { StitchAngle } from './StitchAngle';
 
 /**
@@ -9,12 +10,7 @@ import { StitchAngle } from './StitchAngle';
  * between the top right and bottom left corners of the space on the grid forming a 135
  * degree line. This is why `45` and `135` are the only valid values for `stitchAngle`.
  */
-export class HalfStitch {
-
-    private colorId!: number;
-    private x!: number;
-    private y!: number;
-
+export class HalfStitch extends Stitch {
     /**
      * @param colorId - The id of the desired color of the stitch.
      * @param x - The x coordinate of the lower left corner of the square on the grid.
@@ -28,50 +24,24 @@ export class HalfStitch {
         y: number,
         public stitchAngle: StitchAngle
     ){
-        if(!this.setColorId(colorId)) {
-            throw new Error(`invalid colorId provided: ${colorId}`);
-        }
-        if(!this.setX(x)) {
-            throw new Error(`invalid x provided: ${x}`);
-        }
-        if(!this.setY(y)) {
-            throw new Error(`invalid y provided: ${y}`);
-        }
+        super(colorId, x, y);
     }
 
-    public setColorId(colorId: number): boolean {
-        if(validateNonNegativeInteger(colorId)){
-            this.colorId = colorId;
-            return true;
-        }
-        return false;
-    }
-
-    public getColorId(): number {
-        return this.colorId;
-    }
-
+    //override setX() since this stitch only supports non negative integers
     public setX(x: number): boolean {
-        if(validateNonNegativeDecimalPrecision(x)){
+        if(validateNonNegativeInteger(x)) {
             this.x = x;
             return true;
         }
         return false;
     }
 
-    public getX(): number {
-        return this.x;
-    }
-
+    //override setY() since this stitch only supports non negative integers
     public setY(y: number): boolean {
-        if(validateNonNegativeDecimalPrecision(y)){
+        if(validateNonNegativeInteger(y)) {
             this.y = y;
             return true;
         }
         return false;
-    }
-
-    public getY(): number {
-        return this.y;
     }
 }

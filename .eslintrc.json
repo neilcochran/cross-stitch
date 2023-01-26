@@ -16,7 +16,6 @@
         "eslint-plugin-tsdoc"
     ],
     "rules": {
-        "no-unused-vars": [ "warn" ],
         "indent": [ "error", 4, { "SwitchCase": 1 } ],
         "no-trailing-spaces": [ "error" ],
         "linebreak-style": [ "error", "unix" ],

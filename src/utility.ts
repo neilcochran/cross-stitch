@@ -76,11 +76,11 @@ export function jsonToModel(json: string): CrossStitchPattern {
     }
 
     for(const backStitch of jsonData.backStitches) {
-        backStitches.push(new BackStitch(backStitch.colorId, backStitch.x1, backStitch.y1, backStitch.x2, backStitch.y2));
+        backStitches.push(new BackStitch(backStitch.colorId, backStitch.x, backStitch.y, backStitch.x2, backStitch.y2));
     }
 
     for(const longStitch of jsonData.longStitches) {
-        longStitches.push(new LongStitch(longStitch.colorId, longStitch.x1, longStitch.y1, longStitch.x2, longStitch.y2));
+        longStitches.push(new LongStitch(longStitch.colorId, longStitch.x, longStitch.y, longStitch.x2, longStitch.y2));
     }
 
     return {
