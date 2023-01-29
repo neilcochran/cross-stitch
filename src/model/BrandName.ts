@@ -1,1 +1,1 @@
-export type BrandName = 'DMC' | 'Anchor';
+export type BrandName = 'Anchor' | 'Appletons' | 'Cosmo' | 'DMC' | 'J&P Coats' | 'Kreinik' | 'Madeira' | 'Presenica' | 'Sullivans';
