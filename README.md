@@ -70,7 +70,7 @@ See a full example [below](#full-schema-example)
 
 ### **Color Schema:**
 
-A color represents a color used in the pattern. The color is made up of one or more [`strands`](#strand-schema) of thread. Each strand can be a different color, allowing blended colors to be defined.
+A color represents a color used in the pattern. The color is made up of one or more [`strands`](#strand-schema) of floss. Each strand can be a different color, allowing blended colors to be defined.
 ```json
 {
     "colorId": 1,
@@ -92,7 +92,7 @@ A color represents a color used in the pattern. The color is made up of one or m
 
 * `patternSymbol` - the ASCII character used to represent the color on the pattern visually. This must be unique within all the `color` objects in the `colors` array
 
-* `strands` - an array of [`strand`](#strand-schema) objects defining all the strands of thread that make up the color
+* `strands` - an array of [`strand`](#strand-schema) objects defining all the strands of floss that make up the color
 
 * `totalFullStitches` - the count of full stitches that use this color in the pattern. This is not required.
 * `totalThreeQuarterStitches` - the count of three quarter stitches that use this color in the pattern. This is not required.
@@ -110,21 +110,57 @@ A color represents a color used in the pattern. The color is made up of one or m
 
 ### **Strand Schema:**
 
-Each [`color`](#color-schema) is made up of at least one `strand` object. Each `strand` is at least a single DMC thread strand, but can be increased using `strandCount`.
+Each [`color`](#color-schema) is made up of at least one `strand` object. Each `strand` is at least a single [`brandedFloss`](#branded-floss-schema)strand, but can be increased using `strandCount`.
 
 ```json
 {
-    "colorName": "Orange Spice",
-    "dmcThreadCode": "721",
-    "strandCount": 2
+    "strandCount": 2,
+    "brandedFloss": {}
 }
 ```
 
-* `colorName` - by convention this is the DMC name of the thread color. This is not required.
-
-* `dmcThreadCode` - the DMC color code. This is typically numeric string like `'721'` or `3746` but there are a few alpha color codes like `'blanc'` and `'ecru'`.
+* `brandedFloss` - a [`brandedFloss`](#branded-floss-schema) object representing the color information for a specific brand of floss.
 
 * `strandCount` - an integer greater than zero, representing the number of times the strand should be used in the given color.
+
+<hr/>
+<br/>
+
+### **Branded Floss Schema:**
+
+Each brand has their own color coding and naming conventions. To support more than just the standard DMC branch, the Branded Floss schema allows any brand to be represented.
+
+```json
+{
+    "brandName": "DMC",
+    "colorCode": "721",
+    "colorName": "Orange Spice - Medium",
+    "otherBrandEquivalents": [
+        {
+            "brandName": "Anchor",
+            "colorCode": "324",
+            "colorName": "Apricot - Medium"
+        }
+    ]
+}
+```
+
+* `brandName` - The name of the brand. While any brand can be represented, the following are supported by this repository directly:
+    - DMC
+    - Anchor
+    - Cosmo
+    - J&P Coats
+    - Sullivans
+    - Presenica (Finca)
+    - Maderia
+    - Appletons
+    - Kreinik
+
+* `colorCode` - A string representing the unique brand code for the color. This is often a number, but can be a string like 'ecru' or 'blanc'.
+
+* `colorName` the brand's name for the color
+
+* `otherBrandEquivalents` - a list of [`brandedFloss`](#branded-floss-schema) objects representing any corresponding equivalent colors from other brands. This is not required.
 
 <hr/>
 <br/>
@@ -405,8 +441,8 @@ Back stitches can go laterally, vertically, or diagonally. A back stitch typical
 ```json
 {
     "colorId": 1,
-    "x1": 0,
-    "y1": 0,
+    "x": 0,
+    "y": 0,
     "x2": 1,
     "y2": 0
 }
@@ -414,9 +450,9 @@ Back stitches can go laterally, vertically, or diagonally. A back stitch typical
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x1` - the x1 coordinate of the start of the stitch
+* `x` - the x coordinate of the start of the stitch
 
-* `y1` - the y1 coordinate of the start of the stitch
+* `y` - the y coordinate of the start of the stitch
 
 * `x2` - the x2 coordinate of the end of the stitch
 
@@ -433,8 +469,8 @@ Red:
 ```json
     {
     "colorId": 1,
-    "x1": 1,
-    "y1": 1,
+    "x": 1,
+    "y": 1,
     "x2": 2,
     "y2": 1
 }
@@ -445,8 +481,8 @@ Green:
 ```json
 {
     "colorId": 1,
-    "x1": 1,
-    "y1": 2,
+    "x": 1,
+    "y": 2,
     "x2": 1.5,
     "y2": 2
 }
@@ -464,8 +500,8 @@ Red:
 ```json
 {
     "colorId": 1,
-    "x1": 2,
-    "y1": 1,
+    "x": 2,
+    "y": 1,
     "x2": 2,
     "y2": 2
 }
@@ -476,8 +512,8 @@ Green:
 ```json
 {
     "colorId": 1,
-    "x1": 1,
-    "y1": 1,
+    "x": 1,
+    "y": 1,
     "x2": 1,
     "y2": 1.5
 }
@@ -495,8 +531,8 @@ Red:
 ```json
 {
     "colorId": 1,
-    "x1": 1,
-    "y1": 2,
+    "x": 1,
+    "y": 2,
     "x2": 2,
     "y2": 1
 }
@@ -507,8 +543,8 @@ Green:
 ```json
 {
     "colorId": 1,
-    "x1": 0,
-    "y1": 1,
+    "x": 0,
+    "y": 1,
     "x2": 0.5,
     "y2": 1.5
 }
@@ -524,8 +560,8 @@ Long stitches are stitches that span more than 1 space. They can move laterally,
 ```json
 {
     "colorId": 1,
-    "x1": 0,
-    "y1": 0,
+    "x": 0,
+    "y": 0,
     "x2": 5,
     "y2": 2
 }
@@ -533,9 +569,9 @@ Long stitches are stitches that span more than 1 space. They can move laterally,
 
 * `colorId` - the id of the desired [`color`](#color-schema) of the stitch
 
-* `x1` - the x1 coordinate of the start of the stitch
+* `x` - the x coordinate of the start of the stitch
 
-* `y1` - the y1 coordinate of the start of the stitch
+* `y` - the y coordinate of the start of the stitch
 
 * `x2` - the x2 coordinate of the end of the stitch
 
@@ -550,8 +586,8 @@ Red:
 ```json
 {
     "colorId": 1,
-    "x1": 0,
-    "y1": 3,
+    "x": 0,
+    "y": 3,
     "x2": 2.5,
     "y2": 0
 }
@@ -562,8 +598,8 @@ Green:
 ```json
 {
     "colorId": 1,
-    "x1": 0,
-    "y1": 3,
+    "x": 0,
+    "y": 3,
     "x2": 3,
     "y2": 3
 }
@@ -593,9 +629,12 @@ Here is the corresponding JSON that describes the stitches in the above image:
                 "patternSymbol": "@",
                 "strands": [
                     {
-                        "colorName": "Dark Blue",
-                        "dmcThreadCode": "825",
-                        "strandCount": 2
+                        "strandCount": 2,
+                        "brandedFloss": {
+                            "brandName": "DMC",
+                            "colorCode": "825",
+                            "colorName": "Dark Blue"
+                        }
                     }
                 ],
                 "totalFullStitches": 1,
@@ -611,14 +650,20 @@ Here is the corresponding JSON that describes the stitches in the above image:
                 "patternSymbol": "&",
                 "strands": [
                     {
-                        "colorName": "Orange Spice",
-                        "dmcThreadCode": "721",
-                        "strandCount": 1
+                        "strandCount": 1,
+                        "brandedFloss": {
+                            "brandName": "DMC",
+                            "colorCode": "721",
+                            "colorName": "Orange Spice"
+                        }
                     },
                     {
-                        "colorName": "Burnt Orange",
-                        "dmcThreadCode": "947",
-                        "strandCount": 1
+                        "strandCount": 1,
+                        "brandedFloss": {
+                            "brandName": "DMC",
+                            "colorCode": "947",
+                            "colorName": "Burnt Orange"
+                        }
                     }
                 ],
                 "totalFullStitches": 0,
@@ -666,8 +711,8 @@ Here is the corresponding JSON that describes the stitches in the above image:
     [
         {
             "colorId": 1,
-            "x1": 0,
-            "y1": 0,
+            "x": 0,
+            "y": 0,
             "x2": 1,
             "y2": 0
         }
@@ -675,8 +720,8 @@ Here is the corresponding JSON that describes the stitches in the above image:
     "longStitches": [
         {    
             "colorId": 1,
-            "x1": 0,
-            "y1": 3,
+            "x": 0,
+            "y": 3,
             "x2": 3,
             "y2": 2
         }

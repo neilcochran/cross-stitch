@@ -1,0 +1,1 @@
+export type BrandName = 'DMC' | 'Anchor';

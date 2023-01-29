@@ -4,7 +4,7 @@ import { Strand } from './Strand';
 /**
  * Model class representing a color used in the pattern.
  *
- * A color represents a color used in the pattern. The color is made up of one or more strands of thread.
+ * A color represents a color used in the pattern. The color is made up of one or more strands of floss.
  * Each strand can be a different color, allowing blended colors to be defined.
  */
 export class Color {
@@ -23,7 +23,7 @@ export class Color {
      * @param colorId - An id for the color. Stitches will use to reference which color they are.
      * @param colorName - A name for the overall color.
      * @param patternSymbol - The ASCII character used to represent the color on the pattern visually.
-     * @param strands - An array of strand objects defining all the strands of thread that make up the color.
+     * @param strands - An array of strand objects defining all the strands of floss that make up the color.
      * @param totalFullStitches - The count of full stitches that use this color in the pattern. This is not required.
      * @param totalThreeQuarterStitches - The count of three quarter stitches that use this color in the pattern. This is not required.
      * @param totalHalfStitches - The count of half stitches that use this color in the pattern. This is not required.

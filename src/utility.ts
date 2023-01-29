@@ -10,6 +10,8 @@ import {
     BackStitch,
     LongStitch
 } from './model';
+import { BrandedFloss } from './model/BrandedFloss';
+import { BrandName } from './model/BrandName';
 
 
 /**
@@ -29,7 +31,25 @@ export function jsonToModel(json: string): CrossStitchPattern {
     for(const color of jsonData.properties.colors) {
         const strands: Strand[] = [];
         for(const strand of color.strands) {
-            strands.push(new Strand(strand.dmcThreadCode.trim(), strand.strandCount, strand.colorName?.trim()));
+            const brandedFloss: BrandedFloss = {
+                brandName: strand.brandedFloss.brandName as BrandName, //todo type check this
+                colorCode: strand.brandedFloss.colorCode,
+                colorName: strand.brandedFloss.colorName,
+                otherBrandEquivalents: undefined
+            };
+
+            if(strand.brandedFloss.otherBrandEquivalents) {
+                brandedFloss.otherBrandEquivalents = [];
+                for(const brandEquiv of strand.brandedFloss.otherBrandEquivalents) {
+                    const brandEquivalent: BrandedFloss = {
+                        brandName: brandEquiv.brandedFloss.brandName as BrandName, //todo type check this
+                        colorCode: brandEquiv.brandedFloss.colorCode,
+                        colorName: brandEquiv.brandedFloss.colorName,
+                    };
+                    brandedFloss.otherBrandEquivalents.push(brandEquivalent);
+                }
+            }
+            strands.push(new Strand(brandedFloss, strand.strandCount));
         }
         colors.push(new Color(
             color.colorId,
