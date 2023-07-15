@@ -55,13 +55,7 @@ export function jsonToModel(json: string): CrossStitchPattern {
             color.colorId,
             color.colorName.trim(),
             color.patternSymbol.trim(),
-            strands,
-            color.totalFullStitches,
-            color.threeQuarterStitches,
-            color.totalHalfStitches,
-            color.totalQuarterStitches,
-            color.totalBackStitches,
-            color.totalLongStitches
+            strands
         ));
     }
 
