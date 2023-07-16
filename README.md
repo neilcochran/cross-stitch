@@ -55,7 +55,7 @@ See a full example [below](#full-schema-example)
 
 ### **PatternColor Schema:**
 
-A color represents a color used in the pattern. The color is made up of one or more strands of [`floss`](#floss-schema). Each floss strand can be a different color/brand, allowing blended colors to be defined.
+A PatternColor represents a color used in the pattern. The color is made up of one or more strands of [`floss`](#floss-schema). Each floss strand can be a different color/brand, allowing blended colors to be defined.
 ```json
 {
     "colorId": "1",
@@ -94,8 +94,10 @@ This represents floss of a single color and brand, and by default, a single stra
 * `colorCode` - A string representing the unique brand code for the color. This is often a number, but can be a string like 'ecru' or 'blanc'.
 
 * `colorName` the brand's name for the color
-* `brandName` - The name of the brand. See a list of supported Brands [`here`](#brand-names).
+* `brandName` - The name of the brand. See a list of supported Brands [`here`](#supported-brandname-values).
 * `strandCount` - an integer greater than zero, representing the number of times the strand should be used in the given color. If not given, this defaults to 1.
+
+* `hexCode` - an optional string defining the color's hexadecimal valuef
 
 <hr/>
 <br/>
