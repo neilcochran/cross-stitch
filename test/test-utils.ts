@@ -116,7 +116,7 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
     ],
     "halfStitches": [
         {
-            "colorId": "1",
+            "colorId": "0",
             "x": 1,
             "y": 1,
             "stitchAngle": 135
@@ -152,8 +152,6 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
 }`;
 
 //invalid due to fullStitch referencing a non existent colorId
-//TODO jsonToModel considers this valid since we arent actually called validateColorId in stitch
-//constructors. Add them!
 export const TEST_INVALID_FULL_PATTERN_JSON = `
 {
     "properties": {
