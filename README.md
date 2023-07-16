@@ -58,14 +58,14 @@ See a full example [below](#full-schema-example)
 A color represents a color used in the pattern. The color is made up of one or more strands of [`floss`](#floss-schema). Each floss strand can be a different color/brand, allowing blended colors to be defined.
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "colorName": "Burnt Orange",
     "patternSymbol": "@",
     "flossStrands": []
 }
 ```
 
-* `colorId` - The id of the desired [`pattern color`](#PatternColor-schema) of the stitch
+* `colorId` - the id of the desired [`pattern color`](#PatternColor-schema) of the stitch
 
 * `colorName` - a name for the overall color (since it could be a blend)
 
@@ -106,7 +106,7 @@ A full stitch covers a single square on the pattern in an 'X' shape. It is the c
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 10,
     "y": 20
 }
@@ -124,7 +124,7 @@ A full stitch covers a single square on the pattern in an 'X' shape. It is the c
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1
 }
@@ -139,7 +139,7 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 10,
     "y": 20,
     "halfStitchAngle": 45,
@@ -165,7 +165,7 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1,
     "halfStitchAngle": 45,
@@ -182,7 +182,7 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1,
     "halfStitchAngle": 45,
@@ -199,7 +199,7 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1,
     "halfStitchAngle": 135,
@@ -216,7 +216,7 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1,
     "halfStitchAngle": 135,
@@ -233,7 +233,7 @@ Half stitches comes in two forms. The first form goes between the top left and b
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 10,
     "y": 20,
     "stitchAngle": 45
@@ -256,7 +256,7 @@ Half stitches comes in two forms. The first form goes between the top left and b
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1,
     "stitchAngle": 45
@@ -272,7 +272,7 @@ Half stitches comes in two forms. The first form goes between the top left and b
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1,
     "stitchAngle": 135
@@ -288,7 +288,7 @@ A quarter stitch spans a quarter of a space on the grid and can be located in ei
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 10,
     "y": 20,
     "placement": "top-right"
@@ -311,7 +311,7 @@ A quarter stitch spans a quarter of a space on the grid and can be located in ei
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1,
     "placement": "top-right"
@@ -327,7 +327,7 @@ A quarter stitch spans a quarter of a space on the grid and can be located in ei
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1,
     "placement": "bottom-right"
@@ -343,7 +343,7 @@ A quarter stitch spans a quarter of a space on the grid and can be located in ei
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1,
     "placement": "bottom-left"
@@ -359,7 +359,7 @@ A quarter stitch spans a quarter of a space on the grid and can be located in ei
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1,
     "placement": "top-left"
@@ -375,7 +375,7 @@ Back stitches can go laterally, vertically, or diagonally. A back stitch typical
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 0,
     "y": 0,
     "x2": 1,
@@ -403,7 +403,7 @@ Red:
 
 ```json
     {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1,
     "x2": 2,
@@ -415,7 +415,7 @@ Green:
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 2,
     "x2": 1.5,
@@ -434,7 +434,7 @@ Red:
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 2,
     "y": 1,
     "x2": 2,
@@ -446,7 +446,7 @@ Green:
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 1,
     "x2": 1,
@@ -465,7 +465,7 @@ Red:
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 1,
     "y": 2,
     "x2": 2,
@@ -477,7 +477,7 @@ Green:
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 0,
     "y": 1,
     "x2": 0.5,
@@ -494,7 +494,7 @@ Long stitches are stitches that span more than 1 space. They can move laterally,
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 0,
     "y": 0,
     "x2": 5,
@@ -520,7 +520,7 @@ Red:
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 0,
     "y": 3,
     "x2": 2.5,

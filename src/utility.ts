@@ -52,37 +52,47 @@ export function jsonToModel(json: string): CrossStitchPattern {
     const quarterStitches: QuarterStitch[] = [];
     const backStitches: BackStitch[] = [];
     const longStitches: LongStitch[] = [];
-
-    for(const fullStitch of jsonData.fullStitches) {
-        fullStitches.push(new FullStitch(fullStitch.colorId, fullStitch.x, fullStitch.y));
+    if(jsonData.fullStitches){
+        for(const fullStitch of jsonData.fullStitches) {
+            fullStitches.push(new FullStitch(fullStitch.colorId, fullStitch.x, fullStitch.y));
+        }
     }
 
-    for(const threeQuarterStitch of jsonData.threeQuarterStitches) {
-        threeQuarterStitches.push(new ThreeQuarterStitch(
-            threeQuarterStitch.colorId,
-            threeQuarterStitch.x,
-            threeQuarterStitch.y,
-            threeQuarterStitch.halfStitchAngle,
-            threeQuarterStitch.quarterStitchPlacement
-        ));
+    if(jsonData.threeQuarterStitches) {
+        for(const threeQuarterStitch of jsonData.threeQuarterStitches) {
+            threeQuarterStitches.push(new ThreeQuarterStitch(
+                threeQuarterStitch.colorId,
+                threeQuarterStitch.x,
+                threeQuarterStitch.y,
+                threeQuarterStitch.halfStitchAngle,
+                threeQuarterStitch.quarterStitchPlacement
+            ));
+        }
     }
 
-    for(const halfStitch of jsonData.halfStitches) {
-        halfStitches.push(new HalfStitch(halfStitch.colorId, halfStitch.x, halfStitch.y, halfStitch.stitchAngle));
+    if(jsonData.halfStitches) {
+        for(const halfStitch of jsonData.halfStitches) {
+            halfStitches.push(new HalfStitch(halfStitch.colorId, halfStitch.x, halfStitch.y, halfStitch.stitchAngle));
+        }
     }
 
-    for(const quarterStitch of jsonData.quarterStitches) {
-        quarterStitches.push(new QuarterStitch(quarterStitch.colorId, quarterStitch.x, quarterStitch.y, quarterStitch.placement));
+    if(jsonData.quarterStitches) {
+        for(const quarterStitch of jsonData.quarterStitches) {
+            quarterStitches.push(new QuarterStitch(quarterStitch.colorId, quarterStitch.x, quarterStitch.y, quarterStitch.placement));
+        }
     }
 
-    for(const backStitch of jsonData.backStitches) {
-        backStitches.push(new BackStitch(backStitch.colorId, backStitch.x, backStitch.y, backStitch.x2, backStitch.y2));
+    if(jsonData.backStitches) {
+        for(const backStitch of jsonData.backStitches) {
+            backStitches.push(new BackStitch(backStitch.colorId, backStitch.x, backStitch.y, backStitch.x2, backStitch.y2));
+        }
     }
 
-    for(const longStitch of jsonData.longStitches) {
-        longStitches.push(new LongStitch(longStitch.colorId, longStitch.x, longStitch.y, longStitch.x2, longStitch.y2));
+    if(jsonData.longStitches) {
+        for(const longStitch of jsonData.longStitches) {
+            longStitches.push(new LongStitch(longStitch.colorId, longStitch.x, longStitch.y, longStitch.x2, longStitch.y2));
+        }
     }
-
     return {
         properties,
         fullStitches,

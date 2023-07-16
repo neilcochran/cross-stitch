@@ -5,7 +5,7 @@ import {
     validateSingleSpaceDistance,
     validateColorId
 } from '../src/validation';
-import { TEST_VALID_PATTERN_PROPERTIES } from './test-utils';
+import { TEST_PATTERN_PROPERTIES } from './test-utils';
 
 const validNonNegativeInts = [0, 1, 9, 9999];
 const invalidInts = [-1, -99, -9999];
@@ -60,13 +60,13 @@ test('validatePatternSymbol', () => {
 
 test('validateColorId', () => {
     //expect true
-    expect(validateColorId('0', TEST_VALID_PATTERN_PROPERTIES)).toBe(true);
-    expect(validateColorId('1', TEST_VALID_PATTERN_PROPERTIES)).toBe(true);
-    expect(validateColorId('abc', TEST_VALID_PATTERN_PROPERTIES)).toBe(true);
+    expect(validateColorId('0', TEST_PATTERN_PROPERTIES)).toBe(true);
+    expect(validateColorId('1', TEST_PATTERN_PROPERTIES)).toBe(true);
+    expect(validateColorId('abc', TEST_PATTERN_PROPERTIES)).toBe(true);
 
 
     //expect false
-    expect(validateColorId('2', TEST_VALID_PATTERN_PROPERTIES)).toBe(false);
-    expect(validateColorId('Q', TEST_VALID_PATTERN_PROPERTIES)).toBe(false);
-    expect(validateColorId(' ', TEST_VALID_PATTERN_PROPERTIES)).toBe(false);
+    expect(validateColorId('2', TEST_PATTERN_PROPERTIES)).toBe(false);
+    expect(validateColorId('Q', TEST_PATTERN_PROPERTIES)).toBe(false);
+    expect(validateColorId(' ', TEST_PATTERN_PROPERTIES)).toBe(false);
 });
