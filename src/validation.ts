@@ -281,6 +281,6 @@ export function validateLongStitch(longStitch: LongStitch, properties: Propertie
  *
  * @returns True if the colorId maps to a color defined in the properties object.
  */
-function validateColorId(colorId: string, properties: Properties): boolean {
+export function validateColorId(colorId: string, properties: Properties): boolean {
     return properties.patternColors.find(color => color.colorId === colorId) !== undefined;
 }

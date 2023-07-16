@@ -65,7 +65,7 @@ A color represents a color used in the pattern. The color is made up of one or m
 }
 ```
 
-* `colorId` - a non negative integer identifier. Each color within the pattern must have a unique `colorId`
+* `colorId` - The id of the desired [`pattern color`](#PatternColor-schema) of the stitch
 
 * `colorName` - a name for the overall color (since it could be a blend)
 
@@ -532,7 +532,7 @@ Green:
 
 ```json
 {
-    "colorId": 1,
+    "colorId": "1",
     "x": 0,
     "y": 3,
     "x2": 3,
@@ -559,7 +559,7 @@ Here is the corresponding JSON that describes the stitches in the above image:
         "notes": "This is a tiny 3x3 contrived example 'pattern'. Enjoy!",
         "patternColors": [
             {
-                "colorId": 0,
+                "colorId": "0",
                 "colorName": "Dark Blue",
                 "patternSymbol": "@",
                 "flossStrands": [
@@ -572,7 +572,7 @@ Here is the corresponding JSON that describes the stitches in the above image:
                 ]
             },
             {
-                "colorId": 1,
+                "colorId": "1",
                 "colorName": "Orange Blend",
                 "patternSymbol": "&",
                 "flossStrands": [
@@ -594,14 +594,14 @@ Here is the corresponding JSON that describes the stitches in the above image:
     },
     "fullStitches": [
         {
-            "colorId": 0,
+            "colorId": "0",
             "x": 0,
             "y": 1
         }
     ],
     "threeQuarterStitches": [
         {
-            "colorId": 0,
+            "colorId": "0",
             "x": 2,
             "y": 1,
             "halfStitchAngle": 135,
@@ -610,7 +610,7 @@ Here is the corresponding JSON that describes the stitches in the above image:
     ],
     "halfStitches": [
         {
-            "colorId": 1,
+            "colorId": "1",
             "x": 1,
             "y": 1,
             "stitchAngle": 135
@@ -618,7 +618,7 @@ Here is the corresponding JSON that describes the stitches in the above image:
     ],
     "quarterStitches": [
         {
-            "colorId": 1,
+            "colorId": "1",
             "x": 2,
             "y": 0,
             "placement": "bottom-right"
@@ -627,7 +627,7 @@ Here is the corresponding JSON that describes the stitches in the above image:
     "backStitches": 
     [
         {
-            "colorId": 1,
+            "colorId": "1",
             "x": 0,
             "y": 0,
             "x2": 1,
@@ -636,7 +636,7 @@ Here is the corresponding JSON that describes the stitches in the above image:
     ],
     "longStitches": [
         {    
-            "colorId": 1,
+            "colorId": "1",
             "x": 0,
             "y": 3,
             "x2": 3,
