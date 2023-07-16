@@ -7,10 +7,7 @@ import { Stitch } from './Stitch';
  * Long stitches follow the same rules as back stitches expect that they have no maximum distance. They can move laterally, vertically,
  * or diagonally. Long stitch coordinates also support 1/2 space fractional values.
  */
-export class LongStitch extends Stitch {
-
-    private x2!: number;
-    private y2!: number;
+export class LongStitch implements Stitch {
 
     /**
      * @param colorId - The id of the desired color of the stitch
@@ -22,43 +19,23 @@ export class LongStitch extends Stitch {
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        colorId: number,
-        x: number,
-        y: number,
-        x2: number,
-        y2: number
+        public readonly colorId: string,
+        public readonly x: number,
+        public readonly y: number,
+        public readonly x2: number,
+        public readonly y2: number
     ){
-        super(colorId, x, y);
-
-        if(!this.setX2(x2)) {
-            throw new Error(`invalid x2 provided: ${x2}`);
+        if(!validateNonNegativeDecimalPrecision(x)) {
+            throw new Error('The x coordinate must be a non-negative integer');
         }
-        if(!this.setY2(y2)) {
-            throw new Error(`invalid y2 provided: ${y2}`);
+        if(!validateNonNegativeDecimalPrecision(y)) {
+            throw new Error('The y coordinate must be a non-negative integer');
         }
-    }
-
-    public setX2(x2: number): boolean {
-        if(validateNonNegativeDecimalPrecision(x2)){
-            this.x2 = x2;
-            return true;
+        if(!validateNonNegativeDecimalPrecision(x2)) {
+            throw new Error('The x2 coordinate must be a non-negative integer');
         }
-        return false;
-    }
-
-    public getX2(): number {
-        return this.x2;
-    }
-
-    public setY2(y2: number): boolean {
-        if(validateNonNegativeDecimalPrecision(y2)){
-            this.y2 = y2;
-            return true;
+        if(!validateNonNegativeDecimalPrecision(y2)) {
+            throw new Error('The y2 coordinate must be a non-negative integer');
         }
-        return false;
-    }
-
-    public getY2(): number {
-        return this.y2;
     }
 }

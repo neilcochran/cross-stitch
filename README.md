@@ -31,8 +31,8 @@ See a full example [below](#full-schema-example)
     "properties": {
         "stitchWidth": 30,
         "stitchHeight": 30,
+        "patternColors": [],
         "notes": "",
-        "colors": []
     },
     "fullStitches": [],
     "threeQuarterStitches": [],
@@ -51,7 +51,7 @@ See a full example [below](#full-schema-example)
 
     * `notes` - an optional string for any notes/comment about the pattern.
 
-    * `colors` - an array of [`color`](#color-schema) objects defining all colors used in the pattern.
+    * `patternColors` - an array of [`pattern color`](#patterncolor-schema) objects defining all colors used in the pattern.
 
 * `fullStitches` - an array of [`full stitch`](#full-stitch-schema) objects defining all the full stitches in the pattern.
 
@@ -68,21 +68,15 @@ See a full example [below](#full-schema-example)
 <hr/>
 <br/>
 
-### **Color Schema:**
+### **PatternColor Schema:**
 
-A color represents a color used in the pattern. The color is made up of one or more [`strands`](#strand-schema) of thread. Each strand can be a different color, allowing blended colors to be defined.
+A color represents a color used in the pattern. The color is made up of one or more strands of [`floss`](#floss-schema). Each floss strand can be a different color/brand, allowing blended colors to be defined.
 ```json
 {
     "colorId": 1,
     "colorName": "Burnt Orange",
     "patternSymbol": "@",
-    "strands": [],
-    "totalFullStitches": 75,
-    "totalThreeQuarterStitches": 0,
-    "totalHalfStitches": 0,
-    "totalQuarterStitches": 0,
-    "totalBackStitches": 0,
-    "totalLongStitches": 0
+    "flossStrands": []
 }
 ```
 
@@ -90,41 +84,33 @@ A color represents a color used in the pattern. The color is made up of one or m
 
 * `colorName` - a name for the overall color (since it could be a blend)
 
-* `patternSymbol` - the ASCII character used to represent the color on the pattern visually. This must be unique within all the `color` objects in the `colors` array
+* `patternSymbol` - the ASCII character used to represent the color on the pattern visually. This must be unique within all the `PatternColor` objects in the `patternColors` array
 
-* `strands` - an array of [`strand`](#strand-schema) objects defining all the strands of thread that make up the color
-
-* `totalFullStitches` - the count of full stitches that use this color in the pattern. This is not required.
-* `totalThreeQuarterStitches` - the count of three quarter stitches that use this color in the pattern. This is not required.
-
-* `totalHalfStitches` - the count of half stitches that use this color in the pattern. This is not required.
-
-* `totalQuarterStitches` - the count of quarter stitches that use this color in the pattern. This is not required.
-
-* `totalBackStitches` - the count of back stitches that use this color in the pattern. This is not required.
-
-* `totalLongStitches` - the count of long stitches that use this color in the pattern. This is not required.
+* `flossStrands` - an array of [`floss`](#floss-schema) objects defining all the strands of floss that make up the color
 
 <hr/>
 <br/>
 
-### **Strand Schema:**
+### **Floss Schema:**
 
-Each [`color`](#color-schema) is made up of at least one `strand` object. Each `strand` is at least a single DMC thread strand, but can be increased using `strandCount`.
+This represents floss of a single color and brand, and by default, a single strand. If more than one strand of the same floss is desired, strandCount can be increased.
 
 ```json
 {
-    "colorName": "Orange Spice",
-    "dmcThreadCode": "721",
-    "strandCount": 2
+    "colorCode": "721",
+    "colorName": "Orange Spice - Medium",
+    "brandName": "DMC",
+    "strandCount": 2,
+    "hexCode": "0xf27842"
 }
 ```
 
-* `colorName` - by convention this is the DMC name of the thread color. This is not required.
 
-* `dmcThreadCode` - the DMC color code. This is typically numeric string like `'721'` or `3746` but there are a few alpha color codes like `'blanc'` and `'ecru'`.
+* `colorCode` - A string representing the unique brand code for the color. This is often a number, but can be a string like 'ecru' or 'blanc'.
 
-* `strandCount` - an integer greater than zero, representing the number of times the strand should be used in the given color.
+* `colorName` the brand's name for the color
+* `brandName` - The name of the brand. See a list of supported Brands [`here`](#brand-names).
+* `strandCount` - an integer greater than zero, representing the number of times the strand should be used in the given color. If not given, this defaults to 1.
 
 <hr/>
 <br/>
@@ -141,7 +127,7 @@ A full stitch covers a single square on the pattern in an 'X' shape. It is the c
 }
 ```
 
-* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+* `colorId` - the id of the desired [`pattern color`](#PatternColor-schema) of the stitch
 
 * `x` - the x coordinate of the lower left corner of the stitch.
 
@@ -176,7 +162,7 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 }
 ```
 
-* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+* `colorId` - the id of the desired [`pattern color`](#patterncolor-schema) of the stitch
 
 * `x` - the x coordinate of the lower left corner of the space on the grid.
 
@@ -269,7 +255,7 @@ Half stitches comes in two forms. The first form goes between the top left and b
 }
 ```
 
-* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+* `colorId` - the id of the desired [`pattern color`](#patterncolor-schema) of the stitch
 
 * `x` - the x coordinate of the lower left corner of the square on the grid.
 
@@ -324,7 +310,7 @@ A quarter stitch spans a quarter of a space on the grid and can be located in ei
 }
 ```
 
-* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+* `colorId` - the id of the desired [`pattern color`](#patterncolor-schema) of the stitch
 
 * `x` - the x coordinate of the lower left corner of the square on the grid
 
@@ -405,18 +391,18 @@ Back stitches can go laterally, vertically, or diagonally. A back stitch typical
 ```json
 {
     "colorId": 1,
-    "x1": 0,
-    "y1": 0,
+    "x": 0,
+    "y": 0,
     "x2": 1,
     "y2": 0
 }
 ```
 
-* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+* `colorId` - the id of the desired [`pattern color`](#patterncolor-schema) of the stitch
 
-* `x1` - the x1 coordinate of the start of the stitch
+* `x` - the x coordinate of the start of the stitch
 
-* `y1` - the y1 coordinate of the start of the stitch
+* `y` - the y coordinate of the start of the stitch
 
 * `x2` - the x2 coordinate of the end of the stitch
 
@@ -433,8 +419,8 @@ Red:
 ```json
     {
     "colorId": 1,
-    "x1": 1,
-    "y1": 1,
+    "x": 1,
+    "y": 1,
     "x2": 2,
     "y2": 1
 }
@@ -445,8 +431,8 @@ Green:
 ```json
 {
     "colorId": 1,
-    "x1": 1,
-    "y1": 2,
+    "x": 1,
+    "y": 2,
     "x2": 1.5,
     "y2": 2
 }
@@ -464,8 +450,8 @@ Red:
 ```json
 {
     "colorId": 1,
-    "x1": 2,
-    "y1": 1,
+    "x": 2,
+    "y": 1,
     "x2": 2,
     "y2": 2
 }
@@ -476,8 +462,8 @@ Green:
 ```json
 {
     "colorId": 1,
-    "x1": 1,
-    "y1": 1,
+    "x": 1,
+    "y": 1,
     "x2": 1,
     "y2": 1.5
 }
@@ -495,8 +481,8 @@ Red:
 ```json
 {
     "colorId": 1,
-    "x1": 1,
-    "y1": 2,
+    "x": 1,
+    "y": 2,
     "x2": 2,
     "y2": 1
 }
@@ -507,8 +493,8 @@ Green:
 ```json
 {
     "colorId": 1,
-    "x1": 0,
-    "y1": 1,
+    "x": 0,
+    "y": 1,
     "x2": 0.5,
     "y2": 1.5
 }
@@ -524,18 +510,18 @@ Long stitches are stitches that span more than 1 space. They can move laterally,
 ```json
 {
     "colorId": 1,
-    "x1": 0,
-    "y1": 0,
+    "x": 0,
+    "y": 0,
     "x2": 5,
     "y2": 2
 }
 ```
 
-* `colorId` - the id of the desired [`color`](#color-schema) of the stitch
+* `colorId` - the id of the desired [`pattern color`](#patterncolor-schema) of the stitch
 
-* `x1` - the x1 coordinate of the start of the stitch
+* `x` - the x coordinate of the start of the stitch
 
-* `y1` - the y1 coordinate of the start of the stitch
+* `y` - the y coordinate of the start of the stitch
 
 * `x2` - the x2 coordinate of the end of the stitch
 
@@ -550,8 +536,8 @@ Red:
 ```json
 {
     "colorId": 1,
-    "x1": 0,
-    "y1": 3,
+    "x": 0,
+    "y": 3,
     "x2": 2.5,
     "y2": 0
 }
@@ -562,8 +548,8 @@ Green:
 ```json
 {
     "colorId": 1,
-    "x1": 0,
-    "y1": 3,
+    "x": 0,
+    "y": 3,
     "x2": 3,
     "y2": 3
 }
@@ -586,47 +572,38 @@ Here is the corresponding JSON that describes the stitches in the above image:
         "stitchWidth": 3,
         "stitchHeight": 3,
         "notes": "This is a tiny 3x3 contrived example 'pattern'. Enjoy!",
-        "colors": [
+        "patternColors": [
             {
                 "colorId": 0,
                 "colorName": "Dark Blue",
                 "patternSymbol": "@",
-                "strands": [
+                "flossStrands": [
                     {
+                        "colorCode": "825",
                         "colorName": "Dark Blue",
-                        "dmcThreadCode": "825",
+                        "brandName": "DMC",
                         "strandCount": 2
                     }
-                ],
-                "totalFullStitches": 1,
-                "totalThreeQuarterStitches": 1,
-                "totalHalfStitches": 0,
-                "totalQuarterStitches": 0,
-                "totalBackStitches": 0,
-                "totalLongStitches": 0
+                ]
             },
             {
                 "colorId": 1,
                 "colorName": "Orange Blend",
                 "patternSymbol": "&",
-                "strands": [
-                    {
+                "flossStrands": [
+                     {
+                        "colorCode": "721",
                         "colorName": "Orange Spice",
-                        "dmcThreadCode": "721",
+                        "brandName": "DMC",
                         "strandCount": 1
                     },
                     {
+                        "colorCode": "947",
                         "colorName": "Burnt Orange",
-                        "dmcThreadCode": "947",
+                        "brandName": "DMC",
                         "strandCount": 1
                     }
-                ],
-                "totalFullStitches": 0,
-                "totalThreeQuarterStitches": 0,
-                "totalHalfStitches": 1,
-                "totalQuarterStitches": 1,
-                "totalBackStitches": 1,
-                "totalLongStitches": 1
+                ]
             }
         ]
     },
@@ -642,7 +619,7 @@ Here is the corresponding JSON that describes the stitches in the above image:
             "colorId": 0,
             "x": 2,
             "y": 1,
-            "halfStitchAngle": 45,
+            "halfStitchAngle": 135,
             "quarterStitchPlacement": "top-right"
         }
     ],
@@ -666,8 +643,8 @@ Here is the corresponding JSON that describes the stitches in the above image:
     [
         {
             "colorId": 1,
-            "x1": 0,
-            "y1": 0,
+            "x": 0,
+            "y": 0,
             "x2": 1,
             "y2": 0
         }
@@ -675,15 +652,25 @@ Here is the corresponding JSON that describes the stitches in the above image:
     "longStitches": [
         {    
             "colorId": 1,
-            "x1": 0,
-            "y1": 3,
+            "x": 0,
+            "y": 3,
             "x2": 3,
             "y2": 2
         }
     ]
 }
 ```
-
+### **Supported BrandName Values:**
+- Anchor,
+- Appletons,
+- Cosmo,
+- DMC,
+- J&P Coats,
+- Kreinik,
+- Madeira,
+- Presenica,
+- Sullivans,
+- Unbranded
 ## Versions
 View all versions of in the <a href="/CHANGELOG.md">CHANGELOG.md</a>
 

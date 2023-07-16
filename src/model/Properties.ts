@@ -1,74 +1,31 @@
 import { validateNonNegativeInteger } from '../validation';
-import { Color } from './Color';
+import { PatternColor } from './PatternColor';
 
 /**
  * Model class representing a pattern's properties.
  */
 export class Properties {
-    private colors!: Color[];
-    private stitchWidth?: number;
-    private stitchHeight?: number;
-
     /**
-     * @param colors - The list of colors that are used in the pattern.
+     * @param patternColors - The list of PatternColors that are used in the pattern.
      * @param stitchWidth - The width, in stitches, of the pattern.
      * @param stitchHeight - The height, in stitches, of the pattern.
      * @param notes - Any notes or comments about the pattern.
      */
     constructor(
-        colors: Color[],
-        stitchWidth?: number,
-        stitchHeight?: number,
-        public notes?: string
+        public readonly patternColors: PatternColor[],
+        public readonly stitchWidth?: number,
+        public readonly stitchHeight?: number,
+        public readonly notes?: string
     ){
-        if(!this.setColors(colors)) {
+        if(!(patternColors.length > 0)) {
             throw new Error('colors cannot be empty, at least one color must be defined');
         }
-        if(stitchWidth && !this.setStitchWidth(stitchWidth)){
+        if(stitchWidth && !validateNonNegativeInteger(stitchWidth)){
             throw new Error(`invalid stitchWidth provided: ${stitchWidth}`);
         }
 
-        if(stitchHeight && !this.setStitchHeight(stitchHeight)){
+        if(stitchHeight && !(validateNonNegativeInteger(stitchHeight))){
             throw new Error(`invalid stitchHeight provided: ${stitchHeight}`);
         }
-    }
-
-    public setColors(colors: Color[]): boolean {
-        if(colors.length > 0) {
-            this.colors = colors;
-            return true;
-        }
-
-        return false;
-    }
-
-    public getColors(): Color[] {
-        return this.colors;
-    }
-
-    public setStitchWidth(stitchWidth: number): boolean {
-        if(validateNonNegativeInteger(stitchWidth)){
-            this.stitchWidth = stitchWidth;
-            return true;
-        }
-
-        return false;
-    }
-
-    public getStitchWidth(): number | undefined {
-        return this.stitchWidth;
-    }
-
-    public setStitchHeight(stitchHeight: number): boolean {
-        if(validateNonNegativeInteger(stitchHeight)){
-            this.stitchHeight = stitchHeight;
-            return true;
-        }
-
-        return false;
-    }
-
-    public getStitchHeight(): number | undefined {
-        return this.stitchHeight;
     }
 }
