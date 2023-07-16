@@ -1,7 +1,7 @@
 {
     "name": "cross-stitch",
     "version": "0.3.1",
-    "description": "",
+    "description": "This repository defines a json schema to represent cross stitch patterns and provides tools to work with them.",
     "author": "neilcochran <dev.neil.cochran@pm.me>",
     "license": "MIT",
     "main": "dist/index.js",
@@ -11,7 +11,7 @@
         "dev": "tsc-watch -p tsconfig.json --onSuccess \"node ./dist/index.js\"",
         "start": "node dist/index.js",
         "test": "jest",
-        "doc": "typedoc --includeVersion --out doc src/"
+        "doc": "typedoc --includeVersion --out docs src/"
     },
     "keywords": [],
     "devDependencies": {
