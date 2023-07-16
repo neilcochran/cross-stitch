@@ -10,7 +10,7 @@ import { StitchAngle } from './StitchAngle';
  * between the top right and bottom left corners of the space on the grid forming a 135
  * degree line. This is why `45` and `135` are the only valid values for `stitchAngle`.
  */
-export class HalfStitch extends Stitch {
+export class HalfStitch implements Stitch {
     /**
      * @param colorId - The id of the desired color of the stitch.
      * @param x - The x coordinate of the lower left corner of the square on the grid.
@@ -19,29 +19,17 @@ export class HalfStitch extends Stitch {
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        colorId: number,
-        x: number,
-        y: number,
-        public stitchAngle: StitchAngle
+        public readonly colorId: string,
+        public readonly x: number,
+        public readonly y: number,
+        public readonly  stitchAngle: StitchAngle
     ){
-        super(colorId, x, y);
-    }
-
-    //override setX() since this stitch only supports non negative integers
-    public setX(x: number): boolean {
-        if(validateNonNegativeInteger(x)) {
-            this.x = x;
-            return true;
+        //this stitch only supports non negative integers for x,y
+        if(!validateNonNegativeInteger(x)) {
+            throw new Error('The x coordinate must be a non-negative integer');
         }
-        return false;
-    }
-
-    //override setY() since this stitch only supports non negative integers
-    public setY(y: number): boolean {
-        if(validateNonNegativeInteger(y)) {
-            this.y = y;
-            return true;
+        if(!validateNonNegativeInteger(y)) {
+            throw new Error('The y coordinate must be a non-negative integer');
         }
-        return false;
     }
 }

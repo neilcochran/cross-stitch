@@ -1,4 +1,9 @@
 /**
- * Type alias for the quadrant placement within a square on the grid
+ * Enum representing the stitch quadrant placement within a square on the grid
  */
-export type StitchPlacement = 'top-right' | 'bottom-right' | 'bottom-left' | 'top-left';
+export enum StitchPlacement {
+    TOP_RIGHT = 'top-right',
+    BOTTOM_RIGHT = 'bottom-right',
+    BOTTOM_LEFT = 'bottom-left',
+    TOP_LEFT = 'top-left'
+}

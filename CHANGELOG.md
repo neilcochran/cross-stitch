@@ -1,3 +1,8 @@
+## Version 0.3.0
+- Add Floss Brand support
+- Add all DMC floss colors as pre defined constants
+- Rename and refactor other various schema elements
+
 ## Version 0.2.1 
 - Add TSDoc for `validation.ts` functions.
 - Add TSDoc for `utility.ts` functions.

@@ -7,7 +7,7 @@ import { Stitch } from './Stitch';
  * A full stitch covers a single square on the pattern in an 'X' shape.
  * A full stitch is the combination of 2 opposing angle half stitches.
  */
-export class FullStitch extends Stitch {
+export class FullStitch implements Stitch {
 
     /**
      * @param colorId - The id of the desired color of the stitch.
@@ -17,28 +17,16 @@ export class FullStitch extends Stitch {
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        colorId: number,
-        x: number,
-        y: number
+        public readonly colorId: string,
+        public readonly x: number,
+        public readonly y: number
     ){
-        super(colorId, x,y);
-    }
-
-    //override setX() since this stitch only supports non negative integers
-    public setX(x: number): boolean {
-        if(validateNonNegativeInteger(x)) {
-            this.x = x;
-            return true;
+        //this stitch only supports non negative integers for x,y
+        if(!validateNonNegativeInteger(x)) {
+            throw new Error('The x coordinate must be a non-negative integer' + x);
         }
-        return false;
-    }
-
-    //override setY() since this stitch only supports non negative integers
-    public setY(y: number): boolean {
-        if(validateNonNegativeInteger(y)) {
-            this.y = y;
-            return true;
+        if(!validateNonNegativeInteger(y)) {
+            throw new Error('The y coordinate must be a non-negative integer');
         }
-        return false;
     }
 }

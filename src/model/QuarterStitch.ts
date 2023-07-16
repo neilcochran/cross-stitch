@@ -1,3 +1,4 @@
+import { validateNonNegativeDecimalPrecision, validateNonNegativeInteger } from '../validation';
 import { Stitch } from './Stitch';
 import { StitchPlacement } from './StitchPlacement';
 
@@ -8,8 +9,9 @@ import { StitchPlacement } from './StitchPlacement';
  * `bottom-left`, or `top-left` quadrant of a grid space as indicated by the `placement` field. A quarter stitch is a
  * half stitch cut in half vertically. Therefore, one end of the quarter stitch is always in the center of a grid space,
  * while the other extends to the corner indicated by the `placement` value.
+ * This also means one coordinate will always be an integer, while the other will always be fractional.
  */
-export class QuarterStitch extends Stitch {
+export class QuarterStitch implements Stitch {
 
     /**
      * @param colorId - The id of the desired color of the stitch.
@@ -19,11 +21,27 @@ export class QuarterStitch extends Stitch {
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        colorId: number,
-        x: number,
-        y: number,
-        public placement: StitchPlacement
+        public readonly colorId: string,
+        public readonly x: number,
+        public readonly y: number,
+        public readonly placement: StitchPlacement
     ){
-        super(colorId, x, y);
+        //if placement is bottom, x must be a non negative integer and y must be non neg but can be a supported decimal
+        if(StitchPlacement.BOTTOM_LEFT === placement || StitchPlacement.BOTTOM_RIGHT === placement) {
+            if(!validateNonNegativeInteger(x)) {
+                throw new Error(`Given the stitch placement: ${placement}, the x coordinate must be a non negative integer`);
+            }
+            if(!validateNonNegativeDecimalPrecision(y)) {
+                throw new Error(`Given the stitch placement: ${placement}, the y coordinate must be of non negative decimal precision`);
+            }
+        }
+        else { //if placement is top, x must be non negative and can be a supported decimal, and y must be a non negative integer
+            if(!validateNonNegativeDecimalPrecision(x)) {
+                throw new Error(`Given the stitch placement: ${placement}, the x coordinate must be of non negative decimal precision`);
+            }
+            if(!validateNonNegativeInteger(y)) {
+                throw new Error(`Given the stitch placement: ${placement}, the y coordinate must be a non negative integer`);
+            }
+        }
     }
 }

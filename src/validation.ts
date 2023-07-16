@@ -1,4 +1,4 @@
-import { BackStitch, FullStitch, HalfStitch, LongStitch, Properties, QuarterStitch, ThreeQuarterStitch } from './model';
+import { BackStitch, FullStitch, HalfStitch, LongStitch, Properties, QuarterStitch, StitchPlacement, ThreeQuarterStitch } from './model';
 
 /**
  * Validate that the input number is non negative and an integer.
@@ -8,7 +8,11 @@ import { BackStitch, FullStitch, HalfStitch, LongStitch, Properties, QuarterStit
  * @returns True if the input is valid, false otherwise.
  */
 export function validateNonNegativeInteger(input: number): boolean {
-    return input % 1 == 0 && input >= 0;
+    //check for zero explicitly to avoid 0 % 0 == NaN in below check.
+    if(input === 0) {
+        return true;
+    }
+    return input % 1 == 0 && input >= 1;
 }
 
 /**
@@ -55,7 +59,7 @@ export function validatePatternSymbol(patternSymbol: string, properties?: Proper
     }
 
     //if the pattern properties were provided, additionally check that the patternSymbol is unique
-    if(properties && properties.getColors().find(color => color.getPatternSymbol() === patternSymbol) !== undefined) {
+    if(properties && properties.patternColors.find(color => color.patternSymbol === patternSymbol) !== undefined) {
         return false;
     }
 
@@ -73,19 +77,19 @@ export function validatePatternSymbol(patternSymbol: string, properties?: Proper
  */
 export function validateFullStitch(fullStitch: FullStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if(!validateColorId(fullStitch.getColorId(), properties)) {
+    if(!validateColorId(fullStitch.colorId, properties)) {
         return false;
     }
 
-    const maxHeight = properties.getStitchHeight();
+    const maxHeight = properties.stitchHeight;
     //if a stitch height is provided, check that the stitch is within its bounds
-    if(maxHeight && fullStitch.getY() > maxHeight) {
+    if(maxHeight && fullStitch.y > maxHeight) {
         return false;
     }
 
-    const maxWidth = properties.getStitchWidth();
+    const maxWidth = properties.stitchWidth;
     //if a stitch width is provided, check that the stitch is within its bounds
-    if(maxWidth && fullStitch.getX() > maxWidth) {
+    if(maxWidth && fullStitch.x > maxWidth) {
         return false;
     }
 
@@ -105,12 +109,12 @@ export function validateFullStitch(fullStitch: FullStitch, properties: Propertie
 export function validateThreeQuarterStitch(threeQuarterStitch: ThreeQuarterStitch, properties?: Properties): boolean {
     //with a 45 degree half stitch angle, the quarter stitch placement must be either bottom-left or top-right
     if(threeQuarterStitch.halfStitchAngle === 45) {
-        if(threeQuarterStitch.quarterStitchPlacement !== 'bottom-left' && threeQuarterStitch.quarterStitchPlacement !== 'top-right') {
+        if(threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.BOTTOM_LEFT && threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.TOP_RIGHT) {
             return false;
         }
     }
     else { //with a 135 degree half stitch angle, the quarter stitch placement must be either bottom-right or top-left
-        if(threeQuarterStitch.quarterStitchPlacement !== 'bottom-right' && threeQuarterStitch.quarterStitchPlacement !== 'top-left') {
+        if(threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.BOTTOM_RIGHT && threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.TOP_LEFT) {
             return false;
         }
     }
@@ -118,19 +122,19 @@ export function validateThreeQuarterStitch(threeQuarterStitch: ThreeQuarterStitc
     //make sure the stitch has a colorId that maps to a valid color
     if(properties) {
         //make sure the stitch has a colorId that maps to a valid color
-        if(!validateColorId(threeQuarterStitch.getColorId(), properties)){
+        if(!validateColorId(threeQuarterStitch.colorId, properties)){
             return false;
         }
 
-        const maxHeight = properties.getStitchHeight();
+        const maxHeight = properties.stitchHeight;
         //if a stitch height is provided, check that the stitch is within its bounds
-        if(maxHeight && threeQuarterStitch.getY() > maxHeight) {
+        if(maxHeight && threeQuarterStitch.y > maxHeight) {
             return false;
         }
 
-        const maxWidth = properties.getStitchWidth();
+        const maxWidth = properties.stitchWidth;
         //if a stitch width is provided, check that the stitch is within its bounds
-        if(maxWidth && threeQuarterStitch.getX() > maxWidth) {
+        if(maxWidth && threeQuarterStitch.x > maxWidth) {
             return false;
         }
 
@@ -151,19 +155,19 @@ export function validateThreeQuarterStitch(threeQuarterStitch: ThreeQuarterStitc
  */
 export function validateHalfStitch(halfStitch: HalfStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if(!validateColorId(halfStitch.getColorId(), properties)) {
+    if(!validateColorId(halfStitch.colorId, properties)) {
         return false;
     }
 
-    const maxHeight = properties.getStitchHeight();
+    const maxHeight = properties.stitchHeight;
     //if a stitch height is provided, check that the stitch is within its bounds
-    if(maxHeight && halfStitch.getY() > maxHeight) {
+    if(maxHeight && halfStitch.y > maxHeight) {
         return false;
     }
 
-    const maxWidth = properties.getStitchWidth();
+    const maxWidth = properties.stitchWidth;
     //if a stitch width is provided, check that the stitch is within its bounds
-    if(maxWidth && halfStitch.getX() > maxWidth) {
+    if(maxWidth && halfStitch.x > maxWidth) {
         return false;
     }
 
@@ -181,19 +185,19 @@ export function validateHalfStitch(halfStitch: HalfStitch, properties: Propertie
  */
 export function validateQuarterStitch(quarterStitch: QuarterStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if(!validateColorId(quarterStitch.getColorId(), properties)) {
+    if(!validateColorId(quarterStitch.colorId, properties)) {
         return false;
     }
 
-    const maxHeight = properties.getStitchHeight();
+    const maxHeight = properties.stitchHeight;
     //if a stitch height is provided, check that the stitch is within its bounds
-    if(maxHeight && quarterStitch.getY() > maxHeight) {
+    if(maxHeight && quarterStitch.y > maxHeight) {
         return false;
     }
 
-    const maxWidth = properties.getStitchWidth();
+    const maxWidth = properties.stitchWidth;
     //if a stitch width is provided, check that the stitch is within its bounds
-    if(maxWidth && quarterStitch.getX() > maxWidth) {
+    if(maxWidth && quarterStitch.x > maxWidth) {
         return false;
     }
 
@@ -212,26 +216,26 @@ export function validateQuarterStitch(quarterStitch: QuarterStitch, properties: 
  */
 export function validateBackStitch(backStitch: BackStitch, properties?: Properties): boolean {
     //check that the back stitch's length does not exceed a single space
-    if(!validateSingleSpaceDistance(backStitch.getX(), backStitch.getY(), backStitch.getX2(), backStitch.getY2())) {
+    if(!validateSingleSpaceDistance(backStitch.x, backStitch.y, backStitch.x2, backStitch.y2)) {
         return false;
     }
 
     //if properties were provided, perform additional checks
     if(properties) {
         //make sure the stitch has a colorId that maps to a valid color
-        if(!validateColorId(backStitch.getColorId(), properties)) {
+        if(!validateColorId(backStitch.colorId, properties)) {
             return false;
         }
 
-        const maxHeight = properties.getStitchHeight();
+        const maxHeight = properties.stitchHeight;
         //if a stitch height is provided, check that the stitch is within its bounds
-        if(maxHeight && (backStitch.getY() > maxHeight || backStitch.getY2() > maxHeight)) {
+        if(maxHeight && (backStitch.y > maxHeight || backStitch.y2 > maxHeight)) {
             return false;
         }
 
-        const maxWidth = properties.getStitchWidth();
+        const maxWidth = properties.stitchWidth;
         //if a stitch width is provided, check that the stitch is within its bounds
-        if(maxWidth && (backStitch.getX() > maxWidth || backStitch.getX2() > maxWidth)) {
+        if(maxWidth && (backStitch.x > maxWidth || backStitch.x2 > maxWidth)) {
             return false;
         }
     }
@@ -250,19 +254,19 @@ export function validateBackStitch(backStitch: BackStitch, properties?: Properti
  */
 export function validateLongStitch(longStitch: LongStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if(!validateColorId(longStitch.getColorId(), properties)) {
+    if(!validateColorId(longStitch.colorId, properties)) {
         return false;
     }
 
-    const maxHeight = properties.getStitchHeight();
+    const maxHeight = properties.stitchHeight;
     //if a stitch height is provided, check that the stitch is within its bounds
-    if(maxHeight && (longStitch.getY() > maxHeight || longStitch.getY2() > maxHeight)) {
+    if(maxHeight && (longStitch.y > maxHeight || longStitch.y2 > maxHeight)) {
         return false;
     }
 
-    const maxWidth = properties.getStitchWidth();
+    const maxWidth = properties.stitchWidth;
     //if a stitch width is provided, check that the stitch is within its bounds
-    if(maxWidth && (longStitch.getX() > maxWidth || longStitch.getX2() > maxWidth)) {
+    if(maxWidth && (longStitch.x > maxWidth || longStitch.x2 > maxWidth)) {
         return false;
     }
 
@@ -277,6 +281,6 @@ export function validateLongStitch(longStitch: LongStitch, properties: Propertie
  *
  * @returns True if the colorId maps to a color defined in the properties object.
  */
-function validateColorId(colorId: number, properties: Properties): boolean {
-    return properties.getColors().find(color => color.getColorId() === colorId) !== undefined;
+function validateColorId(colorId: string, properties: Properties): boolean {
+    return properties.patternColors.find(color => color.colorId === colorId) !== undefined;
 }

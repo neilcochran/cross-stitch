@@ -8,10 +8,7 @@ import { Stitch } from './Stitch';
  * moves a full space in any of the possible directions, but 1/2 space fractional amounts
  * are also supported. A back stitch can move across at most 1 grid space in any supported direction.
  */
-export class BackStitch extends Stitch {
-
-    private x2!: number;
-    private y2!: number;
+export class BackStitch implements Stitch {
 
     /**
      * @param colorId - The id of the desired color of the stitch
@@ -23,46 +20,20 @@ export class BackStitch extends Stitch {
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        colorId: number,
-        x: number,
-        y: number,
-        x2: number,
-        y2: number
+        public readonly colorId: string,
+        public readonly x: number,
+        public readonly y: number,
+        public readonly x2: number,
+        public readonly y2: number
     ){
-        super(colorId, x, y);
-
-        if(!this.setX2(x2)) {
+        if(!validateNonNegativeDecimalPrecision(x2)) {
             throw new Error(`invalid x2 provided: ${x2}`);
         }
-        if(!this.setY2(y2)) {
+        if(!validateNonNegativeDecimalPrecision(y2)) {
             throw new Error(`invalid y2 provided: ${y2}`);
         }
         if(!validateSingleSpaceDistance(x, y, x2, y2)) {
             throw new Error(`invalid coordinates have a distance greater than 1: (${x}, ${y}), (${x2}, ${y2})`);
         }
-    }
-
-    public setX2(x2: number): boolean {
-        if(validateNonNegativeDecimalPrecision(x2)){
-            this.x2 = x2;
-            return true;
-        }
-        return false;
-    }
-
-    public getX2(): number {
-        return this.x2;
-    }
-
-    public setY2(y2: number): boolean {
-        if(validateNonNegativeDecimalPrecision(y2)){
-            this.y2 = y2;
-            return true;
-        }
-        return false;
-    }
-
-    public getY2(): number {
-        return this.y2;
     }
 }
