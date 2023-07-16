@@ -2,22 +2,7 @@
 
 This repository defines a json schema to represent cross stitch patterns and provides tools to work with them.
 
-## Usage
-
-To run this project, run the `build` script followed by the `start` script.
-Using yarn:
-
-```
-yarn build
-yarn start
-```
-
-Alternatively, run the `dev` to enable live loading (via tsc-watch)
-
-```
-yarn dev
-```
-
+For full code documentation, please visit [`this`](https://neilcochran.github.io/cross-stitch/) page.
 <hr/>
 <br/>
 
