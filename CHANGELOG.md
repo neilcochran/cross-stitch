@@ -1,3 +1,6 @@
+## Version 0.3.1
+- Remove DMC-Floss.ts which was merged into utility.ts
+
 ## Version 0.3.0
 - Add Floss Brand support
 - Add all DMC floss colors as pre defined constants
