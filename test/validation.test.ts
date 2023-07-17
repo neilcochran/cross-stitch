@@ -1,4 +1,11 @@
-import { validateNonNegativeDecimalPrecision, validateNonNegativeInteger, validateSingleSpaceDistance } from '../src/validation';
+import {
+    validateNonNegativeDecimalPrecision,
+    validateNonNegativeInteger,
+    validatePatternSymbol,
+    validateSingleSpaceDistance,
+    validateColorId
+} from '../src/validation';
+import { TEST_PATTERN_PROPERTIES } from './test-utils';
 
 const validNonNegativeInts = [0, 1, 9, 9999];
 const invalidInts = [-1, -99, -9999];
@@ -35,4 +42,31 @@ test('validateSingleSpaceDistance', () => {
     expect(validateSingleSpaceDistance(0, 0, 1, 2)).toBe(false);
     expect(validateSingleSpaceDistance(0, 0, 1.5, 1)).toBe(false);
     expect(validateSingleSpaceDistance(9, 17, 33, 12)).toBe(false);
+});
+
+test('validatePatternSymbol', () => {
+    //expect true
+    expect(validatePatternSymbol('x')).toBe(true);
+    expect(validatePatternSymbol('9')).toBe(true);
+    expect(validatePatternSymbol('?')).toBe(true);
+    expect(validatePatternSymbol('\\')).toBe(true);
+
+    //expect false
+    expect(validatePatternSymbol('')).toBe(false);
+    expect(validatePatternSymbol(' ')).toBe(false);
+    expect(validatePatternSymbol('ab')).toBe(false);
+    expect(validatePatternSymbol('\n')).toBe(false);
+});
+
+test('validateColorId', () => {
+    //expect true
+    expect(validateColorId('0', TEST_PATTERN_PROPERTIES)).toBe(true);
+    expect(validateColorId('1', TEST_PATTERN_PROPERTIES)).toBe(true);
+    expect(validateColorId('abc', TEST_PATTERN_PROPERTIES)).toBe(true);
+
+
+    //expect false
+    expect(validateColorId('2', TEST_PATTERN_PROPERTIES)).toBe(false);
+    expect(validateColorId('Q', TEST_PATTERN_PROPERTIES)).toBe(false);
+    expect(validateColorId(' ', TEST_PATTERN_PROPERTIES)).toBe(false);
 });

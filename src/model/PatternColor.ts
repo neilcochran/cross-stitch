@@ -1,5 +1,4 @@
 import { validateNonNegativeInteger, validatePatternSymbol } from '../validation';
-import { BrandName } from './BrandName';
 import { Floss } from './Floss';
 
 /**

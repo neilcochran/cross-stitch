@@ -1,3 +1,7 @@
+## Version 0.4.0
+- Add validations
+- Add unit tests
+
 ## Version 0.3.1
 - Remove DMC-Floss.ts which was merged into utility.ts
 
