@@ -83,7 +83,7 @@ export function jsonToModel(json: string): CrossStitchPattern {
         for(const halfStitch of jsonData.halfStitches) {
             const newHalfStitch = new HalfStitch(halfStitch.colorId, halfStitch.x, halfStitch.y, halfStitch.stitchAngle);
             if(!validateHalfStitch(newHalfStitch, properties)) {
-                throw new Error(`invalid half stitch encountered: ${JSON.stringify(halfStitch)}`)
+                throw new Error(`invalid half stitch encountered: ${JSON.stringify(halfStitch)}`);
             }
             halfStitches.push(newHalfStitch);
         }

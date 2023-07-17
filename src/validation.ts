@@ -109,7 +109,7 @@ export function validateAllFullStitches(crossStitchPattern: CrossStitchPattern):
             }
         }
     }
-    return true
+    return true;
 }
 
 /**
@@ -376,48 +376,4 @@ export function validateAllLongStitches(crossStitchPattern: CrossStitchPattern):
  */
 export function validateColorId(colorId: string, properties: Properties): boolean {
     return properties.patternColors.find(color => color.colorId === colorId) !== undefined;
-}
-
-/**
- * Validate an entire cross stitch pattern. All stitches will be range checked and their mapped colors will be validated.
- * @param crossStitchPattern 
- * @returns 
- */
-export function validateCrossStitchPattern(crossStitchPattern: CrossStitchPattern) {
-    if(crossStitchPattern.fullStitches) {
-        if(!validateAllFullStitches(crossStitchPattern)) {
-            return false
-        }
-    }
-
-    if(crossStitchPattern.threeQuarterStitches) {
-        if(!validateAllThreeQuarterStitches(crossStitchPattern)) {
-            return false;
-        }
-    }
-
-    if(crossStitchPattern.halfStitches) {
-        if(!validateAllHalfStitches(crossStitchPattern)) {
-            return false;
-        }
-    }
-
-    if(crossStitchPattern.quarterStitches) {
-        if(!validateAllQuarterStitches(crossStitchPattern)) {
-            return false;
-        }
-    }
-
-    if(crossStitchPattern.backStitches) {
-        if(!validateAllBackStitches(crossStitchPattern)) {
-            return false;
-        }
-    }
-
-    if(crossStitchPattern.longStitches) {
-        if(!validateAllLongStitches(crossStitchPattern)) {
-            return false;
-        }
-    }
-    return true;
 }
