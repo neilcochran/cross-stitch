@@ -1,4 +1,4 @@
-import { validateNonNegativeInteger } from '../validation';
+import { validateNonNegativeInteger, validateStitchAngle, validateStitchPlacement } from '../validation';
 import { Stitch } from './Stitch';
 import { StitchAngle } from './StitchAngle';
 import { StitchPlacement } from './StitchPlacement';
@@ -33,6 +33,12 @@ export class ThreeQuarterStitch implements Stitch {
         }
         if(!validateNonNegativeInteger(y)) {
             throw new Error('The y coordinate must be a non-negative integer.');
+        }
+        if(!validateStitchPlacement(quarterStitchPlacement)) {
+            throw new Error(`Invalid quarter stitch placement: ${quarterStitchPlacement}`);
+        }
+        if(!validateStitchAngle(halfStitchAngle)) {
+            throw new Error(`Invalid half stitch angle: ${halfStitchAngle}`);
         }
         //when using a 45 degree half stitch, only BOTTOM_RIGHT and TOP_LEFT are valid quarter stitch placements
         if(45 === halfStitchAngle && (StitchPlacement.BOTTOM_LEFT === quarterStitchPlacement || StitchPlacement.TOP_RIGHT === quarterStitchPlacement)) {
