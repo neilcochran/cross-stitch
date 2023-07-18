@@ -1,5 +1,4 @@
 import { BrandName, FullStitch, HalfStitch, PatternColor, Properties, QuarterStitch, ThreeQuarterStitch } from '../src/model';
-
 export const TEST_PATTERN_COLORS: PatternColor[] = [
     {
         colorId: '0',

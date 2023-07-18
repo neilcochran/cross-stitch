@@ -1,4 +1,4 @@
-import { BackStitch, CrossStitchPattern, FullStitch, HalfStitch, LongStitch, Properties, QuarterStitch, StitchPlacement, ThreeQuarterStitch } from './model';
+import { BackStitch, CrossStitchPattern, FullStitch, HalfStitch, LongStitch, Properties, QuarterStitch, StitchAngle, StitchPlacement, ThreeQuarterStitch } from './model';
 
 /**
  * Validate that the input number is non negative and an integer.
@@ -126,6 +126,15 @@ export function validateThreeQuarterStitch(threeQuarterStitch: ThreeQuarterStitc
     if(!validateColorId(threeQuarterStitch.colorId, properties)) {
         return false;
     }
+
+    if(!validateStitchAngle(threeQuarterStitch.halfStitchAngle)) {
+        return false;
+    }
+
+    if(!validateStitchPlacement(threeQuarterStitch.quarterStitchPlacement)) {
+        return false;
+    }
+
     //with a 45 degree half stitch angle, the quarter stitch placement must be either bottom-right or top-left
     if(threeQuarterStitch.halfStitchAngle === 45) {
         if(threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.BOTTOM_RIGHT && threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.TOP_LEFT) {
@@ -188,6 +197,10 @@ export function validateHalfStitch(halfStitch: HalfStitch, properties: Propertie
         return false;
     }
 
+    if(!validateStitchAngle(halfStitch.stitchAngle)) {
+        return false;
+    }
+
     const maxHeight = properties.stitchHeight;
     //if a stitch height is provided, check that the stitch is within its bounds
     if(maxHeight && halfStitch.y > maxHeight) {
@@ -231,6 +244,10 @@ export function validateAllHalfStitches(crossStitchPattern: CrossStitchPattern):
 export function validateQuarterStitch(quarterStitch: QuarterStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
     if(!validateColorId(quarterStitch.colorId, properties)) {
+        return false;
+    }
+
+    if(!validateStitchPlacement(quarterStitch.placement)) {
         return false;
     }
 
@@ -376,4 +393,24 @@ export function validateAllLongStitches(crossStitchPattern: CrossStitchPattern):
  */
 export function validateColorId(colorId: string, properties: Properties): boolean {
     return properties.patternColors.find(color => color.colorId === colorId) !== undefined;
+}
+
+/**
+ * Validate that a stitchPlacement is a valid member of the StitchPlacement enum.
+ * This is needed when parsing from JSON, where invalid enum strings may be otherwise accepted
+ * @param stitchPlacement - The stitchPlacement to validate
+ * @returns True if the stitchPlacement is a valid member of the StitchPlacement enum, false otherwise
+ */
+export function validateStitchPlacement(stitchPlacement: StitchPlacement): boolean {
+    return Object.values(StitchPlacement).includes(stitchPlacement);
+}
+
+/**
+ * Validate that a stitchAngle is a valid member of the StitchAngle type alias.
+ * This is needed when parsing from JSON, where invalid enum strings may be otherwise accepted
+ * @param stitchAngle - The stitchAngle to validate
+ * @returns True if the stitchAngle is a valid member of
+ */
+export function validateStitchAngle(stitchAngle: StitchAngle): boolean {
+    return stitchAngle === 45 ||  stitchAngle === 135;
 }

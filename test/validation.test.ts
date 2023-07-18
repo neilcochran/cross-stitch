@@ -1,9 +1,12 @@
+import { StitchAngle, StitchPlacement } from '../src/model';
 import {
     validateNonNegativeDecimalPrecision,
     validateNonNegativeInteger,
     validatePatternSymbol,
     validateSingleSpaceDistance,
-    validateColorId
+    validateColorId,
+    validateStitchAngle,
+    validateStitchPlacement
 } from '../src/validation';
 import { TEST_PATTERN_PROPERTIES } from './test-utils';
 
@@ -69,4 +72,26 @@ test('validateColorId', () => {
     expect(validateColorId('2', TEST_PATTERN_PROPERTIES)).toBe(false);
     expect(validateColorId('Q', TEST_PATTERN_PROPERTIES)).toBe(false);
     expect(validateColorId(' ', TEST_PATTERN_PROPERTIES)).toBe(false);
+});
+
+//only needed due to parsing from json into a model (see validateStitchAngle method documentation)
+test('validateStitchAngle', () => {
+    //expect true
+    expect(validateStitchAngle(45)).toBe(true);
+    expect(validateStitchAngle(135)).toBe(true);
+
+    //expect false
+    expect(validateStitchAngle(99 as StitchAngle));
+});
+
+//only needed due to parsing from json into a model (see validateStitchPlacement method documentation)
+test('validateStitchPlacement', () => {
+    //expect true
+    expect(validateStitchPlacement('top-right' as StitchPlacement)).toBe(true);
+    expect(validateStitchPlacement('top-left' as StitchPlacement)).toBe(true);
+    expect(validateStitchPlacement('bottom-right' as StitchPlacement)).toBe(true);
+    expect(validateStitchPlacement('bottom-left' as StitchPlacement)).toBe(true);
+
+    //expect false
+    expect(validateStitchPlacement('foo-bar' as StitchPlacement)).toBe(false);
 });

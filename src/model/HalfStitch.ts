@@ -1,4 +1,4 @@
-import { validateNonNegativeInteger } from '../validation';
+import { validateNonNegativeInteger, validateStitchAngle } from '../validation';
 import { Stitch } from './Stitch';
 import { StitchAngle } from './StitchAngle';
 
@@ -24,6 +24,9 @@ export class HalfStitch implements Stitch {
         public readonly y: number,
         public readonly  stitchAngle: StitchAngle
     ){
+        if(!validateStitchAngle(stitchAngle)) {
+            throw new Error(`Invalid stitch angle: ${stitchAngle}`);
+        }
         //this stitch only supports non negative integers for x,y
         if(!validateNonNegativeInteger(x)) {
             throw new Error('The x coordinate must be a non-negative integer');

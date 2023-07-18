@@ -33,7 +33,7 @@ export function jsonToModel(json: string): CrossStitchPattern {
             flossStrands.push(new Floss(
                 flossStrand.colorCode,
                 flossStrand.colorName,
-                flossStrand.brandName as BrandName, //todo type check this
+                flossStrand.brandName,
                 flossStrand.strandCount ? flossStrand.strandCount : 1,
                 flossStrand.hexCode
             ));
@@ -53,6 +53,7 @@ export function jsonToModel(json: string): CrossStitchPattern {
     const quarterStitches: QuarterStitch[] = [];
     const backStitches: BackStitch[] = [];
     const longStitches: LongStitch[] = [];
+
     if(jsonData.fullStitches){
         for(const fullStitch of jsonData.fullStitches) {
             const newFullStitch = new FullStitch(fullStitch.colorId, fullStitch.x, fullStitch.y);

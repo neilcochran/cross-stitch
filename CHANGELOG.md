@@ -1,3 +1,6 @@
+## Version 0.4.1
+- Add validation & tests for enums & type aliases that previously accepted invalid values at runtime in jsonToModel()
+
 ## Version 0.4.0
 - Add validations
 - Add unit tests
