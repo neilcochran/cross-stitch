@@ -18,10 +18,11 @@ export class QuarterStitch implements Stitch {
      * @param x - The x coordinate of the lower left corner of the square on the grid.
      * @param y - The y coordinate of the lower left corner of square on the grid.
      * @param placement - The placement of the quarter stitch within the square on the grid.
+     *
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        public readonly colorId: string,
+        public readonly colorId: number,
         public readonly x: number,
         public readonly y: number,
         public readonly placement: StitchPlacement

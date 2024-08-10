@@ -16,10 +16,11 @@ export class HalfStitch implements Stitch {
      * @param x - The x coordinate of the lower left corner of the square on the grid.
      * @param y - The y coordinate of the lower left corner of square on the grid.
      * @param stitchAngle - The angle of the half stitch which can be either `45` or `135`.
+     *
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        public readonly colorId: string,
+        public readonly colorId: number,
         public readonly x: number,
         public readonly y: number,
         public readonly  stitchAngle: StitchAngle

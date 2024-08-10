@@ -63,15 +63,13 @@ test('validatePatternSymbol', () => {
 
 test('validateColorId', () => {
     //expect true
-    expect(validateColorId('0', TEST_PATTERN_PROPERTIES)).toBe(true);
-    expect(validateColorId('1', TEST_PATTERN_PROPERTIES)).toBe(true);
-    expect(validateColorId('abc', TEST_PATTERN_PROPERTIES)).toBe(true);
+    expect(validateColorId(0, TEST_PATTERN_PROPERTIES)).toBe(true);
+    expect(validateColorId(1, TEST_PATTERN_PROPERTIES)).toBe(true);
 
 
     //expect false
-    expect(validateColorId('2', TEST_PATTERN_PROPERTIES)).toBe(false);
-    expect(validateColorId('Q', TEST_PATTERN_PROPERTIES)).toBe(false);
-    expect(validateColorId(' ', TEST_PATTERN_PROPERTIES)).toBe(false);
+    expect(validateColorId(-1, TEST_PATTERN_PROPERTIES)).toBe(false);
+
 });
 
 //only needed due to parsing from json into a model (see validateStitchAngle method documentation)

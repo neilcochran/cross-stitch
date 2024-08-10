@@ -10,7 +10,7 @@ import { Floss } from './Floss';
 export class PatternColor {
 
     /**
-     * @param colorId - An id for the color. Stitches will use to reference which color they are.
+     * @param colorId - An id for the color. Stitches will use this id to reference which color they are.
      * @param colorName - A name for the overall color.
      * @param patternSymbol - The ASCII character used to represent the color on the pattern visually.
      * @param flossStrands - An array of Floss objects defining all the strands of floss that make up the color.
@@ -19,7 +19,7 @@ export class PatternColor {
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        public readonly colorId: string,
+        public readonly colorId: number,
         public readonly colorName: string,
         public readonly patternSymbol: string,
         public readonly flossStrands: Floss[],

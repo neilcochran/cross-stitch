@@ -98,7 +98,9 @@ export function validateFullStitch(fullStitch: FullStitch, properties: Propertie
 
 /**
  * Validate all full stitches for the given pattern
+ *
  * @param crossStitchPattern - the pattern which contains the full stitches to validate
+ *
  * @returns True if all full stitches are valid, false if any are invalid.
  */
 export function validateAllFullStitches(crossStitchPattern: CrossStitchPattern): boolean {
@@ -168,7 +170,9 @@ export function validateThreeQuarterStitch(threeQuarterStitch: ThreeQuarterStitc
 
 /**
  * Validate all three quarter stitches for the given pattern
+ *
  * @param crossStitchPattern - the pattern which contains the three quarter stitches to validate
+ *
  * @returns True if all three quarter stitches are valid, false if any are invalid.
  */
 export function validateAllThreeQuarterStitches(crossStitchPattern: CrossStitchPattern): boolean {
@@ -218,7 +222,9 @@ export function validateHalfStitch(halfStitch: HalfStitch, properties: Propertie
 
 /**
  * Validate all half stitches for the given pattern
+ *
  * @param crossStitchPattern - the pattern which contains the half stitches to validate
+ *
  * @returns True if all half stitches are valid, false if any are invalid.
  */
 export function validateAllHalfStitches(crossStitchPattern: CrossStitchPattern): boolean {
@@ -268,7 +274,9 @@ export function validateQuarterStitch(quarterStitch: QuarterStitch, properties: 
 
 /**
  * Validate all quarter stitches for the given pattern
+ *
  * @param crossStitchPattern - the pattern which contains the quarter stitches to validate
+ *
  * @returns True if all quarter stitches are valid, false if any are invalid.
  */
 export function validateAllQuarterStitches(crossStitchPattern: CrossStitchPattern): boolean {
@@ -323,7 +331,9 @@ export function validateBackStitch(backStitch: BackStitch, properties?: Properti
 
 /**
  * Validate all back stitches for the given pattern
+ *
  * @param crossStitchPattern - the pattern which contains the back stitches to validate
+ *
  * @returns True if all back stitches are valid, false if any are invalid.
  */
 export function validateAllBackStitches(crossStitchPattern: CrossStitchPattern): boolean {
@@ -369,7 +379,9 @@ export function validateLongStitch(longStitch: LongStitch, properties: Propertie
 
 /**
  * Validate all long stitches for the given pattern
+ *
  * @param crossStitchPattern - the pattern which contains the long stitches to validate
+ *
  * @returns True if all long stitches are valid, false if any are invalid.
  */
 export function validateAllLongStitches(crossStitchPattern: CrossStitchPattern): boolean {
@@ -391,14 +403,19 @@ export function validateAllLongStitches(crossStitchPattern: CrossStitchPattern):
  *
  * @returns True if the colorId maps to a color defined in the properties object.
  */
-export function validateColorId(colorId: string, properties: Properties): boolean {
+export function validateColorId(colorId: number, properties: Properties): boolean {
+    if(colorId < 0) {
+        return false;
+    }
     return properties.patternColors.find(color => color.colorId === colorId) !== undefined;
 }
 
 /**
  * Validate that a stitchPlacement is a valid member of the StitchPlacement enum.
  * This is needed when parsing from JSON, where invalid enum strings may be otherwise accepted
+ *
  * @param stitchPlacement - The stitchPlacement to validate
+ *
  * @returns True if the stitchPlacement is a valid member of the StitchPlacement enum, false otherwise
  */
 export function validateStitchPlacement(stitchPlacement: StitchPlacement): boolean {
@@ -408,7 +425,9 @@ export function validateStitchPlacement(stitchPlacement: StitchPlacement): boole
 /**
  * Validate that a stitchAngle is a valid member of the StitchAngle type alias.
  * This is needed when parsing from JSON, where invalid enum strings may be otherwise accepted
+ *
  * @param stitchAngle - The stitchAngle to validate
+ *
  * @returns True if the stitchAngle is a valid member of
  */
 export function validateStitchAngle(stitchAngle: StitchAngle): boolean {

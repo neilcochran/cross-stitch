@@ -1,5 +1,5 @@
 export interface Stitch {
-    readonly colorId: string;
+    readonly colorId: number;
     readonly x: number;
     readonly y: number;
 }

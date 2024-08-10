@@ -1,7 +1,9 @@
-import { BrandName, FullStitch, HalfStitch, PatternColor, Properties, QuarterStitch, ThreeQuarterStitch } from '../src/model';
+import { BackStitch, BrandName, FullStitch, HalfStitch, LongStitch, PatternColor, Properties, QuarterStitch, StitchPlacement, ThreeQuarterStitch } from '../src/model';
+import { StitchColorTotals } from '../src/model/StitchColorTotals';
+import { PatternTotals } from '../src/model/PatternTotals';
 export const TEST_PATTERN_COLORS: PatternColor[] = [
     {
-        colorId: '0',
+        colorId: 0,
         colorName: 'Dark Blue',
         patternSymbol: '@',
         flossStrands: [
@@ -14,7 +16,7 @@ export const TEST_PATTERN_COLORS: PatternColor[] = [
         ]
     },
     {
-        colorId: '1',
+        colorId: 1,
         colorName: 'Orange Blend',
         patternSymbol: '&',
         flossStrands: [
@@ -33,7 +35,7 @@ export const TEST_PATTERN_COLORS: PatternColor[] = [
         ]
     },
     {
-        colorId: 'abc',
+        colorId: -1,
         colorName: 'Black',
         patternSymbol: '%',
         flossStrands: [
@@ -48,13 +50,42 @@ export const TEST_PATTERN_COLORS: PatternColor[] = [
     },
 ];
 
-export const TEST_PATTERN_PROPERTIES = new Properties(TEST_PATTERN_COLORS, 10, 10);
+export const TEST_PATTERN_TOTALS: PatternTotals = {
+    //TODO
+    totalFullStitches: 1,
+    totalThreeQuarterStitches: 1,
+    totalHalfStitches: 1,
+    totalQuarterStitches: 1,
+    totalBackStitches: 1,
+    totalLongStitches: 1,
+    stitchColorTotals: [
+        new StitchColorTotals(0, 1, 1, 1, 0, 0, 0),
+        new StitchColorTotals(1, 0, 0, 0, 1, 1, 1)
+    ]
+};
+
+export const TEST_PATTERN_PROPERTIES = new Properties(TEST_PATTERN_COLORS, TEST_PATTERN_TOTALS, 10, 10);
+
 export const TEST_FULL_STITCHES: FullStitch[] = [
-    new FullStitch('0', 0, 1),
+    new FullStitch(0, 0, 1)
 ];
-export const TEST_THREE_QUARTER_STITCHES: ThreeQuarterStitch[] = [];
-export const TEST_HALF_STITCHES: HalfStitch[] = [];
-export const TEST_QUARTER_STITCHES: QuarterStitch[] = [];
+export const TEST_THREE_QUARTER_STITCHES: ThreeQuarterStitch[] = [
+    new ThreeQuarterStitch(0, 2, 1, 135, StitchPlacement.TOP_RIGHT)
+];
+export const TEST_HALF_STITCHES: HalfStitch[] = [
+    new HalfStitch(0, 1, 1, 135)
+];
+export const TEST_QUARTER_STITCHES: QuarterStitch[] = [
+    new QuarterStitch(1, 2, 0, StitchPlacement.BOTTOM_RIGHT)
+];
+
+export const TEST_BACK_STITCHES: BackStitch[] = [
+    new BackStitch(1, 0, 0, 1, 0)
+];
+
+export const TEST_LONG_STITCHES: LongStitch[] = [
+    new LongStitch(1, 0, 3, 3, 2)
+];
 
 export const TEST_VALID_FULL_PATTERN_JSON = `
 {
@@ -62,6 +93,34 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
         "stitchWidth": 3,
         "stitchHeight": 3,
         "notes": "This is a tiny 3x3 contrived example 'pattern'. Enjoy!",
+        "patternTotals": {
+            "totalFullStitches": 1,
+            "totalThreeQuarterStitches": 1,
+            "totalHalfStitches": 1,
+            "totalQuarterStitches": 1,
+            "totalBackStitches": 1,
+            "totalLongStitches": 1,
+            "stitchColorTotals": [
+                {
+                    "colorId": 0,
+                    "totalFullStitches": 1,
+                    "totalThreeQuarterStitches": 1,
+                    "totalHalfStitches": 1,
+                    "totalQuarterStitches": 0,
+                    "totalBackStitches": 0,
+                    "totalLongStitches": 0
+                },
+                {
+                    "colorId": 1,
+                    "totalFullStitches": 0,
+                    "totalThreeQuarterStitches": 0,
+                    "totalHalfStitches": 0,
+                    "totalQuarterStitches": 1,
+                    "totalBackStitches": 1,
+                    "totalLongStitches": 1
+                }
+            ]
+        },
         "patternColors": [
             {
                 "colorId": "0",
@@ -157,9 +216,28 @@ export const TEST_INVALID_FULL_PATTERN_JSON = `
         "stitchWidth": 3,
         "stitchHeight": 3,
         "notes": "This is a tiny 3x3 contrived example 'pattern'. Enjoy!",
+        "patternTotals": {
+            "totalFullStitches": 1,
+            "totalThreeQuarterStitches": 0,
+            "totalHalfStitches": 0,
+            "totalQuarterStitches": 0,
+            "totalBackStitches": 0,
+            "totalLongStitches": 0,
+            "stitchColorTotals": [
+                {
+                    "colorId": 4,
+                    "totalFullStitches": 1,
+                    "totalThreeQuarterStitches": 0,
+                    "totalHalfStitches": 0,
+                    "totalQuarterStitches": 0,
+                    "totalBackStitches": 0,
+                    "totalLongStitches": 0
+                }
+            ]
+        },
         "patternColors": [
             {
-                "colorId": "XYZ",
+                "colorId": 4,
                 "colorName": "Dark Blue",
                 "patternSymbol": "@",
                 "flossStrands": [
@@ -175,7 +253,7 @@ export const TEST_INVALID_FULL_PATTERN_JSON = `
     },
     "fullStitches": [
         {
-            "colorId": "ABC",
+            "colorId": 0,
             "x": 0,
             "y": 1
         }

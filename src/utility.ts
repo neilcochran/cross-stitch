@@ -10,6 +10,7 @@ import {
     BackStitch,
     LongStitch
 } from './model';
+import { PatternTotals } from './model/PatternTotals';
 import { validateBackStitch, validateFullStitch, validateHalfStitch, validateLongStitch, validateQuarterStitch, validateThreeQuarterStitch } from './validation';
 
 /**
@@ -23,7 +24,7 @@ import { validateBackStitch, validateFullStitch, validateHalfStitch, validateLon
  */
 export function jsonToModel(json: string): CrossStitchPattern {
     const jsonData = JSON.parse(json);
-    //parse PatternColors first so we can ensure each stitch references an existing PatternColor
+    //MUST parse PatternColors first so we can ensure each stitch references an existing PatternColor
     const patternColors: PatternColor[] = [];
     for(const patternColor of jsonData.properties.patternColors) {
         const flossStrands: Floss[] = [];
@@ -43,8 +44,17 @@ export function jsonToModel(json: string): CrossStitchPattern {
             flossStrands
         ));
     }
+    const patternTotals = new PatternTotals(
+        jsonData.properties?.patternTotals?.totalFullStitches ?? 0,
+        jsonData.properties?.patternTotals?.totalThreeQuarterStitches ?? 0,
+        jsonData.properties?.patternTotals?.totalHalfStitches ?? 0,
+        jsonData.properties?.patternTotals?.totalQuarterStitches ?? 0,
+        jsonData.properties?.patternTotals?.totalBackStitches ?? 0,
+        jsonData.properties?.patternTotals?.totalLongStitches ?? 0,
+        jsonData.properties?.patternTotals?.stitchColorTotals ?? []
+    );
 
-    const properties = new Properties(patternColors, jsonData.properties?.stitchWidth, jsonData.properties?.stitchHeight, jsonData.properties?.notes);
+    const properties = new Properties(patternColors, patternTotals, jsonData.properties?.stitchWidth, jsonData.properties?.stitchHeight, jsonData.properties?.notes);
     const fullStitches: FullStitch[] = [];
     const threeQuarterStitches: ThreeQuarterStitch[] = [];
     const halfStitches: HalfStitch[] = [];
@@ -126,4 +136,37 @@ export function jsonToModel(json: string): CrossStitchPattern {
         backStitches,
         longStitches
     };
+}
+
+/**
+ * TODO JSDoc!!
+ *
+ * @param crossStitchPattern - TODO
+ *
+ * @returns A PatternTotals object.
+ *
+ * @throws {@link Error} if the CrossStitchPattern parameter is not defined
+ */
+export function calculatePatternTotals(crossStitchPattern: CrossStitchPattern): void { //PatternTotals {
+    if(!crossStitchPattern) {
+        throw new Error('The CrossStitchPattern passed to calculatePatternTotals must be defined');
+    }
+    const stitchTypes = ['Full', 'ThreeQuarter', 'Half', 'Quarter', 'Back', 'Long'];
+    const stitchCount = 0;
+    for(const stitchType of stitchTypes) {
+        switch(stitchType) {
+            case 'Full':
+                break;
+            case 'ThreeQuarter':
+                break;
+            case 'Half':
+                break;
+            case 'Quarter':
+                break;
+            case 'Back':
+                break;
+            case 'Long':
+                break;
+        }
+    }
 }

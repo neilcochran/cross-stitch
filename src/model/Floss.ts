@@ -13,7 +13,8 @@ export class Floss {
      * @param brandName - The brand name of the floss
      * @param strandCount - The number of strands of this floss that are to be used. By default, this is 1.
      * @param hexCode - The optional hexadecimal color code
-
+     *
+     * @throws {@link Error} TODO!!
      */
     constructor(
         public readonly colorCode: string,

@@ -17,7 +17,7 @@ export class FullStitch implements Stitch {
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        public readonly colorId: string,
+        public readonly colorId: number,
         public readonly x: number,
         public readonly y: number
     ){
