@@ -1,4 +1,4 @@
-import { validateNonNegativeInteger, validateStitchAngle, validateStitchPlacement } from '../validation';
+import { validateStitchAngle, validateStitchPlacement } from '../validation';
 import { Stitch } from './Stitch';
 import { StitchAngle } from './StitchAngle';
 import { StitchPlacement } from './StitchPlacement';

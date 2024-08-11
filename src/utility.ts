@@ -11,6 +11,7 @@ import {
     LongStitch
 } from './model';
 import { PatternTotals } from './model/PatternTotals';
+import { StitchColorTotals } from './model/StitchColorTotals';
 import { validateBackStitch, validateFullStitch, validateHalfStitch, validateLongStitch, validateQuarterStitch, validateThreeQuarterStitch } from './validation';
 
 /**
@@ -147,26 +148,73 @@ export function jsonToModel(json: string): CrossStitchPattern {
  *
  * @throws {@link Error} if the CrossStitchPattern parameter is not defined
  */
-export function calculatePatternTotals(crossStitchPattern: CrossStitchPattern): void { //PatternTotals {
+export function calculatePatternTotals(crossStitchPattern: CrossStitchPattern): PatternTotals {
     if(!crossStitchPattern) {
         throw new Error('The CrossStitchPattern passed to calculatePatternTotals must be defined');
     }
-    const stitchTypes = ['Full', 'ThreeQuarter', 'Half', 'Quarter', 'Back', 'Long'];
-    const stitchCount = 0;
-    for(const stitchType of stitchTypes) {
-        switch(stitchType) {
-            case 'Full':
-                break;
-            case 'ThreeQuarter':
-                break;
-            case 'Half':
-                break;
-            case 'Quarter':
-                break;
-            case 'Back':
-                break;
-            case 'Long':
-                break;
+    const patternTotals = new PatternTotals(
+        crossStitchPattern.fullStitches.length,
+        crossStitchPattern.threeQuarterStitches.length,
+        crossStitchPattern.halfStitches.length,
+        crossStitchPattern.quarterStitches.length,
+        crossStitchPattern.backStitches.length,
+        crossStitchPattern.longStitches.length
+    );
+    //count stitch totals by color
+    const allStitchColorTotals = [];
+    if(crossStitchPattern.properties.patternColors) {
+        //initialize all colors
+        for(const patternColor of crossStitchPattern.properties.patternColors) {
+            allStitchColorTotals.push(new StitchColorTotals(patternColor.colorId));
+        }
+        //iterate each type of stitch, updating color totals
+        for(const fullStitch of crossStitchPattern.fullStitches) {
+            const stitchColor = allStitchColorTotals.find(totals => fullStitch.colorId === totals.colorId);
+            if(!stitchColor) {
+                throw new Error(`Encountered an unknown colorId: ${fullStitch.colorId}`);
+            }
+            stitchColor.totalFullStitches = stitchColor.totalFullStitches == undefined ? 1 : stitchColor.totalFullStitches + 1;
+        }
+
+        for(const threeQuarterStitch of crossStitchPattern.threeQuarterStitches) {
+            const stitchColor = allStitchColorTotals.find(totals => threeQuarterStitch.colorId === totals.colorId);
+            if(!stitchColor){
+                throw new Error(`Encountered an unknown colorId: ${threeQuarterStitch.colorId}`);
+            }
+            stitchColor.totalThreeQuarterStitches = stitchColor.totalThreeQuarterStitches == undefined ? 1 : stitchColor.totalThreeQuarterStitches + 1;
+        }
+
+        for(const halfStitch of crossStitchPattern.halfStitches) {
+            const stitchColor = allStitchColorTotals.find(totals => halfStitch.colorId === totals.colorId);
+            if(!stitchColor) {
+                throw new Error(`Encountered an unknown colorId: ${halfStitch.colorId}`);
+            }
+            stitchColor.totalHalfStitches = stitchColor.totalHalfStitches == undefined ? 1 : stitchColor.totalHalfStitches + 1;
+        }
+
+        for(const quarterStitch of crossStitchPattern.quarterStitches) {
+            const stitchColor = allStitchColorTotals.find(totals => quarterStitch.colorId === totals.colorId);
+            if(!stitchColor) {
+                throw new Error(`Encountered an unknown colorId: ${quarterStitch.colorId}`);
+            }
+            stitchColor.totalQuarterStitches = stitchColor.totalQuarterStitches == undefined ? 1 : stitchColor.totalQuarterStitches + 1;
+        }
+
+        for(const backStitch of crossStitchPattern.backStitches) {
+            const stitchColor = allStitchColorTotals.find(totals => backStitch.colorId === totals.colorId);
+            if(!stitchColor) {
+                throw new Error(`Encountered an unknown colorId: ${backStitch.colorId}`);
+            }
+            stitchColor.totalBackStitches = stitchColor.totalBackStitches == undefined ? 1 : stitchColor.totalBackStitches + 1;
+        }
+
+        for(const longStitch of crossStitchPattern.longStitches) {
+            const stitchColor = allStitchColorTotals.find(totals => longStitch.colorId === totals.colorId);
+            if(!stitchColor) {
+                throw new Error(`Encountered an unknown colorId: ${longStitch.colorId}`);
+            }
+            stitchColor.totalLongStitches = stitchColor.totalLongStitches == undefined ? 1 : stitchColor.totalLongStitches + 1;
         }
     }
+    return patternTotals;
 }

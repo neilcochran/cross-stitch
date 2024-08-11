@@ -1,10 +1,10 @@
 import { StitchColorTotals } from './StitchColorTotals';
+import { StitchTotals } from './StitchTotals';
 
 /**
  * A model class representing the calculated total stitch counts by stitch type & stitch color for a given pattern
  */
-export class PatternTotals {
-
+export class PatternTotals extends StitchTotals {
     /**
      * TODO JSDoc!!
      * @param totalFullStitches
@@ -24,6 +24,15 @@ export class PatternTotals {
         totalQuarterStitches?: number,
         totalBackStitches?: number,
         totalLongStitches?: number,
-        stitchColorTotals?: StitchColorTotals[]
-    ){}
+        public stitchColorTotals?: StitchColorTotals[]
+    ){
+        super(
+            totalFullStitches,
+            totalThreeQuarterStitches,
+            totalHalfStitches,
+            totalQuarterStitches,
+            totalBackStitches,
+            totalLongStitches
+        );
+    }
 }

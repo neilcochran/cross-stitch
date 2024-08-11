@@ -1,4 +1,5 @@
 import { BackStitch, CrossStitchPattern, FullStitch, HalfStitch, LongStitch, Properties, QuarterStitch, StitchAngle, StitchPlacement, ThreeQuarterStitch } from './model';
+import { PatternTotals } from './model/PatternTotals';
 
 /**
  * Validate that the input number is non negative and an integer.
@@ -431,4 +432,14 @@ export function validateStitchPlacement(stitchPlacement: StitchPlacement): boole
  */
 export function validateStitchAngle(stitchAngle: StitchAngle): boolean {
     return stitchAngle === 45 ||  stitchAngle === 135;
+}
+
+/**
+ * TODO JSDoc!!
+ * @param patternTotals
+ * @returns
+ */
+export function validatePatternTotals(patternTotals: PatternTotals): boolean {
+    //TODO
+    return false;
 }

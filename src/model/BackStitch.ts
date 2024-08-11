@@ -1,4 +1,4 @@
-import { validateNonNegativeDecimalPrecision, validateSingleSpaceDistance } from '../validation';
+import { validateNonNegativeDecimalPrecision } from '../validation';
 import { Stitch } from './Stitch';
 
 /**
