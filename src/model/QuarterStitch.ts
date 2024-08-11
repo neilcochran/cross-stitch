@@ -11,7 +11,8 @@ import { StitchPlacement } from './StitchPlacement';
  * while the other extends to the corner indicated by the `placement` value.
  * This also means one coordinate will always be an integer, while the other will always be fractional.
  */
-export class QuarterStitch implements Stitch {
+export class QuarterStitch extends Stitch {
+    private _placement!: StitchPlacement;
 
     /**
      * @param colorId - The id of the desired color of the stitch.
@@ -22,27 +23,37 @@ export class QuarterStitch implements Stitch {
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        public readonly colorId: number,
-        public readonly x: number,
-        public readonly y: number,
-        public readonly placement: StitchPlacement
+        colorId: number,
+        x: number,
+        y: number,
+        placement: StitchPlacement
     ){
+        super(colorId, x, y);
+        this.placement = placement;
+    }
+
+    get placement(): StitchPlacement {
+        return this._placement;
+    }
+
+    set placement(placement: StitchPlacement) {
         //if placement is bottom, x must be a non negative integer and y must be non neg but can be a supported decimal
         if(StitchPlacement.BOTTOM_LEFT === placement || StitchPlacement.BOTTOM_RIGHT === placement) {
-            if(!validateNonNegativeInteger(x)) {
+            if(!validateNonNegativeInteger(this.x)) {
                 throw new Error(`Given the stitch placement: ${placement}, the x coordinate must be a non negative integer`);
             }
-            if(!validateNonNegativeDecimalPrecision(y)) {
+            if(!validateNonNegativeDecimalPrecision(this.y)) {
                 throw new Error(`Given the stitch placement: ${placement}, the y coordinate must be of non negative decimal precision`);
             }
         }
         else { //if placement is top, x must be non negative and can be a supported decimal, and y must be a non negative integer
-            if(!validateNonNegativeDecimalPrecision(x)) {
+            if(!validateNonNegativeDecimalPrecision(this.x)) {
                 throw new Error(`Given the stitch placement: ${placement}, the x coordinate must be of non negative decimal precision`);
             }
-            if(!validateNonNegativeInteger(y)) {
+            if(!validateNonNegativeInteger(this.y)) {
                 throw new Error(`Given the stitch placement: ${placement}, the y coordinate must be a non negative integer`);
             }
         }
+        this._placement = placement;
     }
 }

@@ -1,53 +1,10 @@
-import { BackStitch, BrandName, FullStitch, HalfStitch, LongStitch, PatternColor, Properties, QuarterStitch, StitchPlacement, ThreeQuarterStitch } from '../src/model';
+import { BackStitch, BrandName, Floss, FullStitch, HalfStitch, LongStitch, PatternColor, Properties, QuarterStitch, StitchPlacement, ThreeQuarterStitch } from '../src/model';
 import { StitchColorTotals } from '../src/model/StitchColorTotals';
 import { PatternTotals } from '../src/model/PatternTotals';
+
 export const TEST_PATTERN_COLORS: PatternColor[] = [
-    {
-        colorId: 0,
-        colorName: 'Dark Blue',
-        patternSymbol: '@',
-        flossStrands: [
-            {
-                colorCode: '825',
-                colorName: 'Dark Blue',
-                brandName: BrandName.DMC,
-                strandCount: 2
-            }
-        ]
-    },
-    {
-        colorId: 1,
-        colorName: 'Orange Blend',
-        patternSymbol: '&',
-        flossStrands: [
-            {
-                colorCode: '721',
-                colorName: 'Orange Spice',
-                brandName: BrandName.DMC,
-                strandCount: 1
-            },
-            {
-                colorCode: '947',
-                colorName: 'Burnt Orange',
-                brandName: BrandName.DMC,
-                strandCount: 1
-            }
-        ]
-    },
-    {
-        colorId: -1,
-        colorName: 'Black',
-        patternSymbol: '%',
-        flossStrands: [
-            {
-                colorCode: '310',
-                colorName: 'Black',
-                brandName: BrandName.DMC,
-                strandCount: 1,
-                hexCode: 0x0
-            }
-        ]
-    },
+    new PatternColor(0, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+    new PatternColor(1, 'Orange Blend', '&', [new Floss('721', 'Orange Spice', BrandName.DMC, 1), new Floss('947', 'Burnt Orange', BrandName.DMC, 1)])
 ];
 
 export const TEST_PATTERN_TOTALS: PatternTotals = {
@@ -123,7 +80,7 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
         },
         "patternColors": [
             {
-                "colorId": "0",
+                "colorId": 0,
                 "colorName": "Dark Blue",
                 "patternSymbol": "@",
                 "flossStrands": [
@@ -136,7 +93,7 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
                 ]
             },
             {
-                "colorId": "1",
+                "colorId": 1,
                 "colorName": "Orange Blend",
                 "patternSymbol": "&",
                 "flossStrands": [
@@ -158,14 +115,14 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
     },
     "fullStitches": [
         {
-            "colorId": "0",
+            "colorId": 0,
             "x": 0,
             "y": 1
         }
     ],
     "threeQuarterStitches": [
         {
-            "colorId": "0",
+            "colorId": 0,
             "x": 2,
             "y": 1,
             "halfStitchAngle": 135,
@@ -174,7 +131,7 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
     ],
     "halfStitches": [
         {
-            "colorId": "0",
+            "colorId": 0,
             "x": 1,
             "y": 1,
             "stitchAngle": 135
@@ -182,7 +139,7 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
     ],
     "quarterStitches": [
         {
-            "colorId": "1",
+            "colorId": 1,
             "x": 2,
             "y": 0,
             "placement": "bottom-right"
@@ -191,7 +148,7 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
     "backStitches": 
     [
         {
-            "colorId": "1",
+            "colorId": 1,
             "x": 0,
             "y": 0,
             "x2": 1,
@@ -200,7 +157,7 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
     ],
     "longStitches": [
         {    
-            "colorId": "1",
+            "colorId": 1,
             "x": 0,
             "y": 3,
             "x2": 3,

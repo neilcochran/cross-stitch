@@ -6,7 +6,8 @@ import { BrandName } from './BrandName';
  * using the strandCount property
  */
 export class Floss {
-
+    private _strandCount!: number;
+    private _hexCode?: number;
     /**
      * @param colorCode - The brand given code for the floss (i.e. '721' or 'Ecru')
      * @param colorName - The brand given description of the floss color (i.e. 'Burnt Orange')
@@ -17,17 +18,37 @@ export class Floss {
      * @throws {@link Error} TODO!!
      */
     constructor(
-        public readonly colorCode: string,
-        public readonly colorName: string,
-        public readonly brandName: BrandName,
-        public readonly strandCount = 1,
-        public readonly hexCode?: number
+        public colorCode: string,
+        public colorName: string,
+        public brandName: BrandName,
+        strandCount = 1,
+        hexCode?: number
     ){
+        this.strandCount = strandCount;
+        if(hexCode) {
+            this.hexCode = hexCode;
+        }
+    }
+
+    get strandCount(): number {
+        return this._strandCount;
+    }
+
+    set strandCount(strandCount: number) {
         if(!validateNonNegativeInteger(strandCount) && strandCount !== 0) {
-            throw new Error('Floss strand count must be greater, or equal, to 0');
+            throw new Error('Floss strandCount must be greater, or equal, to 0');
         }
+        this._strandCount = strandCount;
+    }
+
+    get hexCode(): number | undefined {
+        return this._hexCode;
+    }
+
+    set hexCode(hexCode: number | undefined) {
         if(hexCode && !validateNonNegativeInteger(hexCode)) {
-            throw new Error(`Invalid hex code provided: ${hexCode}`);
+            throw new Error('hexCode must be a non-negative integer');
         }
+        this._hexCode = hexCode;
     }
 }

@@ -7,7 +7,9 @@ import { Stitch } from './Stitch';
  * Long stitches follow the same rules as back stitches expect that they have no maximum distance. They can move laterally, vertically,
  * or diagonally. Long stitch coordinates also support 1/2 space fractional values.
  */
-export class LongStitch implements Stitch {
+export class LongStitch extends Stitch {
+    private _x2!: number;
+    private _y2!: number;
 
     /**
      * @param colorId - The id of the desired color of the stitch
@@ -19,23 +21,58 @@ export class LongStitch implements Stitch {
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        public readonly colorId: number,
-        public readonly x: number,
-        public readonly y: number,
-        public readonly x2: number,
-        public readonly y2: number
+        colorId: number,
+        x: number,
+        y: number,
+        x2: number,
+        y2: number
     ){
+        super(colorId, x, y);
+        this.x2 = x2;
+        this.y2 = y2;
+    }
+
+    get x(): number {
+        return this._x;
+    }
+
+    set x(x: number) {
         if(!validateNonNegativeDecimalPrecision(x)) {
-            throw new Error('The x coordinate must be a non-negative integer');
+            throw new Error(`invalid x coordinate: ${x}, must be non-negative and only supports decimals of .5 (half stitches)`);
         }
+        this._x = x;
+    }
+
+    get y(): number {
+        return this._y;
+    }
+
+    set y(y: number) {
         if(!validateNonNegativeDecimalPrecision(y)) {
-            throw new Error('The y coordinate must be a non-negative integer');
+            throw new Error(`invalid y coordinate: ${y}, must be non-negative and only supports decimals of .5 (half stitches)`);
         }
+        this._y = y;
+    }
+
+    get x2(): number {
+        return this._x2;
+    }
+
+    set x2(x2: number) {
         if(!validateNonNegativeDecimalPrecision(x2)) {
-            throw new Error('The x2 coordinate must be a non-negative integer');
+            throw new Error(`invalid x2 coordinate: ${x2}, must be non-negative and only supports decimals of .5 (half stitches)`);
         }
+        this._x2 = x2;
+    }
+
+    get y2(): number {
+        return this._y2;
+    }
+
+    set y2(y2: number) {
         if(!validateNonNegativeDecimalPrecision(y2)) {
-            throw new Error('The y2 coordinate must be a non-negative integer');
+            throw new Error(`invalid y2 coordinate: ${y2}, must be non-negative and only supports decimals of .5 (half stitches)`);
         }
+        this._y2 = y2;
     }
 }

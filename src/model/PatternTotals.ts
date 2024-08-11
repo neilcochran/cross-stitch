@@ -18,12 +18,12 @@ export class PatternTotals {
      * @throws {@link Error} TODO (if needed)!!
      */
     constructor(
-        public readonly totalFullStitches: number,
-        public readonly totalThreeQuarterStitches: number,
-        public readonly totalHalfStitches: number,
-        public readonly totalQuarterStitches: number,
-        public readonly totalBackStitches: number,
-        public readonly totalLongStitches: number,
-        public readonly stitchColorTotals: StitchColorTotals[]
+        totalFullStitches?: number,
+        totalThreeQuarterStitches?: number,
+        totalHalfStitches?: number,
+        totalQuarterStitches?: number,
+        totalBackStitches?: number,
+        totalLongStitches?: number,
+        stitchColorTotals?: StitchColorTotals[]
     ){}
 }

@@ -6,6 +6,9 @@ import { PatternTotals } from './PatternTotals';
  * Model class representing a pattern's properties.
  */
 export class Properties {
+    private _stitchWidth?: number;
+    private _stitchHeight?: number;
+
     /**
      * @param patternColors - The list of PatternColors that are used in the pattern.
      * @param patternTotals - The PatternTotals containing stitch counts by type and color
@@ -16,24 +19,35 @@ export class Properties {
      * @throws {@link Error} TODO!!
      */
     constructor(
-        public readonly patternColors: PatternColor[],
-        public readonly patternTotals: PatternTotals,
-        public readonly stitchWidth?: number,  //TODO calculate and make required. Consider moving to PatternTotals model?
-        public readonly stitchHeight?: number, //TODO calculate and make required. Consider moving to PatternTotals model?
-        public readonly notes?: string
+        public patternColors: PatternColor[],
+        public patternTotals?: PatternTotals,
+        stitchWidth?: number,  //TODO calculate and make required. Consider moving to PatternTotals model?
+        stitchHeight?: number, //TODO calculate and make required. Consider moving to PatternTotals model?
+        public notes?: string
     ){
-        if(!(patternColors.length > 0)) {
-            throw new Error('colors cannot be empty, at least one color must be defined');
-        }
-        if(!patternTotals) {
-            throw new Error('patternTotals must be defined');
-        }
+        this.stitchWidth = stitchWidth;
+        this.stitchHeight = stitchHeight;
+    }
+
+    get stitchWidth(): number | undefined {
+        return this._stitchWidth;
+    }
+
+    set stitchWidth(stitchWidth: number | undefined) {
         if(stitchWidth && !validateNonNegativeInteger(stitchWidth)){
             throw new Error(`invalid stitchWidth provided: ${stitchWidth}`);
         }
+        this._stitchWidth = stitchWidth;
+    }
 
+    get stitchHeight(): number | undefined {
+        return this._stitchHeight;
+    }
+
+    set stitchHeight(stitchHeight: number | undefined) {
         if(stitchHeight && !(validateNonNegativeInteger(stitchHeight))){
             throw new Error(`invalid stitchHeight provided: ${stitchHeight}`);
         }
+        this._stitchHeight = stitchHeight;
     }
 }

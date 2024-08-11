@@ -149,7 +149,6 @@ export function validateThreeQuarterStitch(threeQuarterStitch: ThreeQuarterStitc
         }
     }
 
-    //make sure the stitch has a colorId that maps to a valid color
     if(properties) {
         const maxHeight = properties.stitchHeight;
         //if a stitch height is provided, check that the stitch is within its bounds

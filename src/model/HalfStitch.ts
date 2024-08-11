@@ -1,4 +1,4 @@
-import { validateNonNegativeInteger, validateStitchAngle } from '../validation';
+import { validateStitchAngle } from '../validation';
 import { Stitch } from './Stitch';
 import { StitchAngle } from './StitchAngle';
 
@@ -10,7 +10,8 @@ import { StitchAngle } from './StitchAngle';
  * between the top right and bottom left corners of the space on the grid forming a 135
  * degree line. This is why `45` and `135` are the only valid values for `stitchAngle`.
  */
-export class HalfStitch implements Stitch {
+export class HalfStitch extends Stitch {
+    private _stitchAngle!: StitchAngle;
     /**
      * @param colorId - The id of the desired color of the stitch.
      * @param x - The x coordinate of the lower left corner of the square on the grid.
@@ -20,20 +21,24 @@ export class HalfStitch implements Stitch {
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        public readonly colorId: number,
-        public readonly x: number,
-        public readonly y: number,
-        public readonly  stitchAngle: StitchAngle
+        colorId: number,
+        x: number,
+        y: number,
+        stitchAngle: StitchAngle
     ){
+        super(colorId, x, y);
+        this.stitchAngle = stitchAngle;
+    }
+
+    get stitchAngle(): StitchAngle {
+        return this._stitchAngle;
+    }
+
+    set stitchAngle(stitchAngle: StitchAngle) {
         if(!validateStitchAngle(stitchAngle)) {
             throw new Error(`Invalid stitch angle: ${stitchAngle}`);
         }
-        //this stitch only supports non negative integers for x,y
-        if(!validateNonNegativeInteger(x)) {
-            throw new Error('The x coordinate must be a non-negative integer');
-        }
-        if(!validateNonNegativeInteger(y)) {
-            throw new Error('The y coordinate must be a non-negative integer');
-        }
+        this._stitchAngle = stitchAngle;
     }
+
 }

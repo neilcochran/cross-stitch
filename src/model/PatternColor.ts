@@ -8,6 +8,10 @@ import { Floss } from './Floss';
  * Each strand can be a different color, allowing blended colors to be defined.
  */
 export class PatternColor {
+    private _colorId!: number;
+    private _patternSymbol!: string;
+    private _flossStrands!: Floss[];
+    private _hexCode?: number;
 
     /**
      * @param colorId - An id for the color. Stitches will use this id to reference which color they are.
@@ -19,20 +23,60 @@ export class PatternColor {
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        public readonly colorId: number,
-        public readonly colorName: string,
-        public readonly patternSymbol: string,
-        public readonly flossStrands: Floss[],
-        public readonly hexCode?: number
+        colorId: number,
+        public colorName: string,
+        patternSymbol: string,
+        flossStrands: Floss[],
+        hexCode?: number
     ){
+        this.colorId = colorId;
+        this.patternSymbol = patternSymbol;
+        this.flossStrands = flossStrands;
+        if(hexCode) {
+            this.hexCode = hexCode;
+        }
+    }
+
+    get colorId(): number {
+        return this._colorId;
+    }
+
+    set colorId(colorId: number) {
+        if(!validateNonNegativeInteger(colorId)) {
+            throw new Error('colorId must be a non negative integer');
+        }
+        this._colorId = colorId;
+    }
+
+    get patternSymbol(): string {
+        return this._patternSymbol;
+    }
+
+    set patternSymbol(patternSymbol: string) {
         if(!validatePatternSymbol(patternSymbol)) {
             throw new Error(`invalid patternSymbol provided: '${patternSymbol}'. patternSymbol must be a single non-whitespace character`);
         }
+    }
+
+    get flossStrands(): Floss[] {
+        return this._flossStrands;
+    }
+
+    set flossStrands(flossStrands: Floss[]) {
         if(!(flossStrands.length > 0)) {
-            throw new Error('strands is empty. At least one Strand must be defined');
+            throw new Error('flossStrands is empty. At least one Floss strand must be defined');
         }
+        this._flossStrands = flossStrands;
+    }
+
+    get hexCode(): number | undefined {
+        return this._hexCode;
+    }
+
+    set hexCode(hexCode: number | undefined) {
         if(hexCode && !validateNonNegativeInteger(hexCode)){
             throw new Error('hexCode must be a non-negative integer');
         }
+        this._hexCode = hexCode;
     }
 }

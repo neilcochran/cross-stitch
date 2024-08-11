@@ -11,7 +11,9 @@ import { StitchPlacement } from './StitchPlacement';
  * valid quarterStitchPlacement values. Conversely, for a 135 degree angle half stitch top-right and bottom-right
  * are valid quarterStitchPlacement values.
  */
-export class ThreeQuarterStitch implements Stitch {
+export class ThreeQuarterStitch extends Stitch {
+    private _halfStitchAngle!: StitchAngle;
+    private _quarterStitchPlacement!: StitchPlacement;
 
     /**
      * @param colorId - The id of the desired color of the stitch.
@@ -23,31 +25,44 @@ export class ThreeQuarterStitch implements Stitch {
      * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        public readonly colorId: number,
-        public readonly x: number,
-        public readonly y: number,
-        public readonly  halfStitchAngle: StitchAngle,
-        public readonly  quarterStitchPlacement: StitchPlacement
+        colorId: number,
+        x: number,
+        y: number,
+        halfStitchAngle: StitchAngle,
+        quarterStitchPlacement: StitchPlacement
     ){
-        if(!validateNonNegativeInteger(x)) {
-            throw new Error('The x coordinate must be a non-negative integer.');
-        }
-        if(!validateNonNegativeInteger(y)) {
-            throw new Error('The y coordinate must be a non-negative integer.');
-        }
-        if(!validateStitchPlacement(quarterStitchPlacement)) {
-            throw new Error(`Invalid quarter stitch placement: ${quarterStitchPlacement}`);
-        }
+        super(colorId, x, y);
+        this.halfStitchAngle = halfStitchAngle;
+        this.quarterStitchPlacement = quarterStitchPlacement;
+    }
+
+    get halfStitchAngle(): StitchAngle {
+        return this._halfStitchAngle;
+    }
+
+    set halfStitchAngle(halfStitchAngle: StitchAngle) {
         if(!validateStitchAngle(halfStitchAngle)) {
             throw new Error(`Invalid half stitch angle: ${halfStitchAngle}`);
         }
+        this._halfStitchAngle = halfStitchAngle;
+    }
+
+    get quarterStitchPlacement(): StitchPlacement {
+        return this._quarterStitchPlacement;
+    }
+
+    set quarterStitchPlacement(quarterStitchPlacement: StitchPlacement) {
+        if(!validateStitchPlacement(quarterStitchPlacement)) {
+            throw new Error(`Invalid quarter stitch placement: ${quarterStitchPlacement}`);
+        }
         //when using a 45 degree half stitch, only BOTTOM_RIGHT and TOP_LEFT are valid quarter stitch placements
-        if(45 === halfStitchAngle && (StitchPlacement.BOTTOM_LEFT === quarterStitchPlacement || StitchPlacement.TOP_RIGHT === quarterStitchPlacement)) {
+        if(45 === this.halfStitchAngle && (StitchPlacement.BOTTOM_LEFT === quarterStitchPlacement || StitchPlacement.TOP_RIGHT === quarterStitchPlacement)) {
             throw new Error('Using a 45 degree StitchAngle only BOTTOM_RIGHT and TOP_LEFT are valid quarter stitch placements');
         }
         //when using a 135 degree half stitch, only BOTTOM_LEFT and TOP_RIGHT are valid quarter stitch placements
-        if(135 === halfStitchAngle && (StitchPlacement.BOTTOM_RIGHT === quarterStitchPlacement || StitchPlacement.TOP_LEFT === quarterStitchPlacement)) {
+        if(135 === this.halfStitchAngle && (StitchPlacement.BOTTOM_RIGHT === quarterStitchPlacement || StitchPlacement.TOP_LEFT === quarterStitchPlacement)) {
             throw new Error('Using a 135 degree StitchAngle only BOTTOM_LEFT and TOP_RIGHT are valid quarter stitch placements');
         }
+        this._quarterStitchPlacement = quarterStitchPlacement;
     }
 }
