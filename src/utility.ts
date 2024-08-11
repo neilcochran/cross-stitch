@@ -141,6 +141,80 @@ export function jsonToModel(json: string): CrossStitchPattern {
 
 /**
  * TODO JSDoc!!
+ * @param crossStitchPattern
+ */
+export function calculatePatternDimensions(crossStitchPattern: CrossStitchPattern): { width: number, height: number } {
+    let maxX = 0;
+    let maxY = 0;
+    for(const fullStitch of crossStitchPattern.fullStitches) {
+        if(fullStitch.x > maxX) {
+            maxX = fullStitch.x;
+        }
+        if(fullStitch.y > maxY) {
+            maxY = fullStitch.y;
+        }
+    }
+
+    for(const threeQuarterStitch of crossStitchPattern.threeQuarterStitches) {
+        if(threeQuarterStitch.x > maxX) {
+            maxX = threeQuarterStitch.x;
+        }
+        if(threeQuarterStitch.y > maxY) {
+            maxY = threeQuarterStitch.y;
+        }
+    }
+
+    for(const halfStitch of crossStitchPattern.halfStitches) {
+        if(halfStitch.x > maxX) {
+            maxX = halfStitch.x;
+        }
+        if(halfStitch.y > maxY) {
+            maxY = halfStitch.y;
+        }
+    }
+
+    for(const quarterStitch of crossStitchPattern.quarterStitches) {
+        if(quarterStitch.x > maxX) {
+            maxX = quarterStitch.x;
+        }
+        if(quarterStitch.y > maxY) {
+            maxY = quarterStitch.y;
+        }
+    }
+    //since the x,y describe the lower left corner of the stitches, the actual width will be +1 to account for the width & height of the stitch
+    //Additionally, quarter stitches are considered to have a width of 1 regardless of the quarter stitches placement within the grid space
+    //Edge case: to ensure a zero width or zero height pattern (such as an empty pattern) doesn't get rounded to 1 here, check if any stitches of the above types exist.
+    //If they don't, it's a zero width or height pattern, and if they do, they we must have encountered x & y values of only 0 (a nonsensical pattern), which means we should still increment below.
+    if(crossStitchPattern.fullStitches.length > 0 || crossStitchPattern.threeQuarterStitches.length > 0 || crossStitchPattern.halfStitches.length > 0 || crossStitchPattern.quarterStitches.length > 0) {
+        maxX += 1;
+        maxY += 1;
+    }
+
+    for(const backStitch of crossStitchPattern.backStitches) {
+        if(backStitch.x2 > maxX) {
+            maxX = backStitch.x2;
+        }
+        if(backStitch.y2 > maxY) {
+            maxY = backStitch.y2;
+        }
+    }
+
+    for(const longStitch of crossStitchPattern.longStitches) {
+        if(longStitch.x2 > maxX) {
+            maxX = longStitch.x2;
+        }
+        if(longStitch.y2 > maxY) {
+            maxY = longStitch.y2;
+        }
+    }
+    //pattern dimensions are always rounded up to the nearest integer
+    return {
+        width: Math.ceil(maxX),
+        height: Math.ceil(maxY)
+    };
+}
+/**
+ * TODO JSDoc!!
  *
  * @param crossStitchPattern - TODO
  *
