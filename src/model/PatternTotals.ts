@@ -14,8 +14,6 @@ export class PatternTotals extends StitchTotals {
      * @param totalBackStitches
      * @param totalLongStitches
      * @param stitchColorTotals
-     *
-     * @throws {@link Error} TODO (if needed)!!
      */
     constructor(
         totalFullStitches?: number,

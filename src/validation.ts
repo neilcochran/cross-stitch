@@ -1,6 +1,7 @@
+import deepEqual from 'deep-equal';
 import { BackStitch, CrossStitchPattern, FullStitch, HalfStitch, LongStitch, Properties, QuarterStitch, StitchAngle, StitchPlacement, ThreeQuarterStitch } from './model';
 import { calculatePatternTotals } from './utility';
-import { isEqual } from 'lodash';
+
 /**
  * Validate that the input number is non negative and an integer.
  *
@@ -442,5 +443,7 @@ export function validateStitchAngle(stitchAngle: StitchAngle): boolean {
 export function validatePatternTotals(crossStitchPattern: CrossStitchPattern): boolean {
     const totals = crossStitchPattern.properties.patternTotals;
     const recalculated = calculatePatternTotals(crossStitchPattern);
-    return isEqual(totals, recalculated);
+    //Intended to use Lodash's isEqual but it failed to detect equal objects for some reason.
+    //Instead, use deep-equal's deepEqual which works as expected
+    return deepEqual(totals, recalculated);
 }

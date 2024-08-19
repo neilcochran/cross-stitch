@@ -15,6 +15,7 @@
     },
     "keywords": [],
     "devDependencies": {
+        "@types/deep-equal": "^1.0.4",
         "@types/jest": "^29.2.5",
         "@types/lodash": "^4.17.7",
         "@types/node": "^18.11.18",
@@ -30,6 +31,7 @@
         "typescript": "^4.9.4"
     },
     "dependencies": {
+        "deep-equal": "^2.2.3",
         "lodash": "^4.17.21"
     }
 }

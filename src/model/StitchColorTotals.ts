@@ -1,12 +1,9 @@
-import { validateNonNegativeInteger } from '../validation';
 import { StitchTotals } from './StitchTotals';
 
 /**
  * A model class representing total stitch counts by stitch type
  */
 export class StitchColorTotals extends StitchTotals {
-    private _colorId!: number;
-
     /**
      * TODO JSDoc!!
      * @param colorId
@@ -16,11 +13,9 @@ export class StitchColorTotals extends StitchTotals {
      * @param totalQuarterStitches
      * @param totalBackStitches
      * @param totalLongStitches
-     *
-     * @throws {@link Error} TODO (if needed)!!
      */
     constructor(
-        colorId: number,
+        public colorId: number,
         totalFullStitches?: number,
         totalThreeQuarterStitches?: number,
         totalHalfStitches?: number,
@@ -36,17 +31,5 @@ export class StitchColorTotals extends StitchTotals {
             totalBackStitches,
             totalLongStitches
         );
-        this.colorId = colorId;
-    }
-
-    get colorId(): number {
-        return this._colorId;
-    }
-
-    set colorId(colorId: number) {
-        if(!validateNonNegativeInteger(colorId)) {
-            throw new Error('colorId must be a non negative integer');
-        }
-        this._colorId = colorId;
     }
 }

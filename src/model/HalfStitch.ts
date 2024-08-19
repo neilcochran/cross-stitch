@@ -1,4 +1,3 @@
-import { validateStitchAngle } from '../validation';
 import { Stitch } from './Stitch';
 import { StitchAngle } from './StitchAngle';
 
@@ -10,35 +9,18 @@ import { StitchAngle } from './StitchAngle';
  * between the top right and bottom left corners of the space on the grid forming a 135
  * degree line. This is why `45` and `135` are the only valid values for `stitchAngle`.
  */
-export class HalfStitch extends Stitch {
+export class HalfStitch implements Stitch {
     private _stitchAngle!: StitchAngle;
     /**
      * @param colorId - The id of the desired color of the stitch.
      * @param x - The x coordinate of the lower left corner of the square on the grid.
      * @param y - The y coordinate of the lower left corner of square on the grid.
      * @param stitchAngle - The angle of the half stitch which can be either `45` or `135`.
-     *
-     * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        colorId: number,
-        x: number,
-        y: number,
-        stitchAngle: StitchAngle
-    ){
-        super(colorId, x, y);
-        this.stitchAngle = stitchAngle;
-    }
-
-    get stitchAngle(): StitchAngle {
-        return this._stitchAngle;
-    }
-
-    set stitchAngle(stitchAngle: StitchAngle) {
-        if(!validateStitchAngle(stitchAngle)) {
-            throw new Error(`Invalid stitch angle: ${stitchAngle}`);
-        }
-        this._stitchAngle = stitchAngle;
-    }
-
+        public colorId: number,
+        public x: number,
+        public y: number,
+        public stitchAngle: StitchAngle
+    ){}
 }

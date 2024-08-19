@@ -12,3 +12,7 @@ export { HalfStitch } from './HalfStitch';
 export { QuarterStitch } from './QuarterStitch';
 export { BackStitch }  from './BackStitch';
 export { LongStitch } from './LongStitch';
+export { StitchTotals } from './StitchTotals';
+export { StitchColorTotals } from './StitchColorTotals';
+export { PatternTotals } from './PatternTotals';
+export * from './DmcConstants';

@@ -21,7 +21,7 @@ export const TEST_PATTERN_TOTALS: PatternTotals = {
     ]
 };
 
-export const TEST_PATTERN_PROPERTIES = new Properties(TEST_PATTERN_COLORS, TEST_PATTERN_TOTALS, 10, 10);
+export const TEST_PATTERN_PROPERTIES = new Properties(TEST_PATTERN_COLORS, TEST_PATTERN_TOTALS, 12, 20);
 
 export const TEST_FULL_STITCHES: FullStitch[] = [
     new FullStitch(0, 0, 1),
@@ -67,8 +67,8 @@ export const TEST_VALID_PATTERN: CrossStitchPattern = {
 export const TEST_VALID_FULL_PATTERN_JSON = `
 {
     "properties": {
-        "stitchWidth": 3,
-        "stitchHeight": 3,
+        "stitchWidth": 12,
+        "stitchHeight": 20,
         "notes": "This is a contrived example 'pattern'. Enjoy!",
         "patternTotals": {
             "totalFullStitches": 2,
