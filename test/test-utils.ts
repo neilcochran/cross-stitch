@@ -2,13 +2,17 @@ import { BackStitch, BrandName, CrossStitchPattern, Floss, FullStitch, HalfStitc
 import { StitchColorTotals } from '../src/model/StitchColorTotals';
 import { PatternTotals } from '../src/model/PatternTotals';
 
+export const VALID_NON_NEG_INTS = [0, 1, 9, 9999];
+export const INVALID_INTS = [-1, -99, -9999];
+export const VALID_NON_NEG_DECIMALS = [0.5, 1.5, 2.5, 9999.5];
+export const INVALID_DECIMALS = [-0.5, 1.3, 9.9, 0.1];
+
 export const TEST_PATTERN_COLORS: PatternColor[] = [
     new PatternColor(0, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
     new PatternColor(1, 'Orange Blend', '&', [new Floss('721', 'Orange Spice', BrandName.DMC, 1), new Floss('947', 'Burnt Orange', BrandName.DMC, 1)])
 ];
 
 export const TEST_PATTERN_TOTALS: PatternTotals = {
-    //TODO
     totalFullStitches: 2,
     totalThreeQuarterStitches: 2,
     totalHalfStitches: 2,
@@ -21,7 +25,7 @@ export const TEST_PATTERN_TOTALS: PatternTotals = {
     ]
 };
 
-export const TEST_PATTERN_PROPERTIES = new Properties(TEST_PATTERN_COLORS, TEST_PATTERN_TOTALS, 12, 20);
+export const TEST_PATTERN_PROPERTIES = new Properties(TEST_PATTERN_COLORS, TEST_PATTERN_TOTALS, 13, 20);
 
 export const TEST_FULL_STITCHES: FullStitch[] = [
     new FullStitch(0, 0, 1),
@@ -72,6 +76,16 @@ export const INVALID_TOTALS_PATTERN: CrossStitchPattern = {
     quarterStitches: TEST_QUARTER_STITCHES,
     backStitches: TEST_BACK_STITCHES,
     longStitches: TEST_LONG_STITCHES
+};
+
+export const INVALID_DIMENSIONS_PATTERN: CrossStitchPattern = {
+    properties: TEST_PATTERN_PROPERTIES,
+    fullStitches: TEST_FULL_STITCHES,
+    threeQuarterStitches: TEST_THREE_QUARTER_STITCHES,
+    halfStitches: TEST_HALF_STITCHES,
+    quarterStitches: TEST_QUARTER_STITCHES,
+    backStitches: TEST_BACK_STITCHES,
+    longStitches: [] //removing the long stitches will invalidate the pattern dimensions
 };
 
 export const TEST_VALID_FULL_PATTERN_JSON = `

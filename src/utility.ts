@@ -143,7 +143,7 @@ export function jsonToModel(json: string): CrossStitchPattern {
  * TODO JSDoc!!
  * @param crossStitchPattern
  */
-export function calculatePatternDimensions(crossStitchPattern: CrossStitchPattern): { width: number, height: number } {
+export function calculatePatternDimensions(crossStitchPattern: CrossStitchPattern): { stitchWidth: number, stitchHeight: number } {
     let maxX = 0;
     let maxY = 0;
     for(const fullStitch of crossStitchPattern.fullStitches) {
@@ -209,8 +209,8 @@ export function calculatePatternDimensions(crossStitchPattern: CrossStitchPatter
     }
     //pattern dimensions are always rounded up to the nearest integer
     return {
-        width: Math.ceil(maxX),
-        height: Math.ceil(maxY)
+        stitchWidth: Math.ceil(maxX),
+        stitchHeight: Math.ceil(maxY)
     };
 }
 /**
