@@ -6,9 +6,10 @@ import {
     validateSingleSpaceDistance,
     validateColorId,
     validateStitchAngle,
-    validateStitchPlacement
+    validateStitchPlacement,
+    validatePatternTotals
 } from '../src/validation';
-import { TEST_PATTERN_PROPERTIES } from './test-utils';
+import { TEST_PATTERN_PROPERTIES, TEST_VALID_FULL_PATTERN_JSON, TEST_VALID_PATTERN } from './test-utils';
 
 const validNonNegativeInts = [0, 1, 9, 9999];
 const invalidInts = [-1, -99, -9999];
@@ -92,4 +93,8 @@ test('validateStitchPlacement', () => {
 
     //expect false
     expect(validateStitchPlacement('foo-bar' as StitchPlacement)).toBe(false);
+});
+
+test('validatePatternTotals', () => {
+    expect(validatePatternTotals(TEST_VALID_PATTERN)).toBe(true);
 });

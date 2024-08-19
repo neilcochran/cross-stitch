@@ -1,6 +1,6 @@
 import { BackStitch, CrossStitchPattern, FullStitch, HalfStitch, LongStitch, Properties, QuarterStitch, StitchAngle, StitchPlacement, ThreeQuarterStitch } from './model';
-import { PatternTotals } from './model/PatternTotals';
-
+import { calculatePatternTotals } from './utility';
+import { isEqual } from 'lodash';
 /**
  * Validate that the input number is non negative and an integer.
  *
@@ -436,10 +436,11 @@ export function validateStitchAngle(stitchAngle: StitchAngle): boolean {
 
 /**
  * TODO JSDoc!!
- * @param patternTotals
+ * @param crossStitchPattern
  * @returns
  */
-export function validatePatternTotals(patternTotals: PatternTotals): boolean {
-    //TODO
-    return false;
+export function validatePatternTotals(crossStitchPattern: CrossStitchPattern): boolean {
+    const totals = crossStitchPattern.properties.patternTotals;
+    const recalculated = calculatePatternTotals(crossStitchPattern);
+    return isEqual(totals, recalculated);
 }

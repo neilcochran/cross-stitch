@@ -290,5 +290,6 @@ export function calculatePatternTotals(crossStitchPattern: CrossStitchPattern): 
             stitchColor.totalLongStitches = stitchColor.totalLongStitches == undefined ? 1 : stitchColor.totalLongStitches + 1;
         }
     }
+    patternTotals.stitchColorTotals = allStitchColorTotals;
     return patternTotals;
 }
