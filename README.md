@@ -65,7 +65,7 @@ A PatternColor represents a color used in the pattern. The color is made up of o
 }
 ```
 
-* `colorId` - the id of the desired [`pattern color`](#PatternColor-schema) of the stitch
+* `colorId` - the ID of the  [`pattern color`](#PatternColor-schema) of the stitch
 
 * `colorName` - a name for the overall color (since it could be a blend)
 
@@ -78,7 +78,7 @@ A PatternColor represents a color used in the pattern. The color is made up of o
 
 ### **Floss Schema:**
 
-This represents floss of a single color and brand, and by default, a single strand. If more than one strand of the same floss is desired, strandCount can be increased.
+This represents floss of a single color and brand, and by default, a single strand. If more than one strand of the same floss is , strandCount can be increased.
 
 ```json
 {
@@ -114,7 +114,7 @@ A full stitch covers a single square on the pattern in an 'X' shape. It is the c
 }
 ```
 
-* `colorId` - the id of the desired [`pattern color`](#PatternColor-schema) of the stitch
+* `colorId` - the ID of the  [`pattern color`](#PatternColor-schema) of the stitch
 
 * `x` - the x coordinate of the lower left corner of the stitch.
 
@@ -149,7 +149,7 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 }
 ```
 
-* `colorId` - the id of the desired [`pattern color`](#patterncolor-schema) of the stitch
+* `colorId` - the ID of the  [`pattern color`](#patterncolor-schema) of the stitch
 
 * `x` - the x coordinate of the lower left corner of the space on the grid.
 
@@ -242,7 +242,7 @@ Half stitches comes in two forms. The first form goes between the top left and b
 }
 ```
 
-* `colorId` - the id of the desired [`pattern color`](#patterncolor-schema) of the stitch
+* `colorId` - the ID of the  [`pattern color`](#patterncolor-schema) of the stitch
 
 * `x` - the x coordinate of the lower left corner of the square on the grid.
 
@@ -297,7 +297,7 @@ A quarter stitch spans a quarter of a space on the grid and can be located in ei
 }
 ```
 
-* `colorId` - the id of the desired [`pattern color`](#patterncolor-schema) of the stitch
+* `colorId` - the ID of the  [`pattern color`](#patterncolor-schema) of the stitch
 
 * `x` - the x coordinate of the lower left corner of the square on the grid
 
@@ -385,7 +385,7 @@ Back stitches can go laterally, vertically, or diagonally. A back stitch typical
 }
 ```
 
-* `colorId` - the id of the desired [`pattern color`](#patterncolor-schema) of the stitch
+* `colorId` - the ID of the  [`pattern color`](#patterncolor-schema) of the stitch
 
 * `x` - the x coordinate of the start of the stitch
 
@@ -504,7 +504,7 @@ Long stitches are stitches that span more than 1 space. They can move laterally,
 }
 ```
 
-* `colorId` - the id of the desired [`pattern color`](#patterncolor-schema) of the stitch
+* `colorId` - the ID of the  [`pattern color`](#patterncolor-schema) of the stitch
 
 * `x` - the x coordinate of the start of the stitch
 

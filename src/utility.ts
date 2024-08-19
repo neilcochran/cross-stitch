@@ -140,8 +140,9 @@ export function jsonToModel(json: string): CrossStitchPattern {
 }
 
 /**
- * TODO JSDoc!!
- * @param crossStitchPattern
+ * Calculate the pattern's stitchWidth and stitchHeight
+ *
+ * @param crossStitchPattern - The pattern to calculate the dimensions of
  */
 export function calculatePatternDimensions(crossStitchPattern: CrossStitchPattern): { stitchWidth: number, stitchHeight: number } {
     let maxX = 0;
@@ -214,11 +215,11 @@ export function calculatePatternDimensions(crossStitchPattern: CrossStitchPatter
     };
 }
 /**
- * TODO JSDoc!!
+ * Calculate the overall stitch totals and stitch totals by color for the given pattern.
  *
- * @param crossStitchPattern - TODO
+ * @param crossStitchPattern - The pattern to calculate the totals of
  *
- * @returns A PatternTotals object.
+ * @returns A PatternTotals object
  */
 export function calculatePatternTotals(crossStitchPattern: CrossStitchPattern): PatternTotals {
     const patternTotals = new PatternTotals(

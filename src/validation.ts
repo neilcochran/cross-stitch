@@ -436,10 +436,11 @@ export function validateStitchAngle(stitchAngle: StitchAngle): boolean {
 }
 
 /**
- * TODO JSDoc!!
- * @param crossStitchPattern
+ * Validate the pattern's totals are accurate
  *
- * @returns
+ * @param crossStitchPattern - The pattern to validate the totals of
+ *
+ * @returns True if the current pattern's totals are accurate, false if they are not
  */
 export function validatePatternTotals(crossStitchPattern: CrossStitchPattern): boolean {
     const recalculatedTotals = calculatePatternTotals(crossStitchPattern);
@@ -449,10 +450,11 @@ export function validatePatternTotals(crossStitchPattern: CrossStitchPattern): b
 }
 
 /**
- * TODO JSDoc!!
- * @param crossStitchPattern
+ * Validate the pattern's dimensions are accurate
  *
- * @returns
+ * @param crossStitchPattern - The pattern to validate the dimensions of
+ *
+ * @returns True if the pattern's dimensions are accurate, false if they are not
  */
 export function validatePatternDimensions(crossStitchPattern: CrossStitchPattern): boolean {
     const recalculatedDimensions = calculatePatternDimensions(crossStitchPattern);

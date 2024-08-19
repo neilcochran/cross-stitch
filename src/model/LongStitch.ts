@@ -8,7 +8,7 @@ import { Stitch } from './Stitch';
  */
 export class LongStitch implements Stitch {
     /**
-     * @param colorId - The id of the desired color of the stitch
+     * @param colorId - The ID of the color of the stitch
      * @param x - The x coordinate of the start of the stitch
      * @param y - The y coordinate of the start of the stitch
      * @param x2 - The x2 coordinate of the end of the stitch

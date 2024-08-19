@@ -9,7 +9,7 @@ import { Stitch } from './Stitch';
 export class FullStitch implements Stitch {
 
     /**
-     * @param colorId - The id of the desired color of the stitch.
+     * @param colorId - The ID of the color of the stitch.
      * @param x - The x coordinate of the lower left corner of the stitch.
      * @param y - The y coordinate of the lower left corner of stitch.
      */

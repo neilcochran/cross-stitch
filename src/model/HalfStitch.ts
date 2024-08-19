@@ -10,9 +10,8 @@ import { StitchAngle } from './StitchAngle';
  * degree line. This is why `45` and `135` are the only valid values for `stitchAngle`.
  */
 export class HalfStitch implements Stitch {
-    private _stitchAngle!: StitchAngle;
     /**
-     * @param colorId - The id of the desired color of the stitch.
+     * @param colorId - The ID of the color of the stitch.
      * @param x - The x coordinate of the lower left corner of the square on the grid.
      * @param y - The y coordinate of the lower left corner of square on the grid.
      * @param stitchAngle - The angle of the half stitch which can be either `45` or `135`.

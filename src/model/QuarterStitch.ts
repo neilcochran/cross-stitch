@@ -12,7 +12,7 @@ import { StitchPlacement } from './StitchPlacement';
  */
 export class QuarterStitch implements Stitch {
     /**
-     * @param colorId - The id of the desired color of the stitch.
+     * @param colorId - The ID of the color of the stitch.
      * @param x - The x coordinate of the lower left corner of the square on the grid.
      * @param y - The y coordinate of the lower left corner of square on the grid.
      * @param placement - The placement of the quarter stitch within the square on the grid.
