@@ -21,7 +21,7 @@ export class StitchColorTotals extends StitchTotals {
         totalQuarterStitches?: number,
         totalBackStitches?: number,
         totalLongStitches?: number
-    ){
+    ) {
         super(
             totalFullStitches,
             totalThreeQuarterStitches,

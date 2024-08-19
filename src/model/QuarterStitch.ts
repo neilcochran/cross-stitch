@@ -22,5 +22,5 @@ export class QuarterStitch implements Stitch {
         public x: number,
         public y: number,
         public placement: StitchPlacement
-    ){}
+    ) {}
 }

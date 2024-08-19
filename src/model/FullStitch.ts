@@ -7,7 +7,6 @@ import { Stitch } from './Stitch';
  * A full stitch is the combination of 2 opposing angle half stitches.
  */
 export class FullStitch implements Stitch {
-
     /**
      * @param colorId - The ID of the color of the stitch.
      * @param x - The x coordinate of the lower left corner of the stitch.

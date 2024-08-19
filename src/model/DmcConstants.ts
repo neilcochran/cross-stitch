@@ -5,7 +5,7 @@
 import { BrandName } from './BrandName';
 import { Floss } from './Floss';
 
-export const DMC_E5200 = new Floss('Metallic - White','E5200', BrandName.DMC);
+export const DMC_E5200 = new Floss('Metallic - White', 'E5200', BrandName.DMC);
 export const DMC_ECRU = new Floss('Ecru', 'Ecru/off-white', BrandName.DMC);
 export const DMC_BLANC = new Floss('Blanc', 'White', BrandName.DMC);
 export const DMC_WHITE = new Floss('White', 'White', BrandName.DMC);
@@ -546,7 +546,7 @@ export const DMC_4010 = new Floss('4010', 'Variations - Winter Sky', BrandName.D
 export const DMC_4015 = new Floss('4015', 'Variations - Stormy Skies', BrandName.DMC);
 export const DMC_4020 = new Floss('4020', 'Variations - Tropical Waters', BrandName.DMC);
 export const DMC_4025 = new Floss('4025', 'Variations - Caribbean Bay', BrandName.DMC);
-export const DMC_4030 = new Floss('4030', 'Variations - Monet\'s Garden', BrandName.DMC);
+export const DMC_4030 = new Floss('4030', "Variations - Monet's Garden", BrandName.DMC);
 export const DMC_4040 = new Floss('4040', 'Variations - Water Lillies', BrandName.DMC);
 export const DMC_4045 = new Floss('4045', 'Variations - Evergreen Forest', BrandName.DMC);
 export const DMC_4050 = new Floss('4050', 'Variations - Roaming Pastures', BrandName.DMC);

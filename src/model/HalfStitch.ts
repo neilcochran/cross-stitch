@@ -21,5 +21,5 @@ export class HalfStitch implements Stitch {
         public x: number,
         public y: number,
         public stitchAngle: StitchAngle
-    ){}
+    ) {}
 }

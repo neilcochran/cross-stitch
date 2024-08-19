@@ -10,7 +10,7 @@ export { FullStitch } from './FullStitch';
 export { ThreeQuarterStitch } from './ThreeQuarterStitch';
 export { HalfStitch } from './HalfStitch';
 export { QuarterStitch } from './QuarterStitch';
-export { BackStitch }  from './BackStitch';
+export { BackStitch } from './BackStitch';
 export { LongStitch } from './LongStitch';
 export { StitchTotals } from './StitchTotals';
 export { StitchColorTotals } from './StitchColorTotals';

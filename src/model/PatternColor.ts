@@ -20,5 +20,5 @@ export class PatternColor {
         public patternSymbol: string,
         public flossStrands: Floss[],
         public hexCode?: number
-    ){}
+    ) {}
 }

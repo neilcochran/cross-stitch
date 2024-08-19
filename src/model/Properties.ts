@@ -18,5 +18,5 @@ export class Properties {
         public stitchWidth?: number,
         public stitchHeight?: number,
         public notes?: string
-    ){}
+    ) {}
 }

@@ -20,5 +20,5 @@ export class LongStitch implements Stitch {
         public y: number,
         public x2: number,
         public y2: number
-    ){}
+    ) {}
 }

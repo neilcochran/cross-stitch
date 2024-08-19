@@ -22,7 +22,7 @@ export class PatternTotals extends StitchTotals {
         totalBackStitches?: number,
         totalLongStitches?: number,
         public stitchColorTotals?: StitchColorTotals[]
-    ){
+    ) {
         super(
             totalFullStitches,
             totalThreeQuarterStitches,

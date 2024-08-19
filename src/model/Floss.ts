@@ -18,5 +18,5 @@ export class Floss {
         public brandName: BrandName,
         public strandCount = 1,
         public hexCode?: number
-    ){}
+    ) {}
 }

@@ -3,6 +3,7 @@
 This repository defines a json schema to represent cross stitch patterns and provides tools to work with them.
 
 For full code documentation, please visit [`this`](https://neilcochran.github.io/cross-stitch/) page.
+
 <hr/>
 <br/>
 
@@ -11,13 +12,14 @@ For full code documentation, please visit [`this`](https://neilcochran.github.io
 ### **Cross Stitch Pattern Schema:**
 
 See a full example [below](#full-schema-example)
+
 ```json
 {
     "properties": {
         "stitchWidth": 30,
         "stitchHeight": 30,
         "patternColors": [],
-        "notes": "",
+        "notes": ""
     },
     "fullStitches": [],
     "threeQuarterStitches": [],
@@ -28,27 +30,27 @@ See a full example [below](#full-schema-example)
 }
 ```
 
-* `properties` - holds top level information about the cross stitch pattern, such as color and dimension information.
+-   `properties` - holds top level information about the cross stitch pattern, such as color and dimension information.
 
-    * `stitchWidth` - a non negative integer representing the width, counted in stitches, of the pattern. This is not required.
+    -   `stitchWidth` - a non negative integer representing the width, counted in stitches, of the pattern. This is not required.
 
-    * `stitchHeight` - a non negative integer representing the height, counted in stitches, of the pattern. This is not required.
+    -   `stitchHeight` - a non negative integer representing the height, counted in stitches, of the pattern. This is not required.
 
-    * `notes` - an optional string for any notes/comment about the pattern.
+    -   `notes` - an optional string for any notes/comment about the pattern.
 
-    * `patternColors` - an array of [`pattern color`](#patterncolor-schema) objects defining all colors used in the pattern.
+    -   `patternColors` - an array of [`pattern color`](#patterncolor-schema) objects defining all colors used in the pattern.
 
-* `fullStitches` - an array of [`full stitch`](#full-stitch-schema) objects defining all the full stitches in the pattern.
+-   `fullStitches` - an array of [`full stitch`](#full-stitch-schema) objects defining all the full stitches in the pattern.
 
-* `threeQuarterStitches` - an array of [`three quarter stitch`](#three-quarter-stitch-schema) objects defining all the three quarter stitches in the pattern.
+-   `threeQuarterStitches` - an array of [`three quarter stitch`](#three-quarter-stitch-schema) objects defining all the three quarter stitches in the pattern.
 
-* `halfStitches` - an array of [`half stitch`](#half-stitch-schema) objects defining all the half stitches in the pattern.
+-   `halfStitches` - an array of [`half stitch`](#half-stitch-schema) objects defining all the half stitches in the pattern.
 
-* `quarterStitches` - an array of [`quarter stitch`](#quarter-stitch-schema) objects defining all the quarter stitches in the pattern.
+-   `quarterStitches` - an array of [`quarter stitch`](#quarter-stitch-schema) objects defining all the quarter stitches in the pattern.
 
-* `backStitches` - an array of [`back stitch`](#back-stitch-schema) objects defining all the back stitches in the pattern.
+-   `backStitches` - an array of [`back stitch`](#back-stitch-schema) objects defining all the back stitches in the pattern.
 
-* `longStitches` - an array of [`long stitch`](#long-stitch-schema) objects defining all the long stitches in the pattern.
+-   `longStitches` - an array of [`long stitch`](#long-stitch-schema) objects defining all the long stitches in the pattern.
 
 <hr/>
 <br/>
@@ -56,6 +58,7 @@ See a full example [below](#full-schema-example)
 ### **PatternColor Schema:**
 
 A PatternColor represents a color used in the pattern. The color is made up of one or more strands of [`floss`](#floss-schema). Each floss strand can be a different color/brand, allowing blended colors to be defined.
+
 ```json
 {
     "colorId": "1",
@@ -65,13 +68,13 @@ A PatternColor represents a color used in the pattern. The color is made up of o
 }
 ```
 
-* `colorId` - the ID of the  [`pattern color`](#PatternColor-schema) of the stitch
+-   `colorId` - the ID of the [`pattern color`](#PatternColor-schema) of the stitch
 
-* `colorName` - a name for the overall color (since it could be a blend)
+-   `colorName` - a name for the overall color (since it could be a blend)
 
-* `patternSymbol` - the ASCII character used to represent the color on the pattern visually. This must be unique within all the `PatternColor` objects in the `patternColors` array
+-   `patternSymbol` - the ASCII character used to represent the color on the pattern visually. This must be unique within all the `PatternColor` objects in the `patternColors` array
 
-* `flossStrands` - an array of [`floss`](#floss-schema) objects defining all the strands of floss that make up the color
+-   `flossStrands` - an array of [`floss`](#floss-schema) objects defining all the strands of floss that make up the color
 
 <hr/>
 <br/>
@@ -90,14 +93,13 @@ This represents floss of a single color and brand, and by default, a single stra
 }
 ```
 
+-   `colorCode` - A string representing the unique brand code for the color. This is often a number, but can be a string like 'ecru' or 'blanc'.
 
-* `colorCode` - A string representing the unique brand code for the color. This is often a number, but can be a string like 'ecru' or 'blanc'.
+-   `colorName` the brand's name for the color
+-   `brandName` - The name of the brand. See a list of supported Brands [`here`](#supported-brandname-values).
+-   `strandCount` - an integer greater than zero, representing the number of times the strand should be used in the given color. If not given, this defaults to 1.
 
-* `colorName` the brand's name for the color
-* `brandName` - The name of the brand. See a list of supported Brands [`here`](#supported-brandname-values).
-* `strandCount` - an integer greater than zero, representing the number of times the strand should be used in the given color. If not given, this defaults to 1.
-
-* `hexCode` - an optional string defining the color's hexadecimal valuef
+-   `hexCode` - an optional string defining the color's hexadecimal valuef
 
 <hr/>
 <br/>
@@ -114,11 +116,11 @@ A full stitch covers a single square on the pattern in an 'X' shape. It is the c
 }
 ```
 
-* `colorId` - the ID of the  [`pattern color`](#PatternColor-schema) of the stitch
+-   `colorId` - the ID of the [`pattern color`](#PatternColor-schema) of the stitch
 
-* `x` - the x coordinate of the lower left corner of the stitch.
+-   `x` - the x coordinate of the lower left corner of the stitch.
 
-* `y` - the y coordinate of the lower left corner of stitch.
+-   `y` - the y coordinate of the lower left corner of stitch.
 
 **Example:**
 
@@ -149,18 +151,18 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
 }
 ```
 
-* `colorId` - the ID of the  [`pattern color`](#patterncolor-schema) of the stitch
+-   `colorId` - the ID of the [`pattern color`](#patterncolor-schema) of the stitch
 
-* `x` - the x coordinate of the lower left corner of the space on the grid.
+-   `x` - the x coordinate of the lower left corner of the space on the grid.
 
-* `y` - the y coordinate of the lower left corner of space on the grid.
+-   `y` - the y coordinate of the lower left corner of space on the grid.
 
-* `halfStitchAngle` - the angle of the half stitch which can be either `45` or `135`. See the [`half stitch`](#half-stitch-schema) schema for more information.
+-   `halfStitchAngle` - the angle of the half stitch which can be either `45` or `135`. See the [`half stitch`](#half-stitch-schema) schema for more information.
 
-* `quarterStitchPlacement` - one of 4 values: `top-right`, `top-left`, `bottom-right`, `bottom-left` indicating the placement of the quarter stitch. See the [`quarter stitch`](#quarter-stitch-schema) schema for more information.
+-   `quarterStitchPlacement` - one of 4 values: `top-right`, `top-left`, `bottom-right`, `bottom-left` indicating the placement of the quarter stitch. See the [`quarter stitch`](#quarter-stitch-schema) schema for more information.
 
 **Examples:**
-    
+
 **3/4 Stitch Top Right**
 
 ![3/4 stitch top right](images/three-quarter-top-right.png)
@@ -173,7 +175,7 @@ A three quarter stitch is simply a [quarter stitch](#quarter-stitch-schema) and 
     "halfStitchAngle": 45,
     "quarterStitchPlacement": "top-right"
 }
-``` 
+```
 
 <hr/>
 <br/>
@@ -242,13 +244,13 @@ Half stitches comes in two forms. The first form goes between the top left and b
 }
 ```
 
-* `colorId` - the ID of the  [`pattern color`](#patterncolor-schema) of the stitch
+-   `colorId` - the ID of the [`pattern color`](#patterncolor-schema) of the stitch
 
-* `x` - the x coordinate of the lower left corner of the square on the grid.
+-   `x` - the x coordinate of the lower left corner of the square on the grid.
 
-* `y` - the y coordinate of the lower left corner of square on the grid.
+-   `y` - the y coordinate of the lower left corner of square on the grid.
 
-* `stitchAngle` - the angle of the half stitch which can be either `45` or `135`.
+-   `stitchAngle` - the angle of the half stitch which can be either `45` or `135`.
 
 **Examples:**
 
@@ -297,13 +299,13 @@ A quarter stitch spans a quarter of a space on the grid and can be located in ei
 }
 ```
 
-* `colorId` - the ID of the  [`pattern color`](#patterncolor-schema) of the stitch
+-   `colorId` - the ID of the [`pattern color`](#patterncolor-schema) of the stitch
 
-* `x` - the x coordinate of the lower left corner of the square on the grid
+-   `x` - the x coordinate of the lower left corner of the square on the grid
 
-* `y` - the y coordinate of the lower left corner of the square on the grid
+-   `y` - the y coordinate of the lower left corner of the square on the grid
 
-* `placement` - the placement of the quarter stitch within the square on the grid
+-   `placement` - the placement of the quarter stitch within the square on the grid
 
 **Examples:**
 
@@ -385,15 +387,15 @@ Back stitches can go laterally, vertically, or diagonally. A back stitch typical
 }
 ```
 
-* `colorId` - the ID of the  [`pattern color`](#patterncolor-schema) of the stitch
+-   `colorId` - the ID of the [`pattern color`](#patterncolor-schema) of the stitch
 
-* `x` - the x coordinate of the start of the stitch
+-   `x` - the x coordinate of the start of the stitch
 
-* `y` - the y coordinate of the start of the stitch
+-   `y` - the y coordinate of the start of the stitch
 
-* `x2` - the x2 coordinate of the end of the stitch
+-   `x2` - the x2 coordinate of the end of the stitch
 
-* `y2` - the y2 coordinate of the end of the stitch
+-   `y2` - the y2 coordinate of the end of the stitch
 
 **Examples:**
 
@@ -404,7 +406,7 @@ Back stitches can go laterally, vertically, or diagonally. A back stitch typical
 Red:
 
 ```json
-    {
+{
     "colorId": "1",
     "x": 1,
     "y": 1,
@@ -504,15 +506,15 @@ Long stitches are stitches that span more than 1 space. They can move laterally,
 }
 ```
 
-* `colorId` - the ID of the  [`pattern color`](#patterncolor-schema) of the stitch
+-   `colorId` - the ID of the [`pattern color`](#patterncolor-schema) of the stitch
 
-* `x` - the x coordinate of the start of the stitch
+-   `x` - the x coordinate of the start of the stitch
 
-* `y` - the y coordinate of the start of the stitch
+-   `y` - the y coordinate of the start of the stitch
 
-* `x2` - the x2 coordinate of the end of the stitch
+-   `x2` - the x2 coordinate of the end of the stitch
 
-* `y2` - the y2 coordinate of the end of the stitch
+-   `y2` - the y2 coordinate of the end of the stitch
 
 **Examples:**
 
@@ -578,7 +580,7 @@ Here is the corresponding JSON that describes the stitches in the above image:
                 "colorName": "Orange Blend",
                 "patternSymbol": "&",
                 "flossStrands": [
-                     {
+                    {
                         "colorCode": "721",
                         "colorName": "Orange Spice",
                         "brandName": "DMC",
@@ -626,8 +628,7 @@ Here is the corresponding JSON that describes the stitches in the above image:
             "placement": "bottom-right"
         }
     ],
-    "backStitches": 
-    [
+    "backStitches": [
         {
             "colorId": "1",
             "x": 0,
@@ -637,7 +638,7 @@ Here is the corresponding JSON that describes the stitches in the above image:
         }
     ],
     "longStitches": [
-        {    
+        {
             "colorId": "1",
             "x": 0,
             "y": 3,
@@ -647,19 +648,24 @@ Here is the corresponding JSON that describes the stitches in the above image:
     ]
 }
 ```
+
 ### **Supported BrandName Values:**
-- Anchor,
-- Appletons,
-- Cosmo,
-- DMC,
-- J&P Coats,
-- Kreinik,
-- Madeira,
-- Presenica,
-- Sullivans,
-- Unbranded
+
+-   Anchor,
+-   Appletons,
+-   Cosmo,
+-   DMC,
+-   J&P Coats,
+-   Kreinik,
+-   Madeira,
+-   Presenica,
+-   Sullivans,
+-   Unbranded
+
 ## Versions
+
 View all versions of in the <a href="/CHANGELOG.md">CHANGELOG.md</a>
 
 ## License
+
 This project is licensed under the MIT License - see the <a href="/LICENSE.md">LICENSE.md</a> file for details

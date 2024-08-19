@@ -17,5 +17,5 @@ export class StitchTotals {
         public totalQuarterStitches?: number,
         public totalBackStitches?: number,
         public totalLongStitches?: number
-    ){}
+    ) {}
 }

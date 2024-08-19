@@ -1,4 +1,17 @@
-import { BackStitch, BrandName, CrossStitchPattern, Floss, FullStitch, HalfStitch, LongStitch, PatternColor, Properties, QuarterStitch, StitchPlacement, ThreeQuarterStitch } from '../src/model';
+import {
+    BackStitch,
+    BrandName,
+    CrossStitchPattern,
+    Floss,
+    FullStitch,
+    HalfStitch,
+    LongStitch,
+    PatternColor,
+    Properties,
+    QuarterStitch,
+    StitchPlacement,
+    ThreeQuarterStitch
+} from '../src/model';
 import { StitchColorTotals } from '../src/model/StitchColorTotals';
 import { PatternTotals } from '../src/model/PatternTotals';
 
@@ -9,7 +22,10 @@ export const INVALID_DECIMALS = [-0.5, 1.3, 9.9, 0.1];
 
 export const TEST_PATTERN_COLORS: PatternColor[] = [
     new PatternColor(0, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
-    new PatternColor(1, 'Orange Blend', '&', [new Floss('721', 'Orange Spice', BrandName.DMC, 1), new Floss('947', 'Burnt Orange', BrandName.DMC, 1)])
+    new PatternColor(1, 'Orange Blend', '&', [
+        new Floss('721', 'Orange Spice', BrandName.DMC, 1),
+        new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
+    ])
 ];
 
 export const TEST_PATTERN_TOTALS: PatternTotals = {
@@ -19,44 +35,25 @@ export const TEST_PATTERN_TOTALS: PatternTotals = {
     totalQuarterStitches: 2,
     totalBackStitches: 2,
     totalLongStitches: 2,
-    stitchColorTotals: [
-        new StitchColorTotals(0, 1, 1, 1, 1, 1, 1),
-        new StitchColorTotals(1, 1, 1, 1, 1, 1, 1)
-    ]
+    stitchColorTotals: [new StitchColorTotals(0, 1, 1, 1, 1, 1, 1), new StitchColorTotals(1, 1, 1, 1, 1, 1, 1)]
 };
 
 export const TEST_PATTERN_PROPERTIES = new Properties(TEST_PATTERN_COLORS, TEST_PATTERN_TOTALS, 13, 20);
 
-export const TEST_FULL_STITCHES: FullStitch[] = [
-    new FullStitch(0, 0, 1),
-    new FullStitch(1, 3, 4)
-
-];
+export const TEST_FULL_STITCHES: FullStitch[] = [new FullStitch(0, 0, 1), new FullStitch(1, 3, 4)];
 export const TEST_THREE_QUARTER_STITCHES: ThreeQuarterStitch[] = [
     new ThreeQuarterStitch(0, 2, 1, 135, StitchPlacement.TOP_RIGHT),
     new ThreeQuarterStitch(1, 10, 7, 45, StitchPlacement.TOP_LEFT)
-
 ];
-export const TEST_HALF_STITCHES: HalfStitch[] = [
-    new HalfStitch(0, 1, 1, 135),
-    new HalfStitch(1, 2, 2, 45),
-
-];
+export const TEST_HALF_STITCHES: HalfStitch[] = [new HalfStitch(0, 1, 1, 135), new HalfStitch(1, 2, 2, 45)];
 export const TEST_QUARTER_STITCHES: QuarterStitch[] = [
     new QuarterStitch(0, 12, 7, StitchPlacement.TOP_LEFT),
     new QuarterStitch(1, 2, 0, StitchPlacement.BOTTOM_RIGHT)
-
 ];
 
-export const TEST_BACK_STITCHES: BackStitch[] = [
-    new BackStitch(0, 1, 1, 0, 0),
-    new BackStitch(1, 0, 0, 1, 0)
-];
+export const TEST_BACK_STITCHES: BackStitch[] = [new BackStitch(0, 1, 1, 0, 0), new BackStitch(1, 0, 0, 1, 0)];
 
-export const TEST_LONG_STITCHES: LongStitch[] = [
-    new LongStitch(0, 0, 3, 3, 2),
-    new LongStitch(1, 10, 15, 12, 20),
-];
+export const TEST_LONG_STITCHES: LongStitch[] = [new LongStitch(0, 0, 3, 3, 2), new LongStitch(1, 10, 15, 12, 20)];
 
 export const TEST_VALID_PATTERN: CrossStitchPattern = {
     properties: TEST_PATTERN_PROPERTIES,

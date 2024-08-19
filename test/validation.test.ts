@@ -10,26 +10,35 @@ import {
     validatePatternTotals,
     validatePatternDimensions
 } from '../src/validation';
-import { INVALID_DECIMALS, INVALID_DIMENSIONS_PATTERN, INVALID_INTS, INVALID_TOTALS_PATTERN, TEST_PATTERN_PROPERTIES, TEST_VALID_PATTERN, VALID_NON_NEG_DECIMALS, VALID_NON_NEG_INTS } from './test-utils';
+import {
+    INVALID_DECIMALS,
+    INVALID_DIMENSIONS_PATTERN,
+    INVALID_INTS,
+    INVALID_TOTALS_PATTERN,
+    TEST_PATTERN_PROPERTIES,
+    TEST_VALID_PATTERN,
+    VALID_NON_NEG_DECIMALS,
+    VALID_NON_NEG_INTS
+} from './test-utils';
 
 test('validateNonNegativeInteger', () => {
     //expect true
-    VALID_NON_NEG_INTS.forEach(int => expect(validateNonNegativeInteger(int)).toBe(true));
+    VALID_NON_NEG_INTS.forEach((int) => expect(validateNonNegativeInteger(int)).toBe(true));
 
     //expect false
-    INVALID_INTS.forEach(int => expect(validateNonNegativeInteger(int)).toBe(false));
-    VALID_NON_NEG_DECIMALS.forEach(float => expect(validateNonNegativeInteger(float)).toBe(false));
-    INVALID_DECIMALS.forEach(float => expect(validateNonNegativeInteger(float)).toBe(false));
+    INVALID_INTS.forEach((int) => expect(validateNonNegativeInteger(int)).toBe(false));
+    VALID_NON_NEG_DECIMALS.forEach((float) => expect(validateNonNegativeInteger(float)).toBe(false));
+    INVALID_DECIMALS.forEach((float) => expect(validateNonNegativeInteger(float)).toBe(false));
 });
 
 test('validateNonNegativeDecimalPrecision', () => {
     //expect true
-    VALID_NON_NEG_INTS.forEach(int => expect(validateNonNegativeDecimalPrecision(int)).toBe(true));
-    VALID_NON_NEG_DECIMALS.forEach(float => expect(validateNonNegativeDecimalPrecision(float)).toBe(true));
+    VALID_NON_NEG_INTS.forEach((int) => expect(validateNonNegativeDecimalPrecision(int)).toBe(true));
+    VALID_NON_NEG_DECIMALS.forEach((float) => expect(validateNonNegativeDecimalPrecision(float)).toBe(true));
 
     //expect false
-    INVALID_INTS.forEach(int => expect(validateNonNegativeDecimalPrecision(int)).toBe(false));
-    INVALID_DECIMALS.forEach(float => expect(validateNonNegativeDecimalPrecision(float)).toBe(false));
+    INVALID_INTS.forEach((int) => expect(validateNonNegativeDecimalPrecision(int)).toBe(false));
+    INVALID_DECIMALS.forEach((float) => expect(validateNonNegativeDecimalPrecision(float)).toBe(false));
 });
 
 test('validateSingleSpaceDistance', () => {
@@ -63,10 +72,8 @@ test('validateColorId', () => {
     expect(validateColorId(0, TEST_PATTERN_PROPERTIES)).toBe(true);
     expect(validateColorId(1, TEST_PATTERN_PROPERTIES)).toBe(true);
 
-
     //expect false
     expect(validateColorId(-1, TEST_PATTERN_PROPERTIES)).toBe(false);
-
 });
 
 //only needed due to parsing from json into a model (see validateStitchAngle method documentation)

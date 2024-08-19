@@ -24,5 +24,5 @@ export class ThreeQuarterStitch implements Stitch {
         public y: number,
         public halfStitchAngle: StitchAngle,
         public quarterStitchPlacement: StitchPlacement
-    ){}
+    ) {}
 }
