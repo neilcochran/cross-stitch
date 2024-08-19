@@ -219,13 +219,8 @@ export function calculatePatternDimensions(crossStitchPattern: CrossStitchPatter
  * @param crossStitchPattern - TODO
  *
  * @returns A PatternTotals object.
- *
- * @throws {@link Error} if the CrossStitchPattern parameter is not defined
  */
 export function calculatePatternTotals(crossStitchPattern: CrossStitchPattern): PatternTotals {
-    if(!crossStitchPattern) {
-        throw new Error('The CrossStitchPattern passed to calculatePatternTotals must be defined');
-    }
     const patternTotals = new PatternTotals(
         crossStitchPattern.fullStitches.length,
         crossStitchPattern.threeQuarterStitches.length,

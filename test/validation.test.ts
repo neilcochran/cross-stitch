@@ -9,7 +9,7 @@ import {
     validateStitchPlacement,
     validatePatternTotals
 } from '../src/validation';
-import { TEST_PATTERN_PROPERTIES, TEST_VALID_FULL_PATTERN_JSON, TEST_VALID_PATTERN } from './test-utils';
+import { INVALID_TOTALS_PATTERN, TEST_PATTERN_PROPERTIES, TEST_VALID_FULL_PATTERN_JSON, TEST_VALID_PATTERN } from './test-utils';
 
 const validNonNegativeInts = [0, 1, 9, 9999];
 const invalidInts = [-1, -99, -9999];
@@ -96,5 +96,9 @@ test('validateStitchPlacement', () => {
 });
 
 test('validatePatternTotals', () => {
+    //expect true
     expect(validatePatternTotals(TEST_VALID_PATTERN)).toBe(true);
+
+    //expect false
+    expect(validatePatternTotals(INVALID_TOTALS_PATTERN)).toBe(false);
 });

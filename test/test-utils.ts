@@ -64,6 +64,16 @@ export const TEST_VALID_PATTERN: CrossStitchPattern = {
     longStitches: TEST_LONG_STITCHES
 };
 
+export const INVALID_TOTALS_PATTERN: CrossStitchPattern = {
+    properties: TEST_PATTERN_PROPERTIES,
+    fullStitches: TEST_FULL_STITCHES,
+    threeQuarterStitches: [], //wipe out 3/4 stitches so that the pattern total is no longer valid
+    halfStitches: TEST_HALF_STITCHES,
+    quarterStitches: TEST_QUARTER_STITCHES,
+    backStitches: TEST_BACK_STITCHES,
+    longStitches: TEST_LONG_STITCHES
+};
+
 export const TEST_VALID_FULL_PATTERN_JSON = `
 {
     "properties": {
