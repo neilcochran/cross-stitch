@@ -1,8 +1,8 @@
 ## Version 0.5.0
 
-- Separate validation from model objects
-- Added pattern stitch totals (by stitch type as well as color)
-- Calculate pattern totals and pattern dimensions
+-   Separate validation from model objects
+-   Added pattern stitch totals (by stitch type as well as color)
+-   Calculate pattern totals and pattern dimensions
 
 ## Version 0.4.1
 

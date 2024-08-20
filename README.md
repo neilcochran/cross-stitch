@@ -4,11 +4,9 @@ This repository defines a json schema to represent cross stitch patterns and pro
 
 For full code documentation, please visit [`this`](https://neilcochran.github.io/cross-stitch/) page.
 
-
 ## Versions
 
 View all versions of in the <a href="/CHANGELOG.md">CHANGELOG.md</a>
-
 
 ## License
 
@@ -561,7 +559,6 @@ Green:
 <hr/>
 <br/>
 
-
 ### **StitchColorTotals Schema:**
 
 StitchColorTotals holds the total number of each type of stitch for a specific color in the pattern
@@ -571,7 +568,7 @@ StitchColorTotals holds the total number of each type of stitch for a specific c
     "colorId": 1,
     "totalFullStitches": 2,
     "totalThreeQuarterStitches": 3,
-    "totalHalfStitches": 2, 
+    "totalHalfStitches": 2,
     "totalQuarterStitches": 2,
     "totalBackStitches": 4,
     "totalLongStitches": 1
@@ -592,25 +589,25 @@ StitchColorTotals holds the total number of each type of stitch for a specific c
 
 -   `totalLongStitches` - The total number of [`LongStitches`](#longstitch-schema) using this color
 
-
 <hr/>
 <br/>
 
 ### **PatternTotals Schema:**
 
-PatternTotals holds the total number of each stitch type for the pattern, as well as the total number of each stitch type grouped by color 
+PatternTotals holds the total number of each stitch type for the pattern, as well as the total number of each stitch type grouped by color
 
 ```json
 {
     "totalFullStitches": 2,
     "totalThreeQuarterStitches": 3,
-    "totalHalfStitches": 2, 
+    "totalHalfStitches": 2,
     "totalQuarterStitches": 2,
     "totalBackStitches": 4,
     "totalLongStitches": 1,
     "stitchColorTotals": {}
 }
 ```
+
 -   `totalFullStitches` - The total number of [`FullStitches`](#fullstitch-schema) in the pattern
 
 -   `totalThreeQuarterStitches` - The total number of [`ThreeQuarterStitches`](#three-quarter-stitch-schema) stitches in the pattern
@@ -624,7 +621,6 @@ PatternTotals holds the total number of each stitch type for the pattern, as wel
 -   `totalLongStitches` - The total number of [`LongStitches`](#longstitch-schema) in the pattern
 
 -   `stitchColorTotals` - A list of [stitchColorTotals](#stitchcolortotals-schema) for each [`PatternColor`](#patterncolor-schema) in the pattern
-
 
 <hr/>
 <br/>
@@ -688,7 +684,7 @@ Here is the corresponding JSON that describes the stitches in the above image:
                     "colorId": 0,
                     "totalFullStitches": 1,
                     "totalThreeQuarterStitches": 1,
-                    "totalHalfStitches": 0, 
+                    "totalHalfStitches": 0,
                     "totalQuarterStitches": 0,
                     "totalBackStitches": 0,
                     "totalLongStitches": 0
@@ -697,11 +693,11 @@ Here is the corresponding JSON that describes the stitches in the above image:
                     "colorId": 1,
                     "totalFullStitches": 0,
                     "totalThreeQuarterStitches": 0,
-                    "totalHalfStitches": 1, 
+                    "totalHalfStitches": 1,
                     "totalQuarterStitches": 1,
                     "totalBackStitches": 1,
                     "totalLongStitches": 1
-                },
+                }
             ]
         },
         "notes": "This is a tiny 3x3 contrived example 'pattern'. Enjoy!"

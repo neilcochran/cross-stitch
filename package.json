@@ -1,6 +1,6 @@
 {
     "name": "cross-stitch",
-    "version": "0.4.1",
+    "version": "0.5.0",
     "description": "This repository defines a json schema to represent cross stitch patterns and provides tools to work with them.",
     "author": "neilcochran <dev.neil.cochran@pm.me>",
     "license": "MIT",
