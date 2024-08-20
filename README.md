@@ -135,6 +135,9 @@ A full stitch covers a single square on the pattern in an 'X' shape. It is the c
 -   `y` - The y coordinate of the lower left corner of stitch.
 
 **Example:**
+
+<br/>
+
 ![FullStitch Image](https://github.com/neilcochran/cross-stitch/blob/master/images/full-stitch.png)
 
 ```json
@@ -176,7 +179,7 @@ A three quarter stitch is simply a [QuarterStitch](#quarter-stitch-schema) and a
 
 **ThreeQuarterStitch Top Right**
 
-![ThreeQuarterStitch top right](images/three-quarter-top-right.png)
+![ThreeQuarterStitch top right](https://github.com/neilcochran/cross-stitch/blob/master/images/three-quarter-top-right.png)
 
 ```json
 {
