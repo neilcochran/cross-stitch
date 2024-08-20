@@ -136,7 +136,7 @@ A full stitch covers a single square on the pattern in an 'X' shape. It is the c
 
 **Example:**
 
-![FullStitch](images/full-stitch.png)
+![FullStitch image](https://github.com/neilcochran/cross-stitch/blob/master/images/full-stitch.png)
 
 ```json
 {
@@ -177,7 +177,7 @@ A three quarter stitch is simply a [QuarterStitch](#quarter-stitch-schema) and a
 
 **ThreeQuarterStitch Top Right**
 
-![ThreeQuarterStitch top right](images/three-quarter-top-right.png)
+![ThreeQuarterStitch top right image](https://github.com/neilcochran/cross-stitch/blob/master/images/three-quarter-top-right.png)
 
 ```json
 {
@@ -194,7 +194,7 @@ A three quarter stitch is simply a [QuarterStitch](#quarter-stitch-schema) and a
 
 **ThreeQuarterStitch Bottom Left**
 
-![ThreeQuarterStitch bottom left](images/three-quarter-bottom-left.png)
+![ThreeQuarterStitch bottom left image](https://github.com/neilcochran/cross-stitch/blob/master/images/three-quarter-bottom-left.png)
 
 ```json
 {
@@ -211,7 +211,7 @@ A three quarter stitch is simply a [QuarterStitch](#quarter-stitch-schema) and a
 
 **ThreeQuarterStitch Top Left**
 
-![ThreeQuarterStitch top left](images/three-quarter-top-left.png)
+![ThreeQuarterStitch top left image](https://github.com/neilcochran/cross-stitch/blob/master/images/three-quarter-top-left.png)
 
 ```json
 {
@@ -228,7 +228,7 @@ A three quarter stitch is simply a [QuarterStitch](#quarter-stitch-schema) and a
 
 **ThreeQuarterStitch Bottom Right**
 
-![ThreeQuarterStitch bottom right](images/three-quarter-bottom-right.png)
+![ThreeQuarterStitch bottom right image](https://github.com/neilcochran/cross-stitch/blob/master/images/three-quarter-bottom-right.png)
 
 ```json
 {
@@ -268,7 +268,7 @@ Half stitches comes in two forms. The first form goes between the top left and b
 
 **HalfStitch 45 Degree**
 
-![HalfStitch 45](images/half-45.png)
+![HalfStitch 45 image](https://github.com/neilcochran/cross-stitch/blob/master/images/half-45.png)
 
 ```json
 {
@@ -284,7 +284,7 @@ Half stitches comes in two forms. The first form goes between the top left and b
 
 **HalfStitch 135 Degree**
 
-![HalfStitch 135](images/half-135.png)
+![HalfStitch 135 image](https://github.com/neilcochran/cross-stitch/blob/master/images/half-135.png)
 
 ```json
 {
@@ -323,7 +323,7 @@ A quarter stitch spans a quarter of a space on the grid and can be located in ei
 
 **QuarterStitch Top Right**
 
-![QuarterStitch top right](images/quarter-top-right.png)
+![QuarterStitch top right image](https://github.com/neilcochran/cross-stitch/blob/master/images/quarter-top-right.png)
 
 ```json
 {
@@ -339,7 +339,7 @@ A quarter stitch spans a quarter of a space on the grid and can be located in ei
 
 **QuarterStitch Bottom Right**
 
-![QuarterStitch bottom right](images/quarter-bottom-right.png)
+![QuarterStitch bottom right image](https://github.com/neilcochran/cross-stitch/blob/master/images/quarter-bottom-right.png)
 
 ```json
 {
@@ -355,7 +355,7 @@ A quarter stitch spans a quarter of a space on the grid and can be located in ei
 
 **QuarterStitch Bottom Left**
 
-![QuarterStitch bottom left](images/quarter-bottom-left.png)
+![QuarterStitch bottom left image](https://github.com/neilcochran/cross-stitch/blob/master/images/quarter-bottom-left.png)
 
 ```json
 {
@@ -371,7 +371,7 @@ A quarter stitch spans a quarter of a space on the grid and can be located in ei
 
 **QuarterStitch Top Left**
 
-![QuarterStitch top left](images/quarter-top-left.png)
+![QuarterStitch top left image](https://github.com/neilcochran/cross-stitch/blob/master/images/quarter-top-left.png)
 
 ```json
 {
@@ -413,7 +413,7 @@ Back stitches can go laterally, vertically, or diagonally. A back stitch typical
 
 **BackStitch Lateral**
 
-![BackStitch lateral](images/back-stitch-lateral.png)
+![BackStitch lateral image](https://github.com/neilcochran/cross-stitch/blob/master/images/back-stitch-lateral.png)
 
 Red:
 
@@ -444,7 +444,7 @@ Green:
 
 **BackStitch Vertical**
 
-![BackStitch vertical](images/back-stitch-vertical.png)
+![BackStitch vertical image](https://github.com/neilcochran/cross-stitch/blob/master/images/back-stitch-vertical.png)
 
 Red:
 
@@ -475,7 +475,7 @@ Green:
 
 **BackStitch Diagonal**
 
-![BackStitch diagonal](images/back-stitch-diagonal.png)
+![BackStitch diagonal image](https://github.com/neilcochran/cross-stitch/blob/master/images/back-stitch-diagonal.png)
 
 Red:
 
@@ -530,7 +530,7 @@ Long stitches are stitches that span more than 1 space. They can move laterally,
 
 **Examples:**
 
-![LongStitch](images/long-stitch.png)
+![LongStitch image](https://github.com/neilcochran/cross-stitch/blob/master/images/long-stitch.png)
 
 Red:
 
@@ -629,7 +629,7 @@ PatternTotals holds the total number of each stitch type for the pattern, as wel
 
 An example of each stitch being used can be seen in the below image:
 
-![full pattern example](images/full-pattern-example.png)
+![full pattern example image](https://github.com/neilcochran/cross-stitch/blob/master/images/full-pattern-example.png)
 
 Here is the corresponding JSON that describes the stitches in the above image:
 

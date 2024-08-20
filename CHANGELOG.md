@@ -1,3 +1,7 @@
+## Version 0.5.1
+
+- Replace README.md relative image links with full image links so that github pages can also render them
+
 ## Version 0.5.0
 
 -   Separate validation from model objects
