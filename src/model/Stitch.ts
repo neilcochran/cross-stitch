@@ -1,5 +1,8 @@
+/**
+ * Model interface defining the common components to all stitch types
+ */
 export interface Stitch {
-    readonly colorId: string;
-    readonly x: number;
-    readonly y: number;
+    colorId: number;
+    x: number;
+    y: number;
 }

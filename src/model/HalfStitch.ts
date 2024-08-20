@@ -1,4 +1,3 @@
-import { validateNonNegativeInteger, validateStitchAngle } from '../validation';
 import { Stitch } from './Stitch';
 import { StitchAngle } from './StitchAngle';
 
@@ -12,27 +11,15 @@ import { StitchAngle } from './StitchAngle';
  */
 export class HalfStitch implements Stitch {
     /**
-     * @param colorId - The id of the desired color of the stitch.
+     * @param colorId - The ID of the color of the stitch.
      * @param x - The x coordinate of the lower left corner of the square on the grid.
      * @param y - The y coordinate of the lower left corner of square on the grid.
      * @param stitchAngle - The angle of the half stitch which can be either `45` or `135`.
-     * @throws {@link Error} if any invalid parameters are provided.
      */
     constructor(
-        public readonly colorId: string,
-        public readonly x: number,
-        public readonly y: number,
-        public readonly  stitchAngle: StitchAngle
-    ){
-        if(!validateStitchAngle(stitchAngle)) {
-            throw new Error(`Invalid stitch angle: ${stitchAngle}`);
-        }
-        //this stitch only supports non negative integers for x,y
-        if(!validateNonNegativeInteger(x)) {
-            throw new Error('The x coordinate must be a non-negative integer');
-        }
-        if(!validateNonNegativeInteger(y)) {
-            throw new Error('The y coordinate must be a non-negative integer');
-        }
-    }
+        public colorId: number,
+        public x: number,
+        public y: number,
+        public stitchAngle: StitchAngle
+    ) {}
 }

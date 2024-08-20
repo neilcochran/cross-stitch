@@ -1,4 +1,17 @@
-import { BackStitch, CrossStitchPattern, FullStitch, HalfStitch, LongStitch, Properties, QuarterStitch, StitchAngle, StitchPlacement, ThreeQuarterStitch } from './model';
+import deepEqual from 'deep-equal';
+import {
+    BackStitch,
+    CrossStitchPattern,
+    FullStitch,
+    HalfStitch,
+    LongStitch,
+    Properties,
+    QuarterStitch,
+    StitchAngle,
+    StitchPlacement,
+    ThreeQuarterStitch
+} from './model';
+import { calculatePatternDimensions, calculatePatternTotals } from './utility';
 
 /**
  * Validate that the input number is non negative and an integer.
@@ -9,7 +22,7 @@ import { BackStitch, CrossStitchPattern, FullStitch, HalfStitch, LongStitch, Pro
  */
 export function validateNonNegativeInteger(input: number): boolean {
     //check for zero explicitly to avoid 0 % 0 == NaN in below check.
-    if(input === 0) {
+    if (input === 0) {
         return true;
     }
     return input % 1 == 0 && input >= 1;
@@ -41,7 +54,7 @@ export function validateNonNegativeDecimalPrecision(input: number): boolean {
  * @returns True if the two points are within a single grid space, false otherwise.
  */
 export function validateSingleSpaceDistance(x: number, y: number, x2: number, y2: number): boolean {
-    return (x2 - x) <= 1 && (y2 - y) <= 1;
+    return x2 - x <= 1 && y2 - y <= 1;
 }
 
 /**
@@ -54,12 +67,17 @@ export function validateSingleSpaceDistance(x: number, y: number, x2: number, y2
  */
 export function validatePatternSymbol(patternSymbol: string, properties?: Properties): boolean {
     //Validate patternSymbol is a single ASCII character in range [33, 126]
-    if(patternSymbol.length !== 1 || patternSymbol.trim().length !== 1 || patternSymbol.charCodeAt(0) <= 32 || patternSymbol.charCodeAt(0) >= 127) {
+    if (
+        patternSymbol.length !== 1 ||
+        patternSymbol.trim().length !== 1 ||
+        patternSymbol.charCodeAt(0) <= 32 ||
+        patternSymbol.charCodeAt(0) >= 127
+    ) {
         return false;
     }
 
     //if the pattern properties were provided, additionally check that the patternSymbol is unique
-    if(properties && properties.patternColors.find(color => color.patternSymbol === patternSymbol) !== undefined) {
+    if (properties && properties.patternColors.find((color) => color.patternSymbol === patternSymbol) !== undefined) {
         return false;
     }
 
@@ -77,19 +95,19 @@ export function validatePatternSymbol(patternSymbol: string, properties?: Proper
  */
 export function validateFullStitch(fullStitch: FullStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if(!validateColorId(fullStitch.colorId, properties)) {
+    if (!validateColorId(fullStitch.colorId, properties)) {
         return false;
     }
 
     const maxHeight = properties.stitchHeight;
     //if a stitch height is provided, check that the stitch is within its bounds
-    if(maxHeight && fullStitch.y > maxHeight) {
+    if (maxHeight && fullStitch.y > maxHeight) {
         return false;
     }
 
     const maxWidth = properties.stitchWidth;
     //if a stitch width is provided, check that the stitch is within its bounds
-    if(maxWidth && fullStitch.x > maxWidth) {
+    if (maxWidth && fullStitch.x > maxWidth) {
         return false;
     }
 
@@ -98,13 +116,15 @@ export function validateFullStitch(fullStitch: FullStitch, properties: Propertie
 
 /**
  * Validate all full stitches for the given pattern
+ *
  * @param crossStitchPattern - the pattern which contains the full stitches to validate
+ *
  * @returns True if all full stitches are valid, false if any are invalid.
  */
 export function validateAllFullStitches(crossStitchPattern: CrossStitchPattern): boolean {
-    if(crossStitchPattern.fullStitches) {
-        for(const fullStitch of crossStitchPattern.fullStitches) {
-            if(!validateFullStitch(fullStitch, crossStitchPattern.properties)) {
+    if (crossStitchPattern.fullStitches) {
+        for (const fullStitch of crossStitchPattern.fullStitches) {
+            if (!validateFullStitch(fullStitch, crossStitchPattern.properties)) {
                 return false;
             }
         }
@@ -123,44 +143,48 @@ export function validateAllFullStitches(crossStitchPattern: CrossStitchPattern):
  * @returns True if the three quarter stitch is valid, false otherwise.
  */
 export function validateThreeQuarterStitch(threeQuarterStitch: ThreeQuarterStitch, properties: Properties): boolean {
-    if(!validateColorId(threeQuarterStitch.colorId, properties)) {
+    if (!validateColorId(threeQuarterStitch.colorId, properties)) {
         return false;
     }
 
-    if(!validateStitchAngle(threeQuarterStitch.halfStitchAngle)) {
+    if (!validateStitchAngle(threeQuarterStitch.halfStitchAngle)) {
         return false;
     }
 
-    if(!validateStitchPlacement(threeQuarterStitch.quarterStitchPlacement)) {
+    if (!validateStitchPlacement(threeQuarterStitch.quarterStitchPlacement)) {
         return false;
     }
 
     //with a 45 degree half stitch angle, the quarter stitch placement must be either bottom-right or top-left
-    if(threeQuarterStitch.halfStitchAngle === 45) {
-        if(threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.BOTTOM_RIGHT && threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.TOP_LEFT) {
+    if (threeQuarterStitch.halfStitchAngle === 45) {
+        if (
+            threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.BOTTOM_RIGHT &&
+            threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.TOP_LEFT
+        ) {
             return false;
         }
-    }
-    else { //with a 135 degree half stitch angle, the quarter stitch placement must be either bottom-left or top-right
-        if(threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.BOTTOM_LEFT && threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.TOP_RIGHT) {
+    } else {
+        //with a 135 degree half stitch angle, the quarter stitch placement must be either bottom-left or top-right
+        if (
+            threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.BOTTOM_LEFT &&
+            threeQuarterStitch.quarterStitchPlacement !== StitchPlacement.TOP_RIGHT
+        ) {
             return false;
         }
     }
 
-    //make sure the stitch has a colorId that maps to a valid color
-    if(properties) {
+    if (properties) {
         const maxHeight = properties.stitchHeight;
         //if a stitch height is provided, check that the stitch is within its bounds
-        if(maxHeight && threeQuarterStitch.y > maxHeight) {
+        if (maxHeight && threeQuarterStitch.y > maxHeight) {
             return false;
         }
 
         const maxWidth = properties.stitchWidth;
         //if a stitch width is provided, check that the stitch is within its bounds
-        if(maxWidth && threeQuarterStitch.x > maxWidth) {
+        if (maxWidth && threeQuarterStitch.x > maxWidth) {
             return false;
         }
-
     }
 
     return true;
@@ -168,13 +192,15 @@ export function validateThreeQuarterStitch(threeQuarterStitch: ThreeQuarterStitc
 
 /**
  * Validate all three quarter stitches for the given pattern
+ *
  * @param crossStitchPattern - the pattern which contains the three quarter stitches to validate
+ *
  * @returns True if all three quarter stitches are valid, false if any are invalid.
  */
 export function validateAllThreeQuarterStitches(crossStitchPattern: CrossStitchPattern): boolean {
-    if(crossStitchPattern.threeQuarterStitches) {
-        for(const threeQuarterStitch of crossStitchPattern.threeQuarterStitches) {
-            if(!validateThreeQuarterStitch(threeQuarterStitch, crossStitchPattern.properties)) {
+    if (crossStitchPattern.threeQuarterStitches) {
+        for (const threeQuarterStitch of crossStitchPattern.threeQuarterStitches) {
+            if (!validateThreeQuarterStitch(threeQuarterStitch, crossStitchPattern.properties)) {
                 return false;
             }
         }
@@ -193,23 +219,23 @@ export function validateAllThreeQuarterStitches(crossStitchPattern: CrossStitchP
  */
 export function validateHalfStitch(halfStitch: HalfStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if(!validateColorId(halfStitch.colorId, properties)) {
+    if (!validateColorId(halfStitch.colorId, properties)) {
         return false;
     }
 
-    if(!validateStitchAngle(halfStitch.stitchAngle)) {
+    if (!validateStitchAngle(halfStitch.stitchAngle)) {
         return false;
     }
 
     const maxHeight = properties.stitchHeight;
     //if a stitch height is provided, check that the stitch is within its bounds
-    if(maxHeight && halfStitch.y > maxHeight) {
+    if (maxHeight && halfStitch.y > maxHeight) {
         return false;
     }
 
     const maxWidth = properties.stitchWidth;
     //if a stitch width is provided, check that the stitch is within its bounds
-    if(maxWidth && halfStitch.x > maxWidth) {
+    if (maxWidth && halfStitch.x > maxWidth) {
         return false;
     }
 
@@ -218,13 +244,15 @@ export function validateHalfStitch(halfStitch: HalfStitch, properties: Propertie
 
 /**
  * Validate all half stitches for the given pattern
+ *
  * @param crossStitchPattern - the pattern which contains the half stitches to validate
+ *
  * @returns True if all half stitches are valid, false if any are invalid.
  */
 export function validateAllHalfStitches(crossStitchPattern: CrossStitchPattern): boolean {
-    if(crossStitchPattern.halfStitches) {
-        for(const halfStitch of crossStitchPattern.halfStitches) {
-            if(!validateHalfStitch(halfStitch, crossStitchPattern.properties)) {
+    if (crossStitchPattern.halfStitches) {
+        for (const halfStitch of crossStitchPattern.halfStitches) {
+            if (!validateHalfStitch(halfStitch, crossStitchPattern.properties)) {
                 return false;
             }
         }
@@ -243,23 +271,23 @@ export function validateAllHalfStitches(crossStitchPattern: CrossStitchPattern):
  */
 export function validateQuarterStitch(quarterStitch: QuarterStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if(!validateColorId(quarterStitch.colorId, properties)) {
+    if (!validateColorId(quarterStitch.colorId, properties)) {
         return false;
     }
 
-    if(!validateStitchPlacement(quarterStitch.placement)) {
+    if (!validateStitchPlacement(quarterStitch.placement)) {
         return false;
     }
 
     const maxHeight = properties.stitchHeight;
     //if a stitch height is provided, check that the stitch is within its bounds
-    if(maxHeight && quarterStitch.y > maxHeight) {
+    if (maxHeight && quarterStitch.y > maxHeight) {
         return false;
     }
 
     const maxWidth = properties.stitchWidth;
     //if a stitch width is provided, check that the stitch is within its bounds
-    if(maxWidth && quarterStitch.x > maxWidth) {
+    if (maxWidth && quarterStitch.x > maxWidth) {
         return false;
     }
 
@@ -268,13 +296,15 @@ export function validateQuarterStitch(quarterStitch: QuarterStitch, properties: 
 
 /**
  * Validate all quarter stitches for the given pattern
+ *
  * @param crossStitchPattern - the pattern which contains the quarter stitches to validate
+ *
  * @returns True if all quarter stitches are valid, false if any are invalid.
  */
 export function validateAllQuarterStitches(crossStitchPattern: CrossStitchPattern): boolean {
-    if(crossStitchPattern.quarterStitches) {
-        for(const quarterStitch of crossStitchPattern.quarterStitches) {
-            if(!validateQuarterStitch(quarterStitch, crossStitchPattern.properties)) {
+    if (crossStitchPattern.quarterStitches) {
+        for (const quarterStitch of crossStitchPattern.quarterStitches) {
+            if (!validateQuarterStitch(quarterStitch, crossStitchPattern.properties)) {
                 return false;
             }
         }
@@ -294,26 +324,26 @@ export function validateAllQuarterStitches(crossStitchPattern: CrossStitchPatter
  */
 export function validateBackStitch(backStitch: BackStitch, properties?: Properties): boolean {
     //check that the back stitch's length does not exceed a single space
-    if(!validateSingleSpaceDistance(backStitch.x, backStitch.y, backStitch.x2, backStitch.y2)) {
+    if (!validateSingleSpaceDistance(backStitch.x, backStitch.y, backStitch.x2, backStitch.y2)) {
         return false;
     }
 
     //if properties were provided, perform additional checks
-    if(properties) {
+    if (properties) {
         //make sure the stitch has a colorId that maps to a valid color
-        if(!validateColorId(backStitch.colorId, properties)) {
+        if (!validateColorId(backStitch.colorId, properties)) {
             return false;
         }
 
         const maxHeight = properties.stitchHeight;
         //if a stitch height is provided, check that the stitch is within its bounds
-        if(maxHeight && (backStitch.y > maxHeight || backStitch.y2 > maxHeight)) {
+        if (maxHeight && (backStitch.y > maxHeight || backStitch.y2 > maxHeight)) {
             return false;
         }
 
         const maxWidth = properties.stitchWidth;
         //if a stitch width is provided, check that the stitch is within its bounds
-        if(maxWidth && (backStitch.x > maxWidth || backStitch.x2 > maxWidth)) {
+        if (maxWidth && (backStitch.x > maxWidth || backStitch.x2 > maxWidth)) {
             return false;
         }
     }
@@ -323,13 +353,15 @@ export function validateBackStitch(backStitch: BackStitch, properties?: Properti
 
 /**
  * Validate all back stitches for the given pattern
+ *
  * @param crossStitchPattern - the pattern which contains the back stitches to validate
+ *
  * @returns True if all back stitches are valid, false if any are invalid.
  */
 export function validateAllBackStitches(crossStitchPattern: CrossStitchPattern): boolean {
-    if(crossStitchPattern.backStitches) {
-        for(const backStitch of crossStitchPattern.backStitches) {
-            if(!validateBackStitch(backStitch, crossStitchPattern.properties)) {
+    if (crossStitchPattern.backStitches) {
+        for (const backStitch of crossStitchPattern.backStitches) {
+            if (!validateBackStitch(backStitch, crossStitchPattern.properties)) {
                 return false;
             }
         }
@@ -348,19 +380,19 @@ export function validateAllBackStitches(crossStitchPattern: CrossStitchPattern):
  */
 export function validateLongStitch(longStitch: LongStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if(!validateColorId(longStitch.colorId, properties)) {
+    if (!validateColorId(longStitch.colorId, properties)) {
         return false;
     }
 
     const maxHeight = properties.stitchHeight;
     //if a stitch height is provided, check that the stitch is within its bounds
-    if(maxHeight && (longStitch.y > maxHeight || longStitch.y2 > maxHeight)) {
+    if (maxHeight && (longStitch.y > maxHeight || longStitch.y2 > maxHeight)) {
         return false;
     }
 
     const maxWidth = properties.stitchWidth;
     //if a stitch width is provided, check that the stitch is within its bounds
-    if(maxWidth && (longStitch.x > maxWidth || longStitch.x2 > maxWidth)) {
+    if (maxWidth && (longStitch.x > maxWidth || longStitch.x2 > maxWidth)) {
         return false;
     }
 
@@ -369,13 +401,15 @@ export function validateLongStitch(longStitch: LongStitch, properties: Propertie
 
 /**
  * Validate all long stitches for the given pattern
+ *
  * @param crossStitchPattern - the pattern which contains the long stitches to validate
+ *
  * @returns True if all long stitches are valid, false if any are invalid.
  */
 export function validateAllLongStitches(crossStitchPattern: CrossStitchPattern): boolean {
-    if(crossStitchPattern.longStitches) {
-        for(const longStitch of crossStitchPattern.longStitches) {
-            if(!validateLongStitch(longStitch, crossStitchPattern.properties)) {
+    if (crossStitchPattern.longStitches) {
+        for (const longStitch of crossStitchPattern.longStitches) {
+            if (!validateLongStitch(longStitch, crossStitchPattern.properties)) {
                 return false;
             }
         }
@@ -391,14 +425,19 @@ export function validateAllLongStitches(crossStitchPattern: CrossStitchPattern):
  *
  * @returns True if the colorId maps to a color defined in the properties object.
  */
-export function validateColorId(colorId: string, properties: Properties): boolean {
-    return properties.patternColors.find(color => color.colorId === colorId) !== undefined;
+export function validateColorId(colorId: number, properties: Properties): boolean {
+    if (colorId < 0) {
+        return false;
+    }
+    return properties.patternColors.find((color) => color.colorId === colorId) !== undefined;
 }
 
 /**
  * Validate that a stitchPlacement is a valid member of the StitchPlacement enum.
  * This is needed when parsing from JSON, where invalid enum strings may be otherwise accepted
+ *
  * @param stitchPlacement - The stitchPlacement to validate
+ *
  * @returns True if the stitchPlacement is a valid member of the StitchPlacement enum, false otherwise
  */
 export function validateStitchPlacement(stitchPlacement: StitchPlacement): boolean {
@@ -408,9 +447,40 @@ export function validateStitchPlacement(stitchPlacement: StitchPlacement): boole
 /**
  * Validate that a stitchAngle is a valid member of the StitchAngle type alias.
  * This is needed when parsing from JSON, where invalid enum strings may be otherwise accepted
+ *
  * @param stitchAngle - The stitchAngle to validate
+ *
  * @returns True if the stitchAngle is a valid member of
  */
 export function validateStitchAngle(stitchAngle: StitchAngle): boolean {
-    return stitchAngle === 45 ||  stitchAngle === 135;
+    return stitchAngle === 45 || stitchAngle === 135;
+}
+
+/**
+ * Validate the pattern's totals are accurate
+ *
+ * @param crossStitchPattern - The pattern to validate the totals of
+ *
+ * @returns True if the current pattern's totals are accurate, false if they are not
+ */
+export function validatePatternTotals(crossStitchPattern: CrossStitchPattern): boolean {
+    const recalculatedTotals = calculatePatternTotals(crossStitchPattern);
+    //Intended to use Lodash's isEqual but it failed to detect equal objects for some reason.
+    //Instead, use deep-equal's deepEqual which works as expected
+    return deepEqual(crossStitchPattern.properties.patternTotals, recalculatedTotals);
+}
+
+/**
+ * Validate the pattern's dimensions are accurate
+ *
+ * @param crossStitchPattern - The pattern to validate the dimensions of
+ *
+ * @returns True if the pattern's dimensions are accurate, false if they are not
+ */
+export function validatePatternDimensions(crossStitchPattern: CrossStitchPattern): boolean {
+    const recalculatedDimensions = calculatePatternDimensions(crossStitchPattern);
+    return (
+        crossStitchPattern.properties.stitchWidth === recalculatedDimensions.stitchWidth &&
+        crossStitchPattern.properties.stitchHeight === recalculatedDimensions.stitchHeight
+    );
 }

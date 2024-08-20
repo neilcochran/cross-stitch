@@ -6,33 +6,39 @@ import {
     validateSingleSpaceDistance,
     validateColorId,
     validateStitchAngle,
-    validateStitchPlacement
+    validateStitchPlacement,
+    validatePatternTotals,
+    validatePatternDimensions
 } from '../src/validation';
-import { TEST_PATTERN_PROPERTIES } from './test-utils';
-
-const validNonNegativeInts = [0, 1, 9, 9999];
-const invalidInts = [-1, -99, -9999];
-const validNonNegativeDecimals = [0.5, 1.5, 2.5, 9999.5];
-const invalidDecimals = [-0.5, 1.3, 9.9, 0.1];
+import {
+    INVALID_DECIMALS,
+    INVALID_DIMENSIONS_PATTERN,
+    INVALID_INTS,
+    INVALID_TOTALS_PATTERN,
+    TEST_PATTERN_PROPERTIES,
+    TEST_VALID_PATTERN,
+    VALID_NON_NEG_DECIMALS,
+    VALID_NON_NEG_INTS
+} from './test-utils';
 
 test('validateNonNegativeInteger', () => {
     //expect true
-    validNonNegativeInts.forEach(int => expect(validateNonNegativeInteger(int)).toBe(true));
+    VALID_NON_NEG_INTS.forEach((int) => expect(validateNonNegativeInteger(int)).toBe(true));
 
     //expect false
-    invalidInts.forEach(int => expect(validateNonNegativeInteger(int)).toBe(false));
-    validNonNegativeDecimals.forEach(float => expect(validateNonNegativeInteger(float)).toBe(false));
-    invalidDecimals.forEach(float => expect(validateNonNegativeInteger(float)).toBe(false));
+    INVALID_INTS.forEach((int) => expect(validateNonNegativeInteger(int)).toBe(false));
+    VALID_NON_NEG_DECIMALS.forEach((float) => expect(validateNonNegativeInteger(float)).toBe(false));
+    INVALID_DECIMALS.forEach((float) => expect(validateNonNegativeInteger(float)).toBe(false));
 });
 
 test('validateNonNegativeDecimalPrecision', () => {
     //expect true
-    validNonNegativeInts.forEach(int => expect(validateNonNegativeDecimalPrecision(int)).toBe(true));
-    validNonNegativeDecimals.forEach(float => expect(validateNonNegativeDecimalPrecision(float)).toBe(true));
+    VALID_NON_NEG_INTS.forEach((int) => expect(validateNonNegativeDecimalPrecision(int)).toBe(true));
+    VALID_NON_NEG_DECIMALS.forEach((float) => expect(validateNonNegativeDecimalPrecision(float)).toBe(true));
 
     //expect false
-    invalidInts.forEach(int => expect(validateNonNegativeDecimalPrecision(int)).toBe(false));
-    invalidDecimals.forEach(float => expect(validateNonNegativeDecimalPrecision(float)).toBe(false));
+    INVALID_INTS.forEach((int) => expect(validateNonNegativeDecimalPrecision(int)).toBe(false));
+    INVALID_DECIMALS.forEach((float) => expect(validateNonNegativeDecimalPrecision(float)).toBe(false));
 });
 
 test('validateSingleSpaceDistance', () => {
@@ -63,15 +69,11 @@ test('validatePatternSymbol', () => {
 
 test('validateColorId', () => {
     //expect true
-    expect(validateColorId('0', TEST_PATTERN_PROPERTIES)).toBe(true);
-    expect(validateColorId('1', TEST_PATTERN_PROPERTIES)).toBe(true);
-    expect(validateColorId('abc', TEST_PATTERN_PROPERTIES)).toBe(true);
-
+    expect(validateColorId(0, TEST_PATTERN_PROPERTIES)).toBe(true);
+    expect(validateColorId(1, TEST_PATTERN_PROPERTIES)).toBe(true);
 
     //expect false
-    expect(validateColorId('2', TEST_PATTERN_PROPERTIES)).toBe(false);
-    expect(validateColorId('Q', TEST_PATTERN_PROPERTIES)).toBe(false);
-    expect(validateColorId(' ', TEST_PATTERN_PROPERTIES)).toBe(false);
+    expect(validateColorId(-1, TEST_PATTERN_PROPERTIES)).toBe(false);
 });
 
 //only needed due to parsing from json into a model (see validateStitchAngle method documentation)
@@ -94,4 +96,20 @@ test('validateStitchPlacement', () => {
 
     //expect false
     expect(validateStitchPlacement('foo-bar' as StitchPlacement)).toBe(false);
+});
+
+test('validatePatternDimensions', () => {
+    //expect true
+    expect(validatePatternDimensions(TEST_VALID_PATTERN)).toBe(true);
+
+    //expect false
+    expect(validatePatternDimensions(INVALID_DIMENSIONS_PATTERN)).toBe(false);
+});
+
+test('validatePatternTotals', () => {
+    //expect true
+    expect(validatePatternTotals(TEST_VALID_PATTERN)).toBe(true);
+
+    //expect false
+    expect(validatePatternTotals(INVALID_TOTALS_PATTERN)).toBe(false);
 });

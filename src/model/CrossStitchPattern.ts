@@ -10,11 +10,11 @@ import { ThreeQuarterStitch } from './ThreeQuarterStitch';
  * Model interface representing a full cross stitch pattern.
  */
 export interface CrossStitchPattern {
-    properties: Properties,
-    fullStitches: FullStitch[],
-    threeQuarterStitches: ThreeQuarterStitch[],
-    halfStitches: HalfStitch[],
-    quarterStitches: QuarterStitch[],
-    backStitches: BackStitch[],
-    longStitches: LongStitch[]
+    properties: Properties;
+    fullStitches: FullStitch[];
+    threeQuarterStitches: ThreeQuarterStitch[];
+    halfStitches: HalfStitch[];
+    quarterStitches: QuarterStitch[];
+    backStitches: BackStitch[];
+    longStitches: LongStitch[];
 }
