@@ -135,8 +135,7 @@ A full stitch covers a single square on the pattern in an 'X' shape. It is the c
 -   `y` - The y coordinate of the lower left corner of stitch.
 
 **Example:**
-
-![FullStitch](images/full-stitch.png)
+![FullStitch Image](https://github.com/neilcochran/cross-stitch/blob/master/images/full-stitch.png)
 
 ```json
 {
