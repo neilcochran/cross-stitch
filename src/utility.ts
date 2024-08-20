@@ -27,8 +27,6 @@ import {
  * @param json - The json string to be parsed into a CrossStitchPattern model object.
  *
  * @returns A CrossStitchPattern object.
- *
- * @throws {@link Error} if the JSON is malformed or does properly follow the schema specifications.
  */
 export function jsonToModel(json: string): CrossStitchPattern {
     const jsonData = JSON.parse(json);
@@ -102,7 +100,7 @@ export function jsonToModel(json: string): CrossStitchPattern {
             if (!validateThreeQuarterStitch(newThreeQuarterStitch, properties)) {
                 throw new Error(`invalid three quarter stitch encountered: ${JSON.stringify(newThreeQuarterStitch)}`);
             }
-            threeQuarterStitches.push();
+            threeQuarterStitches.push(newThreeQuarterStitch);
         }
     }
 

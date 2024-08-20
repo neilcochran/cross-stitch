@@ -1,6 +1,11 @@
+## Version 1.0.0
+-   First full release!
+-   Bug fix: jsonToModel() was not parsing ThreeQuarterStitches correctly
+-   TypeDoc was not generated for 0.5.1, it is updated in this version
+
 ## Version 0.5.1
 
-- Replace README.md relative image links with full image links so that github pages can also render them
+-   Replace README.md relative image links with full image links so that github pages can also render them
 
 ## Version 0.5.0
 
