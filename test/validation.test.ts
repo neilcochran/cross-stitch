@@ -14,23 +14,23 @@ import {
     validateAllColors
 } from '../src/validation';
 import {
-    DUP_COLOR_ID_PATTERN,
-    DUP_SYMBOL_PATTERN,
     INVALID_DECIMALS,
     INVALID_DIMENSIONS_PATTERN,
+    INVALID_DUP_COLOR_ID_PATTERN,
+    INVALID_DUP_COLORS,
+    INVALID_DUP_SYMBOL_COLORS,
+    INVALID_DUP_SYMBOL_PATTERN,
+    INVALID_FLOAT_COLOR_ID_COLORS,
+    INVALID_HEX_COLORS,
     INVALID_INTS,
+    INVALID_NEG_COLOR_ID_COLORS,
+    INVALID_NO_FLOSS_COLORS,
+    INVALID_SYMBOL_COLORS,
     INVALID_TOTALS_PATTERN,
-    TEST_DUP_PATTERN_COLORS,
-    TEST_DUP_PATTERN_SYMBOL,
-    TEST_INVALID_FLOAT_COLOR_ID_PATTERN_COLORS,
-    TEST_INVALID_HEX_PATTERN_COLORS,
-    TEST_INVALID_NEG_COLOR_ID_PATTERN_COLORS,
-    TEST_INVALID_SYMBOL_PATTERN_COLORS,
-    TEST_NO_FLOSS_PATTERN_COLORS,
-    TEST_PATTERN_COLORS,
-    TEST_VALID_PATTERN,
+    VALID_COLORS,
     VALID_NON_NEG_DECIMALS,
-    VALID_NON_NEG_INTS
+    VALID_NON_NEG_INTS,
+    VALID_PATTERN
 } from './test-utils';
 
 test('validateNonNegativeInteger', () => {
@@ -103,7 +103,7 @@ test('validateStitchPlacement', () => {
 
 test('validatePatternDimensions', () => {
     //expect true
-    expect(validatePatternDimensions(TEST_VALID_PATTERN)).toBe(true);
+    expect(validatePatternDimensions(VALID_PATTERN)).toBe(true);
 
     //expect false
     expect(validatePatternDimensions(INVALID_DIMENSIONS_PATTERN)).toBe(false);
@@ -111,36 +111,36 @@ test('validatePatternDimensions', () => {
 
 test('validateAllPatternSymbols', () => {
     //expect true
-    expect(validateAllPatternSymbols(TEST_PATTERN_COLORS)).toBe(true);
+    expect(validateAllPatternSymbols(VALID_COLORS)).toBe(true);
 
     //expect false
-    expect(validateAllPatternSymbols(TEST_DUP_PATTERN_SYMBOL)).toBe(false);
-    expect(validateAllPatternSymbols(TEST_INVALID_SYMBOL_PATTERN_COLORS)).toBe(false);
+    expect(validateAllPatternSymbols(INVALID_DUP_SYMBOL_COLORS)).toBe(false);
+    expect(validateAllPatternSymbols(INVALID_SYMBOL_COLORS)).toBe(false);
 });
 
 test('validateAllColorIds', () => {
     //expect true
-    expect(validateAllColorIds(TEST_PATTERN_COLORS)).toBe(true);
+    expect(validateAllColorIds(VALID_COLORS)).toBe(true);
 
     //expect false
-    expect(validateAllColorIds(TEST_DUP_PATTERN_COLORS)).toBe(false);
-    expect(validateAllColorIds(TEST_INVALID_NEG_COLOR_ID_PATTERN_COLORS)).toBe(false);
-    expect(validateAllColorIds(TEST_INVALID_FLOAT_COLOR_ID_PATTERN_COLORS)).toBe(false);
+    expect(validateAllColorIds(INVALID_DUP_COLORS)).toBe(false);
+    expect(validateAllColorIds(INVALID_NEG_COLOR_ID_COLORS)).toBe(false);
+    expect(validateAllColorIds(INVALID_FLOAT_COLOR_ID_COLORS)).toBe(false);
 });
 
 test('validateAllColors', () => {
     //expect true
-    expect(validateAllColors(TEST_PATTERN_COLORS)).toBe(true);
+    expect(validateAllColors(VALID_COLORS)).toBe(true);
 
     //expect false
-    expect(validateAllColors(TEST_DUP_PATTERN_COLORS)).toBe(false);
-    expect(validateAllColors(TEST_INVALID_HEX_PATTERN_COLORS)).toBe(false);
-    expect(validateAllColors(TEST_NO_FLOSS_PATTERN_COLORS)).toBe(false);
+    expect(validateAllColors(INVALID_DUP_COLORS)).toBe(false);
+    expect(validateAllColors(INVALID_HEX_COLORS)).toBe(false);
+    expect(validateAllColors(INVALID_NO_FLOSS_COLORS)).toBe(false);
 });
 
 test('validatePatternTotals', () => {
     //expect true
-    expect(validatePatternTotals(TEST_VALID_PATTERN)).toBe(true);
+    expect(validatePatternTotals(VALID_PATTERN)).toBe(true);
 
     //expect false
     expect(validatePatternTotals(INVALID_TOTALS_PATTERN)).toBe(false);
@@ -148,11 +148,11 @@ test('validatePatternTotals', () => {
 
 test('validateCrossStitchPattern', () => {
     //expect true
-    expect(validateCrossStitchPattern(TEST_VALID_PATTERN)).toBe(true);
+    expect(validateCrossStitchPattern(VALID_PATTERN)).toBe(true);
 
     //expect false
-    expect(validateCrossStitchPattern(DUP_COLOR_ID_PATTERN)).toBe(false);
+    expect(validateCrossStitchPattern(INVALID_DUP_COLOR_ID_PATTERN)).toBe(false);
     expect(validateCrossStitchPattern(INVALID_TOTALS_PATTERN)).toBe(false);
     expect(validateCrossStitchPattern(INVALID_DIMENSIONS_PATTERN)).toBe(false);
-    expect(validateCrossStitchPattern(DUP_SYMBOL_PATTERN)).toBe(false);
+    expect(validateCrossStitchPattern(INVALID_DUP_SYMBOL_PATTERN)).toBe(false);
 });
