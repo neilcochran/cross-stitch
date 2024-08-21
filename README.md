@@ -4,6 +4,14 @@ This repository defines a json schema to represent cross stitch patterns and pro
 
 For full code documentation, please visit [`this`](https://neilcochran.github.io/cross-stitch/) page.
 
+## Installation
+
+Install via `npm` using the below terminal command
+
+```
+    npm install cross-stitch
+```
+
 ## Versions
 
 View all versions of in the <a href="/CHANGELOG.md">CHANGELOG.md</a>
