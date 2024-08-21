@@ -1,5 +1,6 @@
 ## Version 1.1.0
 
+-   Renamed PatternColor -> Color
 -   Added validateCrossStitchPattern which performs all available validations on the given pattern
 -   Add various supporting validations
 -   Validation methods take more specific parameters, instead of always taking the whole pattern
