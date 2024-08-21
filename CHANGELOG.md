@@ -1,3 +1,7 @@
+## Version 1.1.2
+
+-   Add keywords to package.json
+
 ## Version 1.1.1
 
 -   Add installation instructions to README.md
