@@ -5,6 +5,7 @@ import {
     FullStitch,
     HalfStitch,
     LongStitch,
+    PatternColor,
     Properties,
     QuarterStitch,
     StitchAngle,
@@ -58,33 +59,6 @@ export function validateSingleSpaceDistance(x: number, y: number, x2: number, y2
 }
 
 /**
- * Validate that the patternSymbol string is a single printable ASCII character,
- * additionally excluding space (32), and DEL (127) leaving the acceptable ASCII range [33, 126].
- *
- * @param patternSymbol - The patternSymbol input to validate
- *
- * @returns True if the patternSymbol provided is valid, false otherwise.
- */
-export function validatePatternSymbol(patternSymbol: string, properties?: Properties): boolean {
-    //Validate patternSymbol is a single ASCII character in range [33, 126]
-    if (
-        patternSymbol.length !== 1 ||
-        patternSymbol.trim().length !== 1 ||
-        patternSymbol.charCodeAt(0) <= 32 ||
-        patternSymbol.charCodeAt(0) >= 127
-    ) {
-        return false;
-    }
-
-    //if the pattern properties were provided, additionally check that the patternSymbol is unique
-    if (properties && properties.patternColors.find((color) => color.patternSymbol === patternSymbol) !== undefined) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
  * Validate a full stitch against patterns properties. This validates the stitch's colorId maps to a valid color and
  * if properties has a stitchHeight and/or stitchWidth defined, the relevant coordinate(s) will be range checked.
  *
@@ -95,7 +69,7 @@ export function validatePatternSymbol(patternSymbol: string, properties?: Proper
  */
 export function validateFullStitch(fullStitch: FullStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if (!validateColorId(fullStitch.colorId, properties)) {
+    if (!validateColorExists(fullStitch.colorId, properties.patternColors)) {
         return false;
     }
 
@@ -143,7 +117,7 @@ export function validateAllFullStitches(crossStitchPattern: CrossStitchPattern):
  * @returns True if the three quarter stitch is valid, false otherwise.
  */
 export function validateThreeQuarterStitch(threeQuarterStitch: ThreeQuarterStitch, properties: Properties): boolean {
-    if (!validateColorId(threeQuarterStitch.colorId, properties)) {
+    if (!validateColorExists(threeQuarterStitch.colorId, properties.patternColors)) {
         return false;
     }
 
@@ -219,7 +193,7 @@ export function validateAllThreeQuarterStitches(crossStitchPattern: CrossStitchP
  */
 export function validateHalfStitch(halfStitch: HalfStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if (!validateColorId(halfStitch.colorId, properties)) {
+    if (!validateColorExists(halfStitch.colorId, properties.patternColors)) {
         return false;
     }
 
@@ -271,7 +245,7 @@ export function validateAllHalfStitches(crossStitchPattern: CrossStitchPattern):
  */
 export function validateQuarterStitch(quarterStitch: QuarterStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if (!validateColorId(quarterStitch.colorId, properties)) {
+    if (!validateColorExists(quarterStitch.colorId, properties.patternColors)) {
         return false;
     }
 
@@ -331,7 +305,7 @@ export function validateBackStitch(backStitch: BackStitch, properties?: Properti
     //if properties were provided, perform additional checks
     if (properties) {
         //make sure the stitch has a colorId that maps to a valid color
-        if (!validateColorId(backStitch.colorId, properties)) {
+        if (!validateColorExists(backStitch.colorId, properties.patternColors)) {
             return false;
         }
 
@@ -380,7 +354,7 @@ export function validateAllBackStitches(crossStitchPattern: CrossStitchPattern):
  */
 export function validateLongStitch(longStitch: LongStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if (!validateColorId(longStitch.colorId, properties)) {
+    if (!validateColorExists(longStitch.colorId, properties.patternColors)) {
         return false;
     }
 
@@ -418,21 +392,6 @@ export function validateAllLongStitches(crossStitchPattern: CrossStitchPattern):
 }
 
 /**
- * Validate that a colorId maps to a valid color defined in the properties.
- *
- * @param colorId - The colorId to validate.
- * @param properties - The pattern properties that contains the defined colors.
- *
- * @returns True if the colorId maps to a color defined in the properties object.
- */
-export function validateColorId(colorId: number, properties: Properties): boolean {
-    if (colorId < 0) {
-        return false;
-    }
-    return properties.patternColors.find((color) => color.colorId === colorId) !== undefined;
-}
-
-/**
  * Validate that a stitchPlacement is a valid member of the StitchPlacement enum.
  * This is needed when parsing from JSON, where invalid enum strings may be otherwise accepted
  *
@@ -454,6 +413,111 @@ export function validateStitchPlacement(stitchPlacement: StitchPlacement): boole
  */
 export function validateStitchAngle(stitchAngle: StitchAngle): boolean {
     return stitchAngle === 45 || stitchAngle === 135;
+}
+
+/**
+ * Validate that the patternSymbol string is a single printable ASCII character,
+ * additionally excluding space (32), and DEL (127) leaving the acceptable ASCII range [33, 126].
+ *
+ * @param patternSymbol - The patternSymbol input to validate
+ *
+ * @returns True if the patternSymbol provided is valid, false otherwise.
+ */
+export function validatePatternSymbol(patternSymbol: string): boolean {
+    //Validate patternSymbol is a single ASCII character in range [33, 126]
+    if (
+        patternSymbol.length !== 1 ||
+        patternSymbol.trim().length !== 1 ||
+        patternSymbol.charCodeAt(0) <= 32 ||
+        patternSymbol.charCodeAt(0) >= 127
+    ) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * TODO JSDoc
+ * @param patternColors
+ */
+export function validateAllPatternSymbols(patternColors: PatternColor[]): boolean {
+    const patternSymbols: string[] = [];
+    if (patternColors.length > 0) {
+        for (const color of patternColors) {
+            if (!validatePatternSymbol(color.patternSymbol)) {
+                return false;
+            }
+            if (patternSymbols.find((symbol) => symbol === color.patternSymbol) !== undefined) {
+                return false;
+            }
+            patternSymbols.push(color.patternSymbol);
+        }
+    }
+    return true;
+}
+
+/**
+ * Validate that a colorId maps to a valid color defined in the properties.
+ *
+ * @param colorId - The colorId to validate.
+ * @param patternColors - The list of colors in the pattern
+ *
+ * @returns True if the colorId maps to a color defined in the patternColors list.
+ */
+export function validateColorExists(colorId: number, patternColors: PatternColor[]): boolean {
+    if (colorId < 0) {
+        return false;
+    }
+    return patternColors.find((color) => color.colorId === colorId) !== undefined;
+}
+
+/**
+ * TODO JSDoc
+ * @param crossStitchPattern
+ * @returns
+ */
+export function validateAllPatternColorIds(patternColors: PatternColor[]): boolean {
+    const colorIds: number[] = [];
+    if (patternColors.length > 0) {
+        for (const color of patternColors) {
+            if (!validateNonNegativeInteger(color.colorId)) {
+                return false;
+            }
+            if (colorIds.find((colorId) => colorId === color.colorId) !== undefined) {
+                return false;
+            }
+            colorIds.push(color.colorId);
+        }
+    }
+    return true;
+}
+
+/**
+ * TODO JSDoc
+ * @param patternColors
+ */
+export function validateAllPatternColors(patternColors: PatternColor[]): boolean {
+    if (patternColors.length > 0) {
+        //validate each colorId and patternSymbol is unique across all colors
+        if (!validateAllPatternColorIds(patternColors)) {
+            return false;
+        }
+        if (!validateAllPatternSymbols(patternColors)) {
+            return false;
+        }
+        for (const color of patternColors) {
+            if (color.hexCode) {
+                if (!validateNonNegativeInteger(color.hexCode) || color.hexCode > 0xffffff) {
+                    return false;
+                }
+            }
+            if (color.flossStrands.length === 0) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 /**
@@ -483,4 +547,44 @@ export function validatePatternDimensions(crossStitchPattern: CrossStitchPattern
         crossStitchPattern.properties.stitchWidth === recalculatedDimensions.stitchWidth &&
         crossStitchPattern.properties.stitchHeight === recalculatedDimensions.stitchHeight
     );
+}
+
+/**
+ * TODO JSDoc
+ * @param crossStitchPattern
+ * @returns
+ */
+export function validateCrossStitchPattern(crossStitchPattern: CrossStitchPattern): boolean {
+    //validate all stitches
+    if (!validateAllFullStitches(crossStitchPattern)) {
+        return false;
+    }
+    if (!validateAllThreeQuarterStitches(crossStitchPattern)) {
+        return false;
+    }
+    if (!validateAllHalfStitches(crossStitchPattern)) {
+        return false;
+    }
+    if (!validateAllQuarterStitches(crossStitchPattern)) {
+        return false;
+    }
+    if (!validateAllBackStitches(crossStitchPattern)) {
+        return false;
+    }
+    if (!validateAllLongStitches(crossStitchPattern)) {
+        return false;
+    }
+
+    //validate pattern properties
+    if (!validateAllPatternColors(crossStitchPattern.properties.patternColors)) {
+        return false;
+    }
+    if (!validatePatternDimensions(crossStitchPattern)) {
+        return false;
+    }
+    if (!validatePatternTotals(crossStitchPattern)) {
+        return false;
+    }
+
+    return true;
 }

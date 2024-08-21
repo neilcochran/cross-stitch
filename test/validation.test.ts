@@ -4,18 +4,19 @@ import {
     validateNonNegativeInteger,
     validatePatternSymbol,
     validateSingleSpaceDistance,
-    validateColorId,
     validateStitchAngle,
     validateStitchPlacement,
     validatePatternTotals,
-    validatePatternDimensions
+    validatePatternDimensions,
+    validateCrossStitchPattern
 } from '../src/validation';
 import {
+    DUP_COLOR_ID_PATTERN,
+    DUP_SYMBOL_PATTERN,
     INVALID_DECIMALS,
     INVALID_DIMENSIONS_PATTERN,
     INVALID_INTS,
     INVALID_TOTALS_PATTERN,
-    TEST_PATTERN_PROPERTIES,
     TEST_VALID_PATTERN,
     VALID_NON_NEG_DECIMALS,
     VALID_NON_NEG_INTS
@@ -67,15 +68,6 @@ test('validatePatternSymbol', () => {
     expect(validatePatternSymbol('\n')).toBe(false);
 });
 
-test('validateColorId', () => {
-    //expect true
-    expect(validateColorId(0, TEST_PATTERN_PROPERTIES)).toBe(true);
-    expect(validateColorId(1, TEST_PATTERN_PROPERTIES)).toBe(true);
-
-    //expect false
-    expect(validateColorId(-1, TEST_PATTERN_PROPERTIES)).toBe(false);
-});
-
 //only needed due to parsing from json into a model (see validateStitchAngle method documentation)
 test('validateStitchAngle', () => {
     //expect true
@@ -112,4 +104,16 @@ test('validatePatternTotals', () => {
 
     //expect false
     expect(validatePatternTotals(INVALID_TOTALS_PATTERN)).toBe(false);
+});
+
+test('validateCrossStitchPattern', () => {
+    //expect true
+    expect(validateCrossStitchPattern(TEST_VALID_PATTERN)).toBe(true);
+
+    //expect false
+    expect(validateCrossStitchPattern(DUP_COLOR_ID_PATTERN)).toBe(false);
+    expect(validateCrossStitchPattern(INVALID_TOTALS_PATTERN)).toBe(false);
+    expect(validateCrossStitchPattern(INVALID_DIMENSIONS_PATTERN)).toBe(false);
+    expect(validateCrossStitchPattern(DUP_SYMBOL_PATTERN)).toBe(false);
+
 });

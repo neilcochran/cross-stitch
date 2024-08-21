@@ -12,14 +12,7 @@ import {
 } from './model';
 import { PatternTotals } from './model/PatternTotals';
 import { StitchColorTotals } from './model/StitchColorTotals';
-import {
-    validateBackStitch,
-    validateFullStitch,
-    validateHalfStitch,
-    validateLongStitch,
-    validateQuarterStitch,
-    validateThreeQuarterStitch
-} from './validation';
+import { validateCrossStitchPattern } from './validation';
 
 /**
  * Parse JSON implementing the cross stitch pattern schema into the corresponding typescript objects. Constructor validation will enforce validity.
@@ -81,9 +74,6 @@ export function jsonToModel(json: string): CrossStitchPattern {
     if (jsonData.fullStitches) {
         for (const fullStitch of jsonData.fullStitches) {
             const newFullStitch = new FullStitch(fullStitch.colorId, fullStitch.x, fullStitch.y);
-            if (!validateFullStitch(newFullStitch, properties)) {
-                throw new Error(`invalid full stitch encountered: ${JSON.stringify(newFullStitch)}`);
-            }
             fullStitches.push(newFullStitch);
         }
     }
@@ -97,9 +87,6 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 threeQuarterStitch.halfStitchAngle,
                 threeQuarterStitch.quarterStitchPlacement
             );
-            if (!validateThreeQuarterStitch(newThreeQuarterStitch, properties)) {
-                throw new Error(`invalid three quarter stitch encountered: ${JSON.stringify(newThreeQuarterStitch)}`);
-            }
             threeQuarterStitches.push(newThreeQuarterStitch);
         }
     }
@@ -112,9 +99,6 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 halfStitch.y,
                 halfStitch.stitchAngle
             );
-            if (!validateHalfStitch(newHalfStitch, properties)) {
-                throw new Error(`invalid half stitch encountered: ${JSON.stringify(halfStitch)}`);
-            }
             halfStitches.push(newHalfStitch);
         }
     }
@@ -127,9 +111,6 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 quarterStitch.y,
                 quarterStitch.placement
             );
-            if (!validateQuarterStitch(newQuarterStitch, properties)) {
-                throw new Error(`invalid quarter stitch encountered: ${JSON.stringify(newQuarterStitch)}`);
-            }
             quarterStitches.push(newQuarterStitch);
         }
     }
@@ -143,9 +124,6 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 backStitch.x2,
                 backStitch.y2
             );
-            if (!validateBackStitch(newBackStitch, properties)) {
-                throw new Error(`invalid back stitch encountered: ${JSON.stringify(newBackStitch)}`);
-            }
             backStitches.push(newBackStitch);
         }
     }
@@ -159,13 +137,11 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 longStitch.x2,
                 longStitch.y2
             );
-            if (!validateLongStitch(newLongStitch, properties)) {
-                throw new Error(`invalid long stitch encountered: ${JSON.stringify(newLongStitch)}`);
-            }
             longStitches.push(newLongStitch);
         }
     }
-    return {
+
+    const pattern = {
         properties,
         fullStitches,
         threeQuarterStitches,
@@ -174,6 +150,12 @@ export function jsonToModel(json: string): CrossStitchPattern {
         backStitches,
         longStitches
     };
+
+    if (!validateCrossStitchPattern(pattern)) {
+        throw new Error('invalid CrossStitchPattern JSON');
+    }
+
+    return pattern;
 }
 
 /**

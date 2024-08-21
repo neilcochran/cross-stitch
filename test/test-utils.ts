@@ -28,6 +28,22 @@ export const TEST_PATTERN_COLORS: PatternColor[] = [
     ])
 ];
 
+export const TEST_DUP_PATTERN_COLORS: PatternColor[] = [
+    new PatternColor(3, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+    new PatternColor(3, 'Orange Blend', '&', [
+        new Floss('721', 'Orange Spice', BrandName.DMC, 1),
+        new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
+    ])
+];
+
+export const TEST_DUP_PATTERN_SYMBOL: PatternColor[] = [
+    new PatternColor(0, 'Dark Blue', '#', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+    new PatternColor(1, 'Orange Blend', '#', [
+        new Floss('721', 'Orange Spice', BrandName.DMC, 1),
+        new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
+    ])
+];
+
 export const TEST_PATTERN_TOTALS: PatternTotals = {
     totalFullStitches: 2,
     totalThreeQuarterStitches: 2,
@@ -39,6 +55,8 @@ export const TEST_PATTERN_TOTALS: PatternTotals = {
 };
 
 export const TEST_PATTERN_PROPERTIES = new Properties(TEST_PATTERN_COLORS, TEST_PATTERN_TOTALS, 13, 20);
+export const TEST_PATTERN_PROPERTIES_DUP_COLOR = new Properties(TEST_DUP_PATTERN_COLORS, TEST_PATTERN_TOTALS, 13, 20);
+export const TEST_PATTERN_PROPERTIES_DUP_SYMBOL = new Properties(TEST_DUP_PATTERN_SYMBOL, TEST_PATTERN_TOTALS, 13, 20);
 
 export const TEST_FULL_STITCHES: FullStitch[] = [new FullStitch(0, 0, 1), new FullStitch(1, 3, 4)];
 export const TEST_THREE_QUARTER_STITCHES: ThreeQuarterStitch[] = [
@@ -85,10 +103,30 @@ export const INVALID_DIMENSIONS_PATTERN: CrossStitchPattern = {
     longStitches: [] //removing the long stitches will invalidate the pattern dimensions
 };
 
+export const DUP_COLOR_ID_PATTERN: CrossStitchPattern = {
+    properties: TEST_PATTERN_PROPERTIES_DUP_COLOR,
+    fullStitches: TEST_FULL_STITCHES,
+    threeQuarterStitches: TEST_THREE_QUARTER_STITCHES,
+    halfStitches: TEST_HALF_STITCHES,
+    quarterStitches: TEST_QUARTER_STITCHES,
+    backStitches: TEST_BACK_STITCHES,
+    longStitches: TEST_LONG_STITCHES
+};
+
+export const DUP_SYMBOL_PATTERN: CrossStitchPattern = {
+    properties: TEST_PATTERN_PROPERTIES_DUP_SYMBOL,
+    fullStitches: TEST_FULL_STITCHES,
+    threeQuarterStitches: TEST_THREE_QUARTER_STITCHES,
+    halfStitches: TEST_HALF_STITCHES,
+    quarterStitches: TEST_QUARTER_STITCHES,
+    backStitches: TEST_BACK_STITCHES,
+    longStitches: TEST_LONG_STITCHES
+};
+
 export const TEST_VALID_FULL_PATTERN_JSON = `
 {
     "properties": {
-        "stitchWidth": 12,
+        "stitchWidth": 13,
         "stitchHeight": 20,
         "notes": "This is a contrived example 'pattern'. Enjoy!",
         "patternTotals": {

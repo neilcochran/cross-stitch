@@ -1,4 +1,10 @@
+## Version 1.1.0
+
+-   Added validateCrossStitchPattern which performs all available validations on the given pattern
+-   All pattern `Properties` attributes are now required (other than `notes` which is still optional)
+
 ## Version 1.0.0
+
 -   First full release!
 -   Bug fix: jsonToModel() was not parsing ThreeQuarterStitches correctly
 -   TypeDoc was not generated for 0.5.1, it is updated in this version

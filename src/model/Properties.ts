@@ -14,9 +14,9 @@ export class Properties {
      */
     constructor(
         public patternColors: PatternColor[],
-        public patternTotals?: PatternTotals,
-        public stitchWidth?: number,
-        public stitchHeight?: number,
+        public patternTotals: PatternTotals,
+        public stitchWidth: number,
+        public stitchHeight: number,
         public notes?: string
     ) {}
 }
