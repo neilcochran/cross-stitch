@@ -38,14 +38,7 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 )
             );
         }
-        colors.push(
-            new Color(
-                color.colorId,
-                color.colorName.trim(),
-                color.patternSymbol.trim(),
-                flossStrands
-            )
-        );
+        colors.push(new Color(color.colorId, color.colorName.trim(), color.patternSymbol.trim(), flossStrands));
     }
     const patternTotals = new PatternTotals(
         jsonData.properties?.patternTotals?.totalFullStitches ?? 0,
