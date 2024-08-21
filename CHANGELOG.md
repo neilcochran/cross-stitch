@@ -1,3 +1,8 @@
+## Version 1.1.1
+
+-   Add installation instructions to README.md
+-   Update LICENSE.md copyright year to 2024
+
 ## Version 1.1.0
 
 -   Renamed PatternColor -> Color
