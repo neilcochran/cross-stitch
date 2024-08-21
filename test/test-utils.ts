@@ -6,7 +6,7 @@ import {
     FullStitch,
     HalfStitch,
     LongStitch,
-    PatternColor,
+    Color,
     Properties,
     QuarterStitch,
     StitchPlacement,
@@ -20,15 +20,59 @@ export const INVALID_INTS = [-1, -99, -9999];
 export const VALID_NON_NEG_DECIMALS = [0.5, 1.5, 2.5, 9999.5];
 export const INVALID_DECIMALS = [-0.5, 1.3, 9.9, 0.1];
 
-export const TEST_PATTERN_COLORS: PatternColor[] = [
-    new PatternColor(0, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
-    new PatternColor(1, 'Orange Blend', '&', [
+export const VALID_COLORS: Color[] = [
+    new Color(0, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+    new Color(1, 'Orange Blend', '&', [
         new Floss('721', 'Orange Spice', BrandName.DMC, 1),
         new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
     ])
 ];
 
-export const TEST_PATTERN_TOTALS: PatternTotals = {
+export const INVALID_DUP_COLORS: Color[] = [
+    new Color(3, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+    new Color(3, 'Orange Blend', '&', [
+        new Floss('721', 'Orange Spice', BrandName.DMC, 1),
+        new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
+    ])
+];
+
+export const INVALID_HEX_COLORS: Color[] = [
+    new Color(3, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2, 0xfffffff)]),
+    new Color(3, 'Orange Blend', '&', [
+        new Floss('721', 'Orange Spice', BrandName.DMC, 1),
+        new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
+    ])
+];
+
+export const INVALID_NO_FLOSS_COLORS: Color[] = [
+    new Color(3, 'Dark Blue', '@', []),
+    new Color(3, 'Orange Blend', '&', [
+        new Floss('721', 'Orange Spice', BrandName.DMC, 1),
+        new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
+    ])
+];
+
+export const INVALID_SYMBOL_COLORS: Color[] = [
+    new Color(7, 'Dark Blue', 'XX', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)])
+];
+
+export const INVALID_NEG_COLOR_ID_COLORS: Color[] = [
+    new Color(-1, 'Dark Blue', 'XX', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)])
+];
+
+export const INVALID_FLOAT_COLOR_ID_COLORS: Color[] = [
+    new Color(3.5, 'Dark Blue', 'P', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)])
+];
+
+export const INVALID_DUP_SYMBOL_COLORS: Color[] = [
+    new Color(0, 'Dark Blue', '#', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+    new Color(1, 'Orange Blend', '#', [
+        new Floss('721', 'Orange Spice', BrandName.DMC, 1),
+        new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
+    ])
+];
+
+export const VALID_PATTERN_TOTALS: PatternTotals = {
     totalFullStitches: 2,
     totalThreeQuarterStitches: 2,
     totalHalfStitches: 2,
@@ -38,57 +82,79 @@ export const TEST_PATTERN_TOTALS: PatternTotals = {
     stitchColorTotals: [new StitchColorTotals(0, 1, 1, 1, 1, 1, 1), new StitchColorTotals(1, 1, 1, 1, 1, 1, 1)]
 };
 
-export const TEST_PATTERN_PROPERTIES = new Properties(TEST_PATTERN_COLORS, TEST_PATTERN_TOTALS, 13, 20);
+export const VALID_PROPERTIES = new Properties(VALID_COLORS, VALID_PATTERN_TOTALS, 13, 20);
+export const INVALID_DUP_COLOR_PROPERTIES = new Properties(INVALID_DUP_COLORS, VALID_PATTERN_TOTALS, 13, 20);
+export const INVALID_DUP_SYMBOL_PROPERTIES = new Properties(INVALID_DUP_SYMBOL_COLORS, VALID_PATTERN_TOTALS, 13, 20);
 
-export const TEST_FULL_STITCHES: FullStitch[] = [new FullStitch(0, 0, 1), new FullStitch(1, 3, 4)];
-export const TEST_THREE_QUARTER_STITCHES: ThreeQuarterStitch[] = [
+export const VALID_FULL_STITCHES: FullStitch[] = [new FullStitch(0, 0, 1), new FullStitch(1, 3, 4)];
+export const VALID_THREE_QUARTER_STITCHES: ThreeQuarterStitch[] = [
     new ThreeQuarterStitch(0, 2, 1, 135, StitchPlacement.TOP_RIGHT),
     new ThreeQuarterStitch(1, 10, 7, 45, StitchPlacement.TOP_LEFT)
 ];
-export const TEST_HALF_STITCHES: HalfStitch[] = [new HalfStitch(0, 1, 1, 135), new HalfStitch(1, 2, 2, 45)];
-export const TEST_QUARTER_STITCHES: QuarterStitch[] = [
+export const VALID_HALF_STITCHES: HalfStitch[] = [new HalfStitch(0, 1, 1, 135), new HalfStitch(1, 2, 2, 45)];
+export const VALID_QUARTER_STITCHES: QuarterStitch[] = [
     new QuarterStitch(0, 12, 7, StitchPlacement.TOP_LEFT),
     new QuarterStitch(1, 2, 0, StitchPlacement.BOTTOM_RIGHT)
 ];
 
-export const TEST_BACK_STITCHES: BackStitch[] = [new BackStitch(0, 1, 1, 0, 0), new BackStitch(1, 0, 0, 1, 0)];
+export const VALID_BACK_STITCHES: BackStitch[] = [new BackStitch(0, 1, 1, 0, 0), new BackStitch(1, 0, 0, 1, 0)];
 
-export const TEST_LONG_STITCHES: LongStitch[] = [new LongStitch(0, 0, 3, 3, 2), new LongStitch(1, 10, 15, 12, 20)];
+export const VALID_LONG_STITCHES: LongStitch[] = [new LongStitch(0, 0, 3, 3, 2), new LongStitch(1, 10, 15, 12, 20)];
 
-export const TEST_VALID_PATTERN: CrossStitchPattern = {
-    properties: TEST_PATTERN_PROPERTIES,
-    fullStitches: TEST_FULL_STITCHES,
-    threeQuarterStitches: TEST_THREE_QUARTER_STITCHES,
-    halfStitches: TEST_HALF_STITCHES,
-    quarterStitches: TEST_QUARTER_STITCHES,
-    backStitches: TEST_BACK_STITCHES,
-    longStitches: TEST_LONG_STITCHES
+export const VALID_PATTERN: CrossStitchPattern = {
+    properties: VALID_PROPERTIES,
+    fullStitches: VALID_FULL_STITCHES,
+    threeQuarterStitches: VALID_THREE_QUARTER_STITCHES,
+    halfStitches: VALID_HALF_STITCHES,
+    quarterStitches: VALID_QUARTER_STITCHES,
+    backStitches: VALID_BACK_STITCHES,
+    longStitches: VALID_LONG_STITCHES
 };
 
 export const INVALID_TOTALS_PATTERN: CrossStitchPattern = {
-    properties: TEST_PATTERN_PROPERTIES,
-    fullStitches: TEST_FULL_STITCHES,
+    properties: VALID_PROPERTIES,
+    fullStitches: VALID_FULL_STITCHES,
     threeQuarterStitches: [], //wipe out 3/4 stitches so that the pattern total is no longer valid
-    halfStitches: TEST_HALF_STITCHES,
-    quarterStitches: TEST_QUARTER_STITCHES,
-    backStitches: TEST_BACK_STITCHES,
-    longStitches: TEST_LONG_STITCHES
+    halfStitches: VALID_HALF_STITCHES,
+    quarterStitches: VALID_QUARTER_STITCHES,
+    backStitches: VALID_BACK_STITCHES,
+    longStitches: VALID_LONG_STITCHES
 };
 
 export const INVALID_DIMENSIONS_PATTERN: CrossStitchPattern = {
-    properties: TEST_PATTERN_PROPERTIES,
-    fullStitches: TEST_FULL_STITCHES,
-    threeQuarterStitches: TEST_THREE_QUARTER_STITCHES,
-    halfStitches: TEST_HALF_STITCHES,
-    quarterStitches: TEST_QUARTER_STITCHES,
-    backStitches: TEST_BACK_STITCHES,
+    properties: VALID_PROPERTIES,
+    fullStitches: VALID_FULL_STITCHES,
+    threeQuarterStitches: VALID_THREE_QUARTER_STITCHES,
+    halfStitches: VALID_HALF_STITCHES,
+    quarterStitches: VALID_QUARTER_STITCHES,
+    backStitches: VALID_BACK_STITCHES,
     longStitches: [] //removing the long stitches will invalidate the pattern dimensions
 };
 
-export const TEST_VALID_FULL_PATTERN_JSON = `
+export const INVALID_DUP_COLOR_ID_PATTERN: CrossStitchPattern = {
+    properties: INVALID_DUP_COLOR_PROPERTIES,
+    fullStitches: VALID_FULL_STITCHES,
+    threeQuarterStitches: VALID_THREE_QUARTER_STITCHES,
+    halfStitches: VALID_HALF_STITCHES,
+    quarterStitches: VALID_QUARTER_STITCHES,
+    backStitches: VALID_BACK_STITCHES,
+    longStitches: VALID_LONG_STITCHES
+};
+
+export const INVALID_DUP_SYMBOL_PATTERN: CrossStitchPattern = {
+    properties: INVALID_DUP_SYMBOL_PROPERTIES,
+    fullStitches: VALID_FULL_STITCHES,
+    threeQuarterStitches: VALID_THREE_QUARTER_STITCHES,
+    halfStitches: VALID_HALF_STITCHES,
+    quarterStitches: VALID_QUARTER_STITCHES,
+    backStitches: VALID_BACK_STITCHES,
+    longStitches: VALID_LONG_STITCHES
+};
+
+export const VALID_PATTERN_JSON = `
 {
     "properties": {
-        "stitchWidth": 12,
+        "stitchWidth": 13,
         "stitchHeight": 20,
         "notes": "This is a contrived example 'pattern'. Enjoy!",
         "patternTotals": {
@@ -119,7 +185,7 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
                 }
             ]
         },
-        "patternColors": [
+        "colors": [
             {
                 "colorId": 0,
                 "colorName": "Dark Blue",
@@ -246,7 +312,7 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
 }`;
 
 //invalid due to fullStitch referencing a non existent colorId
-export const TEST_INVALID_FULL_PATTERN_JSON = `
+export const INVALID_PATTERN_JSON = `
 {
     "properties": {
         "stitchWidth": 3,
@@ -271,7 +337,7 @@ export const TEST_INVALID_FULL_PATTERN_JSON = `
                 }
             ]
         },
-        "patternColors": [
+        "colors": [
             {
                 "colorId": 4,
                 "colorName": "Dark Blue",

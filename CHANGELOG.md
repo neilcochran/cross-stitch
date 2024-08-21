@@ -1,4 +1,13 @@
+## Version 1.1.0
+
+-   Renamed PatternColor -> Color
+-   Added validateCrossStitchPattern which performs all available validations on the given pattern
+-   Add various supporting validations
+-   Validation methods take more specific parameters, instead of always taking the whole pattern
+-   All pattern `Properties` attributes are now required (other than `notes` which is still optional)
+
 ## Version 1.0.0
+
 -   First full release!
 -   Bug fix: jsonToModel() was not parsing ThreeQuarterStitches correctly
 -   TypeDoc was not generated for 0.5.1, it is updated in this version

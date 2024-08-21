@@ -1,6 +1,6 @@
 import {
     CrossStitchPattern,
-    PatternColor,
+    Color,
     Floss,
     Properties,
     FullStitch,
@@ -12,14 +12,7 @@ import {
 } from './model';
 import { PatternTotals } from './model/PatternTotals';
 import { StitchColorTotals } from './model/StitchColorTotals';
-import {
-    validateBackStitch,
-    validateFullStitch,
-    validateHalfStitch,
-    validateLongStitch,
-    validateQuarterStitch,
-    validateThreeQuarterStitch
-} from './validation';
+import { validateCrossStitchPattern } from './validation';
 
 /**
  * Parse JSON implementing the cross stitch pattern schema into the corresponding typescript objects. Constructor validation will enforce validity.
@@ -30,11 +23,11 @@ import {
  */
 export function jsonToModel(json: string): CrossStitchPattern {
     const jsonData = JSON.parse(json);
-    //MUST parse PatternColors first so we can ensure each stitch references an existing PatternColor
-    const patternColors: PatternColor[] = [];
-    for (const patternColor of jsonData.properties.patternColors) {
+    //MUST parse Colors first so we can ensure each stitch references an existing Color
+    const colors: Color[] = [];
+    for (const color of jsonData.properties.colors) {
         const flossStrands: Floss[] = [];
-        for (const flossStrand of patternColor.flossStrands) {
+        for (const flossStrand of color.flossStrands) {
             flossStrands.push(
                 new Floss(
                     flossStrand.colorCode,
@@ -45,14 +38,7 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 )
             );
         }
-        patternColors.push(
-            new PatternColor(
-                patternColor.colorId,
-                patternColor.colorName.trim(),
-                patternColor.patternSymbol.trim(),
-                flossStrands
-            )
-        );
+        colors.push(new Color(color.colorId, color.colorName.trim(), color.patternSymbol.trim(), flossStrands));
     }
     const patternTotals = new PatternTotals(
         jsonData.properties?.patternTotals?.totalFullStitches ?? 0,
@@ -65,7 +51,7 @@ export function jsonToModel(json: string): CrossStitchPattern {
     );
 
     const properties = new Properties(
-        patternColors,
+        colors,
         patternTotals,
         jsonData.properties?.stitchWidth,
         jsonData.properties?.stitchHeight,
@@ -81,9 +67,6 @@ export function jsonToModel(json: string): CrossStitchPattern {
     if (jsonData.fullStitches) {
         for (const fullStitch of jsonData.fullStitches) {
             const newFullStitch = new FullStitch(fullStitch.colorId, fullStitch.x, fullStitch.y);
-            if (!validateFullStitch(newFullStitch, properties)) {
-                throw new Error(`invalid full stitch encountered: ${JSON.stringify(newFullStitch)}`);
-            }
             fullStitches.push(newFullStitch);
         }
     }
@@ -97,9 +80,6 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 threeQuarterStitch.halfStitchAngle,
                 threeQuarterStitch.quarterStitchPlacement
             );
-            if (!validateThreeQuarterStitch(newThreeQuarterStitch, properties)) {
-                throw new Error(`invalid three quarter stitch encountered: ${JSON.stringify(newThreeQuarterStitch)}`);
-            }
             threeQuarterStitches.push(newThreeQuarterStitch);
         }
     }
@@ -112,9 +92,6 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 halfStitch.y,
                 halfStitch.stitchAngle
             );
-            if (!validateHalfStitch(newHalfStitch, properties)) {
-                throw new Error(`invalid half stitch encountered: ${JSON.stringify(halfStitch)}`);
-            }
             halfStitches.push(newHalfStitch);
         }
     }
@@ -127,9 +104,6 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 quarterStitch.y,
                 quarterStitch.placement
             );
-            if (!validateQuarterStitch(newQuarterStitch, properties)) {
-                throw new Error(`invalid quarter stitch encountered: ${JSON.stringify(newQuarterStitch)}`);
-            }
             quarterStitches.push(newQuarterStitch);
         }
     }
@@ -143,9 +117,6 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 backStitch.x2,
                 backStitch.y2
             );
-            if (!validateBackStitch(newBackStitch, properties)) {
-                throw new Error(`invalid back stitch encountered: ${JSON.stringify(newBackStitch)}`);
-            }
             backStitches.push(newBackStitch);
         }
     }
@@ -159,13 +130,11 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 longStitch.x2,
                 longStitch.y2
             );
-            if (!validateLongStitch(newLongStitch, properties)) {
-                throw new Error(`invalid long stitch encountered: ${JSON.stringify(newLongStitch)}`);
-            }
             longStitches.push(newLongStitch);
         }
     }
-    return {
+
+    const pattern = {
         properties,
         fullStitches,
         threeQuarterStitches,
@@ -174,6 +143,12 @@ export function jsonToModel(json: string): CrossStitchPattern {
         backStitches,
         longStitches
     };
+
+    if (!validateCrossStitchPattern(pattern)) {
+        throw new Error('invalid CrossStitchPattern JSON');
+    }
+
+    return pattern;
 }
 
 /**
@@ -277,10 +252,10 @@ export function calculatePatternTotals(crossStitchPattern: CrossStitchPattern): 
     );
     //count stitch totals by color
     const allStitchColorTotals = [];
-    if (crossStitchPattern.properties.patternColors) {
+    if (crossStitchPattern.properties.colors) {
         //initialize all colors
-        for (const patternColor of crossStitchPattern.properties.patternColors) {
-            allStitchColorTotals.push(new StitchColorTotals(patternColor.colorId));
+        for (const color of crossStitchPattern.properties.colors) {
+            allStitchColorTotals.push(new StitchColorTotals(color.colorId));
         }
         //iterate each type of stitch, updating color totals
         for (const fullStitch of crossStitchPattern.fullStitches) {

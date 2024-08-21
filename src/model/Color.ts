@@ -3,10 +3,10 @@ import { Floss } from './Floss';
 /**
  * Model class representing a color used in the pattern.
  *
- * A PatternColor represents a color used in the pattern. The color is made up of one or more strands of Floss.
+ * A Color represents a color used in the pattern. The color is made up of one or more strands of Floss.
  * Each strand can be a different color, allowing blended colors to be defined.
  */
-export class PatternColor {
+export class Color {
     /**
      * @param colorId - An ID for the color. Stitches will use this ID to reference which color they are.
      * @param colorName - A name for the overall color.
