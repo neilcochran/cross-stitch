@@ -36,6 +36,34 @@ export const TEST_DUP_PATTERN_COLORS: PatternColor[] = [
     ])
 ];
 
+export const TEST_INVALID_HEX_PATTERN_COLORS: PatternColor[] = [
+    new PatternColor(3, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2, 0xFFFFFFF)]),
+    new PatternColor(3, 'Orange Blend', '&', [
+        new Floss('721', 'Orange Spice', BrandName.DMC, 1),
+        new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
+    ])
+];
+
+export const TEST_NO_FLOSS_PATTERN_COLORS: PatternColor[] = [
+    new PatternColor(3, 'Dark Blue', '@', []),
+    new PatternColor(3, 'Orange Blend', '&', [
+        new Floss('721', 'Orange Spice', BrandName.DMC, 1),
+        new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
+    ])
+]
+
+export const TEST_INVALID_SYMBOL_PATTERN_COLORS: PatternColor[] = [
+    new PatternColor(7, 'Dark Blue', 'XX', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+];
+
+export const TEST_INVALID_NEG_COLOR_ID_PATTERN_COLORS: PatternColor[] = [
+    new PatternColor(-1, 'Dark Blue', 'XX', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+];
+
+export const TEST_INVALID_FLOAT_COLOR_ID_PATTERN_COLORS: PatternColor[] = [
+    new PatternColor(3.5, 'Dark Blue', 'XX', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+];
+
 export const TEST_DUP_PATTERN_SYMBOL: PatternColor[] = [
     new PatternColor(0, 'Dark Blue', '#', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
     new PatternColor(1, 'Orange Blend', '#', [
