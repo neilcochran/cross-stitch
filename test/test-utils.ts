@@ -6,7 +6,7 @@ import {
     FullStitch,
     HalfStitch,
     LongStitch,
-    PatternColor,
+    Color,
     Properties,
     QuarterStitch,
     StitchPlacement,
@@ -20,53 +20,53 @@ export const INVALID_INTS = [-1, -99, -9999];
 export const VALID_NON_NEG_DECIMALS = [0.5, 1.5, 2.5, 9999.5];
 export const INVALID_DECIMALS = [-0.5, 1.3, 9.9, 0.1];
 
-export const TEST_PATTERN_COLORS: PatternColor[] = [
-    new PatternColor(0, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
-    new PatternColor(1, 'Orange Blend', '&', [
+export const TEST_PATTERN_COLORS: Color[] = [
+    new Color(0, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+    new Color(1, 'Orange Blend', '&', [
         new Floss('721', 'Orange Spice', BrandName.DMC, 1),
         new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
     ])
 ];
 
-export const TEST_DUP_PATTERN_COLORS: PatternColor[] = [
-    new PatternColor(3, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
-    new PatternColor(3, 'Orange Blend', '&', [
+export const TEST_DUP_PATTERN_COLORS: Color[] = [
+    new Color(3, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+    new Color(3, 'Orange Blend', '&', [
         new Floss('721', 'Orange Spice', BrandName.DMC, 1),
         new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
     ])
 ];
 
-export const TEST_INVALID_HEX_PATTERN_COLORS: PatternColor[] = [
-    new PatternColor(3, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2, 0xFFFFFFF)]),
-    new PatternColor(3, 'Orange Blend', '&', [
+export const TEST_INVALID_HEX_PATTERN_COLORS: Color[] = [
+    new Color(3, 'Dark Blue', '@', [new Floss('825', 'Dark Blue', BrandName.DMC, 2, 0xfffffff)]),
+    new Color(3, 'Orange Blend', '&', [
         new Floss('721', 'Orange Spice', BrandName.DMC, 1),
         new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
     ])
 ];
 
-export const TEST_NO_FLOSS_PATTERN_COLORS: PatternColor[] = [
-    new PatternColor(3, 'Dark Blue', '@', []),
-    new PatternColor(3, 'Orange Blend', '&', [
+export const TEST_NO_FLOSS_PATTERN_COLORS: Color[] = [
+    new Color(3, 'Dark Blue', '@', []),
+    new Color(3, 'Orange Blend', '&', [
         new Floss('721', 'Orange Spice', BrandName.DMC, 1),
         new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
     ])
-]
-
-export const TEST_INVALID_SYMBOL_PATTERN_COLORS: PatternColor[] = [
-    new PatternColor(7, 'Dark Blue', 'XX', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
 ];
 
-export const TEST_INVALID_NEG_COLOR_ID_PATTERN_COLORS: PatternColor[] = [
-    new PatternColor(-1, 'Dark Blue', 'XX', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+export const TEST_INVALID_SYMBOL_PATTERN_COLORS: Color[] = [
+    new Color(7, 'Dark Blue', 'XX', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)])
 ];
 
-export const TEST_INVALID_FLOAT_COLOR_ID_PATTERN_COLORS: PatternColor[] = [
-    new PatternColor(3.5, 'Dark Blue', 'XX', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+export const TEST_INVALID_NEG_COLOR_ID_PATTERN_COLORS: Color[] = [
+    new Color(-1, 'Dark Blue', 'XX', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)])
 ];
 
-export const TEST_DUP_PATTERN_SYMBOL: PatternColor[] = [
-    new PatternColor(0, 'Dark Blue', '#', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
-    new PatternColor(1, 'Orange Blend', '#', [
+export const TEST_INVALID_FLOAT_COLOR_ID_PATTERN_COLORS: Color[] = [
+    new Color(3.5, 'Dark Blue', 'XX', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)])
+];
+
+export const TEST_DUP_PATTERN_SYMBOL: Color[] = [
+    new Color(0, 'Dark Blue', '#', [new Floss('825', 'Dark Blue', BrandName.DMC, 2)]),
+    new Color(1, 'Orange Blend', '#', [
         new Floss('721', 'Orange Spice', BrandName.DMC, 1),
         new Floss('947', 'Burnt Orange', BrandName.DMC, 1)
     ])
@@ -185,7 +185,7 @@ export const TEST_VALID_FULL_PATTERN_JSON = `
                 }
             ]
         },
-        "patternColors": [
+        "colors": [
             {
                 "colorId": 0,
                 "colorName": "Dark Blue",
@@ -337,7 +337,7 @@ export const TEST_INVALID_FULL_PATTERN_JSON = `
                 }
             ]
         },
-        "patternColors": [
+        "colors": [
             {
                 "colorId": 4,
                 "colorName": "Dark Blue",

@@ -10,8 +10,8 @@ import {
     validatePatternDimensions,
     validateCrossStitchPattern,
     validateAllPatternSymbols,
-    validateAllPatternColorIds,
-    validateAllPatternColors
+    validateAllColorIds,
+    validateAllColors
 } from '../src/validation';
 import {
     DUP_COLOR_ID_PATTERN,
@@ -118,25 +118,24 @@ test('validateAllPatternSymbols', () => {
     expect(validateAllPatternSymbols(TEST_INVALID_SYMBOL_PATTERN_COLORS)).toBe(false);
 });
 
-test('validateAllPatternColorIds', () => {
+test('validateAllColorIds', () => {
     //expect true
-    expect(validateAllPatternColorIds(TEST_PATTERN_COLORS)).toBe(true);
+    expect(validateAllColorIds(TEST_PATTERN_COLORS)).toBe(true);
 
     //expect false
-    expect(validateAllPatternColorIds(TEST_DUP_PATTERN_COLORS)).toBe(false);
-    expect(validateAllPatternColorIds(TEST_INVALID_NEG_COLOR_ID_PATTERN_COLORS)).toBe(false);
-    expect(validateAllPatternColorIds(TEST_INVALID_FLOAT_COLOR_ID_PATTERN_COLORS)).toBe(false);
+    expect(validateAllColorIds(TEST_DUP_PATTERN_COLORS)).toBe(false);
+    expect(validateAllColorIds(TEST_INVALID_NEG_COLOR_ID_PATTERN_COLORS)).toBe(false);
+    expect(validateAllColorIds(TEST_INVALID_FLOAT_COLOR_ID_PATTERN_COLORS)).toBe(false);
 });
 
-test('validateAllPatternColors', () => {
+test('validateAllColors', () => {
     //expect true
-    expect(validateAllPatternColors(TEST_PATTERN_COLORS)).toBe(true);
+    expect(validateAllColors(TEST_PATTERN_COLORS)).toBe(true);
 
     //expect false
-    expect(validateAllPatternColors(TEST_DUP_PATTERN_COLORS)).toBe(false);
-    expect(validateAllPatternColors(TEST_INVALID_HEX_PATTERN_COLORS)).toBe(false);
-    expect(validateAllPatternColors(TEST_NO_FLOSS_PATTERN_COLORS)).toBe(false);
-
+    expect(validateAllColors(TEST_DUP_PATTERN_COLORS)).toBe(false);
+    expect(validateAllColors(TEST_INVALID_HEX_PATTERN_COLORS)).toBe(false);
+    expect(validateAllColors(TEST_NO_FLOSS_PATTERN_COLORS)).toBe(false);
 });
 
 test('validatePatternTotals', () => {

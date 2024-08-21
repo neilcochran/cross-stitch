@@ -1,6 +1,6 @@
 export { CrossStitchPattern } from './CrossStitchPattern';
 export { Properties } from './Properties';
-export { PatternColor } from './PatternColor';
+export { Color } from './Color';
 export { Floss } from './Floss';
 export { BrandName } from './BrandName';
 export { StitchAngle } from './StitchAngle';

@@ -5,7 +5,7 @@ import {
     FullStitch,
     HalfStitch,
     LongStitch,
-    PatternColor,
+    Color,
     Properties,
     QuarterStitch,
     StitchAngle,
@@ -69,7 +69,7 @@ export function validateSingleSpaceDistance(x: number, y: number, x2: number, y2
  */
 export function validateFullStitch(fullStitch: FullStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if (!validateColorExists(fullStitch.colorId, properties.patternColors)) {
+    if (!validateColorExists(fullStitch.colorId, properties.colors)) {
         return false;
     }
     //check that the stitch is within the bounds of the pattern
@@ -114,7 +114,7 @@ export function validateAllFullStitches(fullStitches: FullStitch[], properties: 
  * @returns True if the three quarter stitch is valid, false otherwise.
  */
 export function validateThreeQuarterStitch(threeQuarterStitch: ThreeQuarterStitch, properties: Properties): boolean {
-    if (!validateColorExists(threeQuarterStitch.colorId, properties.patternColors)) {
+    if (!validateColorExists(threeQuarterStitch.colorId, properties.colors)) {
         return false;
     }
 
@@ -169,7 +169,10 @@ export function validateThreeQuarterStitch(threeQuarterStitch: ThreeQuarterStitc
  *
  * @returns True if all three quarter stitches are valid, false if any are invalid.
  */
-export function validateAllThreeQuarterStitches(threeQuarterStitches: ThreeQuarterStitch[], properties: Properties): boolean {
+export function validateAllThreeQuarterStitches(
+    threeQuarterStitches: ThreeQuarterStitch[],
+    properties: Properties
+): boolean {
     if (threeQuarterStitches.length > 0) {
         for (const threeQuarterStitch of threeQuarterStitches) {
             if (!validateThreeQuarterStitch(threeQuarterStitch, properties)) {
@@ -191,7 +194,7 @@ export function validateAllThreeQuarterStitches(threeQuarterStitches: ThreeQuart
  */
 export function validateHalfStitch(halfStitch: HalfStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if (!validateColorExists(halfStitch.colorId, properties.patternColors)) {
+    if (!validateColorExists(halfStitch.colorId, properties.colors)) {
         return false;
     }
 
@@ -244,7 +247,7 @@ export function validateAllHalfStitches(halfStitches: HalfStitch[], properties: 
  */
 export function validateQuarterStitch(quarterStitch: QuarterStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if (!validateColorExists(quarterStitch.colorId, properties.patternColors)) {
+    if (!validateColorExists(quarterStitch.colorId, properties.colors)) {
         return false;
     }
 
@@ -305,7 +308,7 @@ export function validateBackStitch(backStitch: BackStitch, properties?: Properti
     //if properties were provided, perform additional checks
     if (properties) {
         //make sure the stitch has a colorId that maps to a valid color
-        if (!validateColorExists(backStitch.colorId, properties.patternColors)) {
+        if (!validateColorExists(backStitch.colorId, properties.colors)) {
             return false;
         }
 
@@ -355,7 +358,7 @@ export function validateAllBackStitches(backStitches: BackStitch[], properties: 
  */
 export function validateLongStitch(longStitch: LongStitch, properties: Properties): boolean {
     //make sure the stitch has a colorId that maps to a valid color
-    if (!validateColorExists(longStitch.colorId, properties.patternColors)) {
+    if (!validateColorExists(longStitch.colorId, properties.colors)) {
         return false;
     }
 
@@ -442,14 +445,14 @@ export function validatePatternSymbol(patternSymbol: string): boolean {
 /**
  * Validate that all the pattern's colors have valid pattern symbols.
  *
- * @param patternColors - The pattern's colors to validate the symbols of.
+ * @param colors - The pattern's colors to validate the symbols of.
  *
  * @returns True if all the pattern symbols are valid, false otherwise.
  */
-export function validateAllPatternSymbols(patternColors: PatternColor[]): boolean {
+export function validateAllPatternSymbols(colors: Color[]): boolean {
     const patternSymbols: string[] = [];
-    if (patternColors.length > 0) {
-        for (const color of patternColors) {
+    if (colors.length > 0) {
+        for (const color of colors) {
             if (!validatePatternSymbol(color.patternSymbol)) {
                 return false;
             }
@@ -466,28 +469,28 @@ export function validateAllPatternSymbols(patternColors: PatternColor[]): boolea
  * Validate that a colorId maps to a valid color defined in the properties.
  *
  * @param colorId - The colorId to validate.
- * @param patternColors - The list of colors in the pattern.
+ * @param colors - The list of colors in the pattern.
  *
- * @returns True if the colorId maps to a color defined in the patternColors list.
+ * @returns True if the colorId maps to a color defined in the colors list.
  */
-export function validateColorExists(colorId: number, patternColors: PatternColor[]): boolean {
+export function validateColorExists(colorId: number, colors: Color[]): boolean {
     if (colorId < 0) {
         return false;
     }
-    return patternColors.find((color) => color.colorId === colorId) !== undefined;
+    return colors.find((color) => color.colorId === colorId) !== undefined;
 }
 
 /**
  * Validate all of a pattern's color Id's to ensure they are all unique and non-negative integers.
  *
- * @param patternColors - The pattern's colors to validate the Id's of.
+ * @param colors - The pattern's colors to validate the Id's of.
  *
  * @returns True if all the color's Id's are valid, false otherwise.
  */
-export function validateAllPatternColorIds(patternColors: PatternColor[]): boolean {
+export function validateAllColorIds(colors: Color[]): boolean {
     const colorIds: number[] = [];
-    if (patternColors.length > 0) {
-        for (const color of patternColors) {
+    if (colors.length > 0) {
+        for (const color of colors) {
             if (!validateNonNegativeInteger(color.colorId)) {
                 return false;
             }
@@ -503,20 +506,20 @@ export function validateAllPatternColorIds(patternColors: PatternColor[]): boole
 /**
  * Validate all the colors in a given pattern.
  *
- * @param patternColors - The pattern's colors to validate.
+ * @param colors - The pattern's colors to validate.
  *
  * @returns True if all the colors are valid, false otherwise.
  */
-export function validateAllPatternColors(patternColors: PatternColor[]): boolean {
-    if (patternColors.length > 0) {
+export function validateAllColors(colors: Color[]): boolean {
+    if (colors.length > 0) {
         //validate each colorId and patternSymbol is unique across all colors
-        if (!validateAllPatternColorIds(patternColors)) {
+        if (!validateAllColorIds(colors)) {
             return false;
         }
-        if (!validateAllPatternSymbols(patternColors)) {
+        if (!validateAllPatternSymbols(colors)) {
             return false;
         }
-        for (const color of patternColors) {
+        for (const color of colors) {
             if (color.hexCode) {
                 if (!validateNonNegativeInteger(color.hexCode) || color.hexCode > 0xffffff) {
                     return false;
@@ -588,7 +591,7 @@ export function validateCrossStitchPattern(crossStitchPattern: CrossStitchPatter
     }
 
     //validate pattern properties
-    if (!validateAllPatternColors(crossStitchPattern.properties.patternColors)) {
+    if (!validateAllColors(crossStitchPattern.properties.colors)) {
         return false;
     }
     if (!validatePatternDimensions(crossStitchPattern)) {

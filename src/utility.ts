@@ -1,6 +1,6 @@
 import {
     CrossStitchPattern,
-    PatternColor,
+    Color,
     Floss,
     Properties,
     FullStitch,
@@ -23,11 +23,11 @@ import { validateCrossStitchPattern } from './validation';
  */
 export function jsonToModel(json: string): CrossStitchPattern {
     const jsonData = JSON.parse(json);
-    //MUST parse PatternColors first so we can ensure each stitch references an existing PatternColor
-    const patternColors: PatternColor[] = [];
-    for (const patternColor of jsonData.properties.patternColors) {
+    //MUST parse Colors first so we can ensure each stitch references an existing Color
+    const colors: Color[] = [];
+    for (const color of jsonData.properties.colors) {
         const flossStrands: Floss[] = [];
-        for (const flossStrand of patternColor.flossStrands) {
+        for (const flossStrand of color.flossStrands) {
             flossStrands.push(
                 new Floss(
                     flossStrand.colorCode,
@@ -38,11 +38,11 @@ export function jsonToModel(json: string): CrossStitchPattern {
                 )
             );
         }
-        patternColors.push(
-            new PatternColor(
-                patternColor.colorId,
-                patternColor.colorName.trim(),
-                patternColor.patternSymbol.trim(),
+        colors.push(
+            new Color(
+                color.colorId,
+                color.colorName.trim(),
+                color.patternSymbol.trim(),
                 flossStrands
             )
         );
@@ -58,7 +58,7 @@ export function jsonToModel(json: string): CrossStitchPattern {
     );
 
     const properties = new Properties(
-        patternColors,
+        colors,
         patternTotals,
         jsonData.properties?.stitchWidth,
         jsonData.properties?.stitchHeight,
@@ -259,10 +259,10 @@ export function calculatePatternTotals(crossStitchPattern: CrossStitchPattern): 
     );
     //count stitch totals by color
     const allStitchColorTotals = [];
-    if (crossStitchPattern.properties.patternColors) {
+    if (crossStitchPattern.properties.colors) {
         //initialize all colors
-        for (const patternColor of crossStitchPattern.properties.patternColors) {
-            allStitchColorTotals.push(new StitchColorTotals(patternColor.colorId));
+        for (const color of crossStitchPattern.properties.colors) {
+            allStitchColorTotals.push(new StitchColorTotals(color.colorId));
         }
         //iterate each type of stitch, updating color totals
         for (const fullStitch of crossStitchPattern.fullStitches) {
