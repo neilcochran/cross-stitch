@@ -7,9 +7,9 @@ test('calculateDimensions measures the pattern', () => {
 
 test('calculateTotals counts stitches overall and per color', () => {
     const totals = calculateTotals(VALID_PATTERN);
-    expect(totals.total).toEqual({ full: 2, 'three-quarter': 2, half: 2, quarter: 2, back: 2, long: 2 });
+    expect(totals.total).toEqual({ full: 2, half: 2, quarter: 2, threeQuarter: 2, back: 2, long: 2 });
     expect(totals.byColor).toEqual([
-        { colorId: 0, full: 1, 'three-quarter': 1, half: 1, quarter: 1, back: 1, long: 1 },
-        { colorId: 1, full: 1, 'three-quarter': 1, half: 1, quarter: 1, back: 1, long: 1 }
+        { colorId: 0, full: 1, half: 1, quarter: 1, threeQuarter: 1, back: 1, long: 1 },
+        { colorId: 1, full: 1, half: 1, quarter: 1, threeQuarter: 1, back: 1, long: 1 }
     ]);
 });

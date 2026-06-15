@@ -17,7 +17,7 @@ export type Metadata = z.infer<typeof Metadata>;
 /** The fabric a pattern is stitched on. */
 export const Fabric = z.object({
     count: z.number().int().positive().describe('Fabric count in stitches per inch, e.g. 14 for 14-count Aida.'),
-    color: HexCode.optional().describe('Fabric color as a #rrggbb hexadecimal string.'),
+    hex: HexCode.optional().describe('Fabric color as a #rrggbb hexadecimal string.'),
     kind: z.string().min(1).optional().describe('Fabric type, e.g. "aida", "evenweave", or "linen".')
 });
 
@@ -32,7 +32,11 @@ export type Fabric = z.infer<typeof Fabric>;
  */
 export const CrossStitchPattern = z
     .object({
-        version: z.literal(1).describe('Schema version this document conforms to.'),
+        version: z
+            .literal(1)
+            .describe(
+                'Document format version this pattern conforms to. Independent of the cross-stitch package version; it stays 1 for the 2.0 format.'
+            ),
         metadata: Metadata.optional(),
         fabric: Fabric.optional(),
         colors: z.array(Color).describe('The palette of colors used in the pattern.'),
@@ -74,18 +78,24 @@ export const CrossStitchPattern = z
 export type CrossStitchPattern = z.infer<typeof CrossStitchPattern>;
 
 /**
- * A JSON-string form of {@link CrossStitchPattern}. Parsing a string with this schema
- * decodes the JSON and then validates the result, so malformed JSON and schema violations
- * both surface as ordinary `safeParse` issues rather than thrown errors.
+ * A JSON-string codec for {@link CrossStitchPattern}. Decoding (`CrossStitchPatternJson.safeParse`
+ * or `z.decode`) parses the JSON and validates it, so malformed JSON and schema violations both
+ * surface as ordinary issues rather than thrown errors. Encoding (`z.encode` / `z.safeEncode`)
+ * serializes a validated pattern back to a JSON string.
  */
-export const CrossStitchPatternJson = z
-    .string()
-    .transform((json, ctx) => {
+export const CrossStitchPatternJson = z.codec(z.string(), CrossStitchPattern, {
+    decode: (json, payload) => {
         try {
             return JSON.parse(json);
         } catch (error) {
-            ctx.addIssue({ code: 'custom', message: error instanceof Error ? error.message : 'invalid JSON' });
+            payload.issues.push({
+                code: 'invalid_format',
+                format: 'json',
+                input: json,
+                message: error instanceof Error ? error.message : 'invalid JSON'
+            });
             return z.NEVER;
         }
-    })
-    .pipe(CrossStitchPattern);
+    },
+    encode: (pattern) => JSON.stringify(pattern)
+});

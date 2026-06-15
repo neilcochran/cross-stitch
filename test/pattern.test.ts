@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { CrossStitchPattern, CrossStitchPatternJson } from '../src';
 import { MALFORMED_JSON, UNKNOWN_COLOR_JSON, VALID_PATTERN, VALID_PATTERN_JSON, clonePattern } from './test-utils';
 
@@ -53,4 +54,14 @@ test('CrossStitchPatternJson reports malformed JSON as an issue instead of throw
 
 test('CrossStitchPatternJson reports semantic errors', () => {
     expect(CrossStitchPatternJson.safeParse(UNKNOWN_COLOR_JSON).success).toBe(false);
+});
+
+test('CrossStitchPatternJson encodes a pattern back to JSON and round-trips', () => {
+    const encoded = z.safeEncode(CrossStitchPatternJson, VALID_PATTERN);
+    expect(encoded.success).toBe(true);
+    if (encoded.success) {
+        expect(typeof encoded.data).toBe('string');
+        const decoded = CrossStitchPatternJson.safeParse(encoded.data);
+        expect(decoded.success).toBe(true);
+    }
 });

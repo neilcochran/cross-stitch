@@ -1,26 +1,30 @@
-import type { CrossStitchPattern, Stitch } from './schema';
+import type { CrossStitchPattern, StitchKind } from './schema';
+import { stitchBounds } from './geometry';
 
-/** Counts of each stitch kind. */
-export interface StitchCounts {
-    /** Number of full stitches. */
-    full: number;
-    /** Number of three-quarter stitches. */
-    'three-quarter': number;
-    /** Number of half stitches. */
-    half: number;
-    /** Number of quarter stitches. */
-    quarter: number;
-    /** Number of back stitches. */
-    back: number;
-    /** Number of long stitches. */
-    long: number;
-}
+/**
+ * Maps a kebab-case stitch {@link StitchKind} to its camelCase totals key. Keyed by every
+ * kind, so a new kind fails to type-check here until it is given a count key.
+ */
+const KIND_TO_COUNT_KEY = {
+    full: 'full',
+    half: 'half',
+    quarter: 'quarter',
+    'three-quarter': 'threeQuarter',
+    back: 'back',
+    long: 'long'
+} as const satisfies Record<StitchKind, string>;
+
+/** The camelCase key used for a stitch kind in count objects. */
+export type StitchCountKey = (typeof KIND_TO_COUNT_KEY)[StitchKind];
+
+/** Counts of each stitch kind, keyed by camelCase stitch name. */
+export type StitchCounts = Record<StitchCountKey, number>;
 
 /** Stitch counts for a single color. */
-export interface ColorStitchCounts extends StitchCounts {
-    /** The color these counts belong to. */
+export type ColorStitchCounts = StitchCounts & {
+    /** The id of the color these counts belong to. */
     colorId: number;
-}
+};
 
 /** Overall pattern stitch counts plus a per-color breakdown. */
 export interface PatternTotals {
@@ -39,7 +43,7 @@ export interface PatternDimensions {
 }
 
 function emptyCounts(): StitchCounts {
-    return { full: 0, 'three-quarter': 0, half: 0, quarter: 0, back: 0, long: 0 };
+    return { full: 0, half: 0, quarter: 0, threeQuarter: 0, back: 0, long: 0 };
 }
 
 /**
@@ -55,27 +59,14 @@ export function calculateTotals(pattern: CrossStitchPattern): PatternTotals {
         byColor.set(color.id, { colorId: color.id, ...emptyCounts() });
     }
     for (const stitch of pattern.stitches) {
-        total[stitch.kind] += 1;
+        const key = KIND_TO_COUNT_KEY[stitch.kind];
+        total[key] += 1;
         const colorCounts = byColor.get(stitch.colorId);
         if (colorCounts !== undefined) {
-            colorCounts[stitch.kind] += 1;
+            colorCounts[key] += 1;
         }
     }
     return { total, byColor: [...byColor.values()] };
-}
-
-function rightExtent(stitch: Stitch): number {
-    if (stitch.kind === 'back' || stitch.kind === 'long') {
-        return Math.max(stitch.from.x, stitch.to.x);
-    }
-    return stitch.x + 1;
-}
-
-function topExtent(stitch: Stitch): number {
-    if (stitch.kind === 'back' || stitch.kind === 'long') {
-        return Math.max(stitch.from.y, stitch.to.y);
-    }
-    return stitch.y + 1;
 }
 
 /**
@@ -92,13 +83,12 @@ export function calculateDimensions(pattern: CrossStitchPattern): PatternDimensi
     let maxX = 0;
     let maxY = 0;
     for (const stitch of pattern.stitches) {
-        const right = rightExtent(stitch);
-        const top = topExtent(stitch);
-        if (right > maxX) {
-            maxX = right;
+        const bounds = stitchBounds(stitch);
+        if (bounds.maxX > maxX) {
+            maxX = bounds.maxX;
         }
-        if (top > maxY) {
-            maxY = top;
+        if (bounds.maxY > maxY) {
+            maxY = bounds.maxY;
         }
     }
     return { stitchWidth: Math.ceil(maxX), stitchHeight: Math.ceil(maxY) };

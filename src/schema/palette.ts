@@ -11,7 +11,7 @@ export const Floss = z.object({
     code: z.string().min(1).describe('Brand-specific code for the color, such as "721" or "Ecru".'),
     name: z.string().min(1).describe('Brand name for the color, such as "Burnt Orange".'),
     count: z.number().int().positive().default(1).describe('Number of strands of this floss to use. Defaults to 1.'),
-    hex: HexCode.optional().describe('Optional color value as a #rrggbb hexadecimal string.')
+    hex: HexCode.optional().describe('Optional published color of this floss as a #rrggbb hexadecimal string.')
 });
 
 /** A validated strand of floss. */
@@ -19,7 +19,8 @@ export type Floss = z.infer<typeof Floss>;
 
 /**
  * A color used in a pattern, made of one or more strands of floss (which may differ from
- * each other to describe a blended color).
+ * each other to describe a blended color). `hex` is the authoritative color to render;
+ * `strands` describe the floss used to achieve it.
  */
 export const Color = z.object({
     id: ColorId.describe('Identifier referenced by stitches to select this color.'),
@@ -27,8 +28,10 @@ export const Color = z.object({
     symbol: PatternSymbol.describe(
         'Single ASCII character used to render this color on a chart. Unique within a pattern.'
     ),
-    strands: z.array(Floss).min(1).describe('The strands of floss that make up this color.'),
-    hex: HexCode.optional().describe('Optional color value as a #rrggbb hexadecimal string.')
+    strands: z.array(Floss).min(1).describe('The strands of floss that make up this color (its thread composition).'),
+    hex: HexCode.optional().describe(
+        'Authoritative display color as a #rrggbb hexadecimal string. When present, render this; the strands describe how it is achieved. Optional.'
+    )
 });
 
 /** A validated pattern color. */

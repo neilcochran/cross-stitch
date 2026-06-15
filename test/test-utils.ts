@@ -4,7 +4,7 @@ import type { CrossStitchPattern } from '../src';
 export const VALID_PATTERN: CrossStitchPattern = {
     version: 1,
     metadata: { title: 'Tiny Sampler', author: 'Test', notes: 'A contrived example.' },
-    fabric: { count: 14, color: '#f5f5dc', kind: 'aida' },
+    fabric: { count: 14, hex: '#f5f5dc', kind: 'aida' },
     colors: [
         {
             id: 0,
