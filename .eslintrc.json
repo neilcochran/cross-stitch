@@ -10,6 +10,7 @@
     },
     "plugins": ["@typescript-eslint", "eslint-plugin-tsdoc"],
     "rules": {
+        "eqeqeq": ["error", "always"],
         "no-trailing-spaces": ["error"],
         "linebreak-style": ["error", "unix"],
         "@typescript-eslint/explicit-function-return-type": "warn",

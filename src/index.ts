@@ -1,3 +1,3 @@
-export * from './model';
-export * from './utility';
-export * from './validation';
+export * from './schema';
+export { calculateTotals, calculateDimensions } from './totals';
+export type { StitchCounts, ColorStitchCounts, PatternTotals, PatternDimensions } from './totals';
