@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Color } from './color';
+import { Color } from './palette';
 import { HexCode } from './primitives';
 import { Stitch } from './stitch';
 

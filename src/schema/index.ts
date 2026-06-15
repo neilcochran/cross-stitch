@@ -1,6 +1,5 @@
 export { BrandName } from './brand';
-export { Floss } from './floss';
-export { Color } from './color';
+export { Floss, Color } from './palette';
 export {
     StitchAngle,
     StitchPlacement,
