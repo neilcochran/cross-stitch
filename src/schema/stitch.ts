@@ -2,8 +2,10 @@ import { z } from 'zod';
 import { ColorId, Coordinate, IntegerCoordinate } from './primitives';
 
 /**
- * Every stitch kind discriminator, in canonical order. The single source of truth for
- * which kinds exist; the {@link Stitch} union and the totals keys are kept in step with it.
+ * Every stitch kind discriminator, in canonical order. The single source of truth for which
+ * kinds exist; the {@link Stitch} union and the totals keys are kept in step with it, and the
+ * compile-time parity guard at the bottom of this file fails the build if the union and this
+ * tuple ever diverge.
  */
 export const STITCH_KINDS = ['full', 'half', 'quarter', 'three-quarter', 'back', 'long'] as const;
 
@@ -87,13 +89,20 @@ export const ThreeQuarterStitch = CellStitchBase.extend({
     kind: z.literal('three-quarter'),
     angle: StitchAngle.describe('The half-stitch diagonal of the three-quarter stitch.'),
     placement: StitchPlacement.describe('The corner the quarter reaches; must be reachable for the angle.')
-}).refine(
-    (stitch) =>
+}).superRefine((stitch, ctx) => {
+    const reachable =
         stitch.angle === 'tl-br'
             ? stitch.placement === 'top-right' || stitch.placement === 'bottom-left'
-            : stitch.placement === 'top-left' || stitch.placement === 'bottom-right',
-    { message: 'placement is not reachable for the given angle', path: ['placement'] }
-);
+            : stitch.placement === 'top-left' || stitch.placement === 'bottom-right';
+    if (!reachable) {
+        ctx.addIssue({
+            code: 'custom',
+            params: { kind: 'unreachable-placement', angle: stitch.angle, placement: stitch.placement },
+            message: 'placement is not reachable for the given angle',
+            path: ['placement']
+        });
+    }
+});
 
 /** A validated three-quarter stitch. */
 export type ThreeQuarterStitch = z.infer<typeof ThreeQuarterStitch>;
@@ -101,17 +110,54 @@ export type ThreeQuarterStitch = z.infer<typeof ThreeQuarterStitch>;
 /** A back stitch: a short outline segment spanning at most one grid space in any direction. */
 export const BackStitch = SegmentStitchBase.extend({
     kind: z.literal('back')
-}).refine((stitch) => Math.abs(stitch.to.x - stitch.from.x) <= 1 && Math.abs(stitch.to.y - stitch.from.y) <= 1, {
-    message: 'a back stitch may span at most one grid space in each direction',
-    path: ['to']
+}).superRefine((stitch, ctx) => {
+    const dx = Math.abs(stitch.to.x - stitch.from.x);
+    const dy = Math.abs(stitch.to.y - stitch.from.y);
+    if (dx === 0 && dy === 0) {
+        ctx.addIssue({
+            code: 'custom',
+            params: { kind: 'segment-empty' },
+            message: 'a back stitch must not be empty (from and to are the same point)',
+            path: ['to']
+        });
+        return;
+    }
+    if (dx > 1 || dy > 1) {
+        ctx.addIssue({
+            code: 'custom',
+            params: { kind: 'back-stitch-too-long' },
+            message: 'a back stitch may span at most one grid space in each direction',
+            path: ['to']
+        });
+    }
 });
 
 /** A validated back stitch. */
 export type BackStitch = z.infer<typeof BackStitch>;
 
-/** A long stitch: like a back stitch but with no maximum length. */
+/** A long stitch: a segment spanning more than one grid space, in any direction. */
 export const LongStitch = SegmentStitchBase.extend({
     kind: z.literal('long')
+}).superRefine((stitch, ctx) => {
+    const dx = Math.abs(stitch.to.x - stitch.from.x);
+    const dy = Math.abs(stitch.to.y - stitch.from.y);
+    if (dx === 0 && dy === 0) {
+        ctx.addIssue({
+            code: 'custom',
+            params: { kind: 'segment-empty' },
+            message: 'a long stitch must not be empty (from and to are the same point)',
+            path: ['to']
+        });
+        return;
+    }
+    if (dx <= 1 && dy <= 1) {
+        ctx.addIssue({
+            code: 'custom',
+            params: { kind: 'long-stitch-too-short' },
+            message: 'a long stitch must span more than one grid space; use a back stitch for shorter segments',
+            path: ['to']
+        });
+    }
 });
 
 /** A validated long stitch. */
@@ -129,3 +175,10 @@ export const Stitch = z.discriminatedUnion('kind', [
 
 /** A validated stitch of any kind. */
 export type Stitch = z.infer<typeof Stitch>;
+
+// Compile-time parity guard: STITCH_KINDS and the Stitch union's kind members must be exactly
+// equal. If a kind is added to one but not the other, AssertTrue<false> violates its constraint
+// and the build fails here, pointing back to STITCH_KINDS.
+type Equals<A, B> = [A] extends [B] ? ([B] extends [A] ? true : false) : false;
+type AssertTrue<T extends true> = T;
+type _StitchKindParity = AssertTrue<Equals<StitchKind, z.infer<typeof Stitch>['kind']>>;

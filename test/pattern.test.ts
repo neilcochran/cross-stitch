@@ -57,7 +57,8 @@ test('CrossStitchPatternJson reports semantic errors', () => {
 });
 
 test('CrossStitchPatternJson encodes a pattern back to JSON and round-trips', () => {
-    const encoded = z.safeEncode(CrossStitchPatternJson, VALID_PATTERN);
+    const pattern = CrossStitchPattern.parse(VALID_PATTERN);
+    const encoded = z.safeEncode(CrossStitchPatternJson, pattern);
     expect(encoded.success).toBe(true);
     if (encoded.success) {
         expect(typeof encoded.data).toBe('string');

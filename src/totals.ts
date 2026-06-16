@@ -1,4 +1,4 @@
-import type { CrossStitchPattern, StitchKind } from './schema';
+import type { ColorId, CrossStitchPattern, StitchKind } from './schema';
 import { stitchBounds } from './geometry';
 
 /**
@@ -21,10 +21,12 @@ export type StitchCountKey = (typeof KIND_TO_COUNT_KEY)[StitchKind];
 export type StitchCounts = Record<StitchCountKey, number>;
 
 /** Stitch counts for a single color. */
-export type ColorStitchCounts = StitchCounts & {
+export interface ColorStitchCounts {
     /** The id of the color these counts belong to. */
-    colorId: number;
-};
+    colorId: ColorId;
+    /** The per-kind stitch counts for this color. */
+    counts: StitchCounts;
+}
 
 /** Overall pattern stitch counts plus a per-color breakdown. */
 export interface PatternTotals {
@@ -34,12 +36,16 @@ export interface PatternTotals {
     byColor: ColorStitchCounts[];
 }
 
-/** The width and height of a pattern, measured in whole stitches. */
+/** The size of a pattern in whole stitches, plus the lower-left offset of its stitched area. */
 export interface PatternDimensions {
-    /** Width in stitches. */
+    /** Width of the stitched area in stitches. */
     stitchWidth: number;
-    /** Height in stitches. */
+    /** Height of the stitched area in stitches. */
     stitchHeight: number;
+    /** X of the lower-left corner of the stitched area (0 when anchored at the origin or empty). */
+    offsetX: number;
+    /** Y of the lower-left corner of the stitched area (0 when anchored at the origin or empty). */
+    offsetY: number;
 }
 
 function emptyCounts(): StitchCounts {
@@ -54,36 +60,48 @@ function emptyCounts(): StitchCounts {
  */
 export function calculateTotals(pattern: CrossStitchPattern): PatternTotals {
     const total = emptyCounts();
-    const byColor = new Map<number, ColorStitchCounts>();
+    const byColor = new Map<ColorId, ColorStitchCounts>();
     for (const color of pattern.colors) {
-        byColor.set(color.id, { colorId: color.id, ...emptyCounts() });
+        byColor.set(color.id, { colorId: color.id, counts: emptyCounts() });
     }
     for (const stitch of pattern.stitches) {
         const key = KIND_TO_COUNT_KEY[stitch.kind];
         total[key] += 1;
         const colorCounts = byColor.get(stitch.colorId);
         if (colorCounts !== undefined) {
-            colorCounts[key] += 1;
+            colorCounts.counts[key] += 1;
         }
     }
     return { total, byColor: [...byColor.values()] };
 }
 
 /**
- * Calculate the width and height of a pattern from its stitches.
+ * Calculate the size of a pattern, and the offset of its stitched area, from its stitches.
  *
  * Corner-anchored stitches (full, half, quarter, three-quarter) occupy the whole grid
- * square at their lower-left corner; back and long stitches extend to their endpoints.
- * Dimensions are rounded up to whole stitches.
+ * square at their lower-left corner; back and long stitches extend to their endpoints. The
+ * width and height span the bounding box of every stitch and are rounded out to whole
+ * stitches; the offset is the lower-left corner of that box. An empty pattern measures zero.
  *
  * @param pattern - The pattern to measure.
- * @returns The pattern width and height in stitches.
+ * @returns The pattern width, height, and lower-left offset in stitches.
  */
 export function calculateDimensions(pattern: CrossStitchPattern): PatternDimensions {
-    let maxX = 0;
-    let maxY = 0;
+    if (pattern.stitches.length === 0) {
+        return { stitchWidth: 0, stitchHeight: 0, offsetX: 0, offsetY: 0 };
+    }
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
     for (const stitch of pattern.stitches) {
         const bounds = stitchBounds(stitch);
+        if (bounds.minX < minX) {
+            minX = bounds.minX;
+        }
+        if (bounds.minY < minY) {
+            minY = bounds.minY;
+        }
         if (bounds.maxX > maxX) {
             maxX = bounds.maxX;
         }
@@ -91,5 +109,12 @@ export function calculateDimensions(pattern: CrossStitchPattern): PatternDimensi
             maxY = bounds.maxY;
         }
     }
-    return { stitchWidth: Math.ceil(maxX), stitchHeight: Math.ceil(maxY) };
+    const offsetX = Math.floor(minX);
+    const offsetY = Math.floor(minY);
+    return {
+        stitchWidth: Math.ceil(maxX) - offsetX,
+        stitchHeight: Math.ceil(maxY) - offsetY,
+        offsetX,
+        offsetY
+    };
 }

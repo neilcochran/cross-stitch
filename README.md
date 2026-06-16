@@ -14,32 +14,59 @@ Install via `npm` using the below terminal command
 
 ## Usage
 
-The schema is built with [Zod](https://zod.dev). Every type is both a static TypeScript type and a runtime validator, so there is no separate parsing step and no function that throws on invalid input.
+`cross-stitch` validates and serializes patterns through a small set of functions. The schemas underneath are built with [Zod](https://zod.dev) and are exported too (see [the Zod schemas](#advanced-the-zod-schemas) below), but you do not need to use Zod directly for everyday work. Parsing never throws; counts and dimensions are derived on demand and are not stored on the pattern.
 
 ```ts
-import { z } from 'zod';
-import { CrossStitchPattern, CrossStitchPatternJson, calculateTotals, calculateDimensions } from 'cross-stitch';
+import { parsePattern, parsePatternJson, encodePattern, calculateTotals, calculateDimensions } from 'cross-stitch';
 
-// Validate an in-memory object
-const result = CrossStitchPattern.safeParse(value);
+// Validate an in-memory value
+const result = parsePattern(value);
 if (result.success) {
     const pattern = result.data; // fully typed CrossStitchPattern
 } else {
-    console.error(result.error.issues); // every problem found, collected
+    console.error(result.issues); // every problem found, as typed PatternIssue objects
 }
 
 // Validate a JSON string. Malformed JSON is reported as an issue, never thrown.
-const parsed = CrossStitchPatternJson.safeParse(jsonString);
+const parsed = parsePatternJson(jsonString);
 
-// Serialize a validated pattern back to a JSON string (the same codec, run in reverse)
-if (parsed.success) {
-    const json = z.encode(CrossStitchPatternJson, parsed.data);
-}
-
-// Counts and dimensions are derived on demand, not stored on the pattern
 if (result.success) {
+    // Serialize a validated pattern back to a JSON string
+    const json = encodePattern(result.data); // or encodePatternSafe(...) for a non-throwing result
+
+    // Counts and dimensions are derived on demand
     const totals = calculateTotals(result.data);
-    const { stitchWidth, stitchHeight } = calculateDimensions(result.data);
+    const { stitchWidth, stitchHeight, offsetX, offsetY } = calculateDimensions(result.data);
+}
+```
+
+Each validation problem is a typed `PatternIssue`, discriminated on `kind`. Cross-stitch-specific variants carry structured data (`unknown-color-reference` with the offending `colorId`, `duplicate-color-id`, `unreachable-placement` with its `angle` and `placement`, and the segment-span rules), and a `schema-violation` catch-all covers structural failures. Every issue also carries a `path` and a human-readable `message`.
+
+When you build a pattern by hand instead of parsing one, type it as `CrossStitchPatternInput` - the pre-validation shape that accepts plain numbers for ids and coordinates and lets defaulted fields be omitted - then parse it:
+
+```ts
+import { parsePattern } from 'cross-stitch';
+import type { CrossStitchPatternInput } from 'cross-stitch';
+
+const draft: CrossStitchPatternInput = {
+    version: 1,
+    colors: [{ id: 0, name: 'Blue', symbol: '@', strands: [{ brand: 'DMC', code: '825', name: 'Dark Blue' }] }],
+    stitches: [{ kind: 'full', colorId: 0, x: 0, y: 0 }]
+};
+const result = parsePattern(draft);
+```
+
+### Advanced: the Zod schemas
+
+Every schema is exported as well (`CrossStitchPattern`, `CrossStitchPatternJson`, `Stitch`, `Color`, and the rest). Reach for them to compose schemas (`.pick`, `.extend`) or to read raw Zod issues; they are the same validators the functions above are built on.
+
+```ts
+import { z } from 'zod';
+import { CrossStitchPattern, CrossStitchPatternJson } from 'cross-stitch';
+
+const result = CrossStitchPattern.safeParse(value); // Zod's native result, with result.error.issues
+if (result.success) {
+    const json = z.encode(CrossStitchPatternJson, result.data); // or z.safeEncode(...) to avoid throwing
 }
 ```
 
@@ -653,9 +680,9 @@ Green:
 
 Stitch counts and pattern size are not stored in the schema. Derive them from a validated pattern with the exported helpers:
 
--   `calculateTotals(pattern)` returns the overall stitch counts and a per-color breakdown (`{ total, byColor }`). Each count object has one entry per stitch kind, keyed by camelCase name (`full`, `half`, `quarter`, `threeQuarter`, `back`, `long`), so counts read as `total.threeQuarter`.
+-   `calculateTotals(pattern)` returns the overall stitch counts and a per-color breakdown (`{ total, byColor }`). `total` is a count object with one entry per stitch kind, keyed by camelCase name (`full`, `half`, `quarter`, `threeQuarter`, `back`, `long`), so counts read as `total.threeQuarter`. Each `byColor` entry is `{ colorId, counts }`, where `counts` is a count object of the same shape, so per-color counts read as `byColor[0].counts.threeQuarter`.
 
--   `calculateDimensions(pattern)` returns `{ stitchWidth, stitchHeight }` in whole stitches.
+-   `calculateDimensions(pattern)` returns `{ stitchWidth, stitchHeight, offsetX, offsetY }` in whole stitches: the width and height of the stitched area's bounding box, plus the lower-left offset of that box (both offsets are `0` when the pattern is anchored at the origin or has no stitches).
 
 -   `stitchBounds(stitch)` returns the axis-aligned bounding box (`{ minX, minY, maxX, maxY }`) of a single stitch, normalizing the cell-anchored and segment shapes into one position-and-extent value.
 

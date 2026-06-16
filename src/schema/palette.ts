@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { BrandName } from './brand';
-import { ColorId, HexCode, PatternSymbol } from './primitives';
+import { BrandName } from './floss-brand';
+import { ColorId, HexCode, NonEmptyString, PatternSymbol, PositiveInt } from './primitives';
 
 /**
  * A single color and brand of floss. Defaults to one strand; raise `count` when a color
@@ -8,9 +8,9 @@ import { ColorId, HexCode, PatternSymbol } from './primitives';
  */
 export const Floss = z.object({
     brand: BrandName.describe('Manufacturer of the floss.'),
-    code: z.string().min(1).describe('Brand-specific code for the color, such as "721" or "Ecru".'),
-    name: z.string().min(1).describe('Brand name for the color, such as "Burnt Orange".'),
-    count: z.number().int().positive().default(1).describe('Number of strands of this floss to use. Defaults to 1.'),
+    code: NonEmptyString.describe('Brand-specific code for the color, such as "721" or "Ecru".'),
+    name: NonEmptyString.describe('Brand name for the color, such as "Burnt Orange".'),
+    count: PositiveInt.default(1).describe('Number of strands of this floss to use. Defaults to 1.'),
     hex: HexCode.optional().describe('Optional published color of this floss as a #rrggbb hexadecimal string.')
 });
 
@@ -24,7 +24,7 @@ export type Floss = z.infer<typeof Floss>;
  */
 export const Color = z.object({
     id: ColorId.describe('Identifier referenced by stitches to select this color.'),
-    name: z.string().min(1).describe('Name for the overall color (it may be a blend).'),
+    name: NonEmptyString.describe('Name for the overall color (it may be a blend).'),
     symbol: PatternSymbol.describe(
         'Single ASCII character used to render this color on a chart. Unique within a pattern.'
     ),

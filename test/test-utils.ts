@@ -1,7 +1,7 @@
-import type { CrossStitchPattern } from '../src';
+import type { CrossStitchPatternInput } from '../src';
 
 /** A fully valid pattern that exercises all six stitch kinds across two colors. */
-export const VALID_PATTERN: CrossStitchPattern = {
+export const VALID_PATTERN: CrossStitchPatternInput = {
     version: 1,
     metadata: { title: 'Tiny Sampler', author: 'Test', notes: 'A contrived example.' },
     fabric: { count: 14, hex: '#f5f5dc', kind: 'aida' },
@@ -39,7 +39,7 @@ export const VALID_PATTERN: CrossStitchPattern = {
 };
 
 /** Deep clone of {@link VALID_PATTERN} for tests that mutate it into an invalid variant. */
-export function clonePattern(): CrossStitchPattern {
+export function clonePattern(): CrossStitchPatternInput {
     return JSON.parse(JSON.stringify(VALID_PATTERN));
 }
 

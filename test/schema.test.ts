@@ -1,4 +1,4 @@
-import { BackStitch, Color, Floss, FullStitch, Stitch, ThreeQuarterStitch } from '../src';
+import { BackStitch, Color, Floss, FullStitch, LongStitch, Stitch, ThreeQuarterStitch } from '../src';
 
 test('FullStitch coordinates must be non-negative integers', () => {
     expect(FullStitch.safeParse({ kind: 'full', colorId: 0, x: 1, y: 2 }).success).toBe(true);
@@ -146,4 +146,30 @@ test('Stitch is discriminated on kind', () => {
 
     // expect false
     expect(Stitch.safeParse({ kind: 'nope', colorId: 0, x: 1, y: 1 }).success).toBe(false);
+});
+
+test('BackStitch rejects an empty (zero-length) span', () => {
+    // expect false
+    expect(BackStitch.safeParse({ kind: 'back', colorId: 0, from: { x: 1, y: 1 }, to: { x: 1, y: 1 } }).success).toBe(
+        false
+    );
+});
+
+test('LongStitch must span more than one space and be non-empty', () => {
+    expect(LongStitch.safeParse({ kind: 'long', colorId: 0, from: { x: 0, y: 0 }, to: { x: 2, y: 0 } }).success).toBe(
+        true
+    );
+    expect(LongStitch.safeParse({ kind: 'long', colorId: 0, from: { x: 0, y: 0 }, to: { x: 0, y: 3 } }).success).toBe(
+        true
+    );
+
+    // expect false
+    // a one-space segment is a back stitch, not a long stitch
+    expect(LongStitch.safeParse({ kind: 'long', colorId: 0, from: { x: 0, y: 0 }, to: { x: 1, y: 1 } }).success).toBe(
+        false
+    );
+    // empty span
+    expect(LongStitch.safeParse({ kind: 'long', colorId: 0, from: { x: 2, y: 2 }, to: { x: 2, y: 2 } }).success).toBe(
+        false
+    );
 });

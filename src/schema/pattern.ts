@@ -1,14 +1,14 @@
 import { z } from 'zod';
 import { Color } from './palette';
-import { HexCode } from './primitives';
+import { HexCode, NonEmptyString, PositiveInt } from './primitives';
 import { Stitch } from './stitch';
 
 /** Descriptive, non-structural information about a pattern. */
 export const Metadata = z.object({
-    title: z.string().optional().describe('Pattern title.'),
-    author: z.string().optional().describe('Pattern author or designer.'),
-    copyright: z.string().optional().describe('Copyright or license statement.'),
-    notes: z.string().optional().describe('Free-form notes or comments.')
+    title: NonEmptyString.optional().describe('Pattern title.'),
+    author: NonEmptyString.optional().describe('Pattern author or designer.'),
+    copyright: NonEmptyString.optional().describe('Copyright or license statement.'),
+    notes: NonEmptyString.optional().describe('Free-form notes or comments.')
 });
 
 /** Validated pattern metadata. */
@@ -16,9 +16,9 @@ export type Metadata = z.infer<typeof Metadata>;
 
 /** The fabric a pattern is stitched on. */
 export const Fabric = z.object({
-    count: z.number().int().positive().describe('Fabric count in stitches per inch, e.g. 14 for 14-count Aida.'),
+    count: PositiveInt.describe('Fabric count in stitches per inch, e.g. 14 for 14-count Aida.'),
     hex: HexCode.optional().describe('Fabric color as a #rrggbb hexadecimal string.'),
-    kind: z.string().min(1).optional().describe('Fabric type, e.g. "aida", "evenweave", or "linen".')
+    kind: NonEmptyString.optional().describe('Fabric type, e.g. "aida", "evenweave", or "linen".')
 });
 
 /** Validated fabric details. */
@@ -49,6 +49,7 @@ export const CrossStitchPattern = z
             if (seenIds.has(color.id)) {
                 ctx.addIssue({
                     code: 'custom',
+                    params: { kind: 'duplicate-color-id', colorId: color.id },
                     message: `duplicate color id ${color.id}`,
                     path: ['colors', index, 'id']
                 });
@@ -57,6 +58,7 @@ export const CrossStitchPattern = z
             if (seenSymbols.has(color.symbol)) {
                 ctx.addIssue({
                     code: 'custom',
+                    params: { kind: 'duplicate-color-symbol', symbol: color.symbol },
                     message: `duplicate color symbol "${color.symbol}"`,
                     path: ['colors', index, 'symbol']
                 });
@@ -67,6 +69,7 @@ export const CrossStitchPattern = z
             if (!seenIds.has(stitch.colorId)) {
                 ctx.addIssue({
                     code: 'custom',
+                    params: { kind: 'unknown-color-reference', colorId: stitch.colorId },
                     message: `stitch references unknown color id ${stitch.colorId}`,
                     path: ['stitches', index, 'colorId']
                 });
@@ -78,10 +81,18 @@ export const CrossStitchPattern = z
 export type CrossStitchPattern = z.infer<typeof CrossStitchPattern>;
 
 /**
+ * The input (pre-validation) shape of a {@link CrossStitchPattern}: plain numbers for ids and
+ * coordinates, and defaulted fields optional. Type a pattern you build by hand with this, then
+ * parse it to obtain a validated {@link CrossStitchPattern}.
+ */
+export type CrossStitchPatternInput = z.input<typeof CrossStitchPattern>;
+
+/**
  * A JSON-string codec for {@link CrossStitchPattern}. Decoding (`CrossStitchPatternJson.safeParse`
  * or `z.decode`) parses the JSON and validates it, so malformed JSON and schema violations both
  * surface as ordinary issues rather than thrown errors. Encoding (`z.encode` / `z.safeEncode`)
- * serializes a validated pattern back to a JSON string.
+ * serializes a validated pattern back to a JSON string. The encode direction does not re-validate;
+ * it serializes a value that is already a validated {@link CrossStitchPattern}.
  */
 export const CrossStitchPatternJson = z.codec(z.string(), CrossStitchPattern, {
     decode: (json, payload) => {

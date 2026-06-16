@@ -1,5 +1,13 @@
-export { Coordinate, IntegerCoordinate, ColorId, HexCode, PatternSymbol } from './primitives';
-export { BrandName } from './brand';
+export {
+    Coordinate,
+    IntegerCoordinate,
+    ColorId,
+    HexCode,
+    PatternSymbol,
+    NonEmptyString,
+    PositiveInt
+} from './primitives';
+export { BrandName } from './floss-brand';
 export { Floss, Color } from './palette';
 export {
     STITCH_KINDS,
@@ -16,3 +24,4 @@ export {
 } from './stitch';
 export type { StitchKind } from './stitch';
 export { Metadata, Fabric, CrossStitchPattern, CrossStitchPatternJson } from './pattern';
+export type { CrossStitchPatternInput } from './pattern';
