@@ -10,8 +10,10 @@
     },
     "plugins": ["@typescript-eslint", "eslint-plugin-tsdoc"],
     "rules": {
+        "eqeqeq": ["error", "always"],
         "no-trailing-spaces": ["error"],
         "linebreak-style": ["error", "unix"],
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
         "@typescript-eslint/explicit-function-return-type": "warn",
         "tsdoc/syntax": "warn"
     }
