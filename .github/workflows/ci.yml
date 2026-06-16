@@ -1,0 +1,65 @@
+name: CI
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+
+permissions:
+    contents: read
+
+jobs:
+    checks:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+              with:
+                  persist-credentials: false
+
+            - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+              with:
+                  node-version: 22
+                  cache: npm
+
+            - run: npm ci --ignore-scripts
+
+            - run: npm run typecheck
+
+            - run: npm run lint:check
+
+            - run: npm run prettier:check
+
+            - run: npm run build
+
+    test:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                node-version: [22, 24]
+        steps:
+            - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+              with:
+                  persist-credentials: false
+
+            - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: npm
+
+            - run: npm ci --ignore-scripts
+
+            - run: npm test
+
+    # Single required status check: passes only if every CI job above succeeds.
+    # Lets branch protection require one context ("CI") instead of each job and
+    # matrix leg, so changing the Node matrix never breaks the required checks.
+    ci:
+        name: CI
+        needs: [checks, test]
+        if: always()
+        runs-on: ubuntu-latest
+        steps:
+            - name: Verify CI jobs succeeded
+              if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+              run: exit 1
