@@ -1,0 +1,103 @@
+name: Publish
+
+# Publishes the package to npm. Run it manually from the Actions tab (workflow_dispatch) after a
+# version bump; it no-ops if that version is already on npm. Authentication uses npm's OIDC
+# trusted publishing (a short-lived, repo-scoped token minted per run via `id-token: write`),
+# so there is no long-lived NPM_TOKEN. GitHub-side steps (checkout, release) use a token minted
+# from a GitHub App per run rather than the default GITHUB_TOKEN.
+#
+# One-time setup required for this to work (see the repo notes):
+#   1. npm: configure cross-stitch's Trusted Publisher -> GitHub Actions, repo
+#      neilcochran/cross-stitch, workflow publish.yml, environment production-publish.
+#   2. GitHub App with Contents: read & write, installed on this repo; its client id in the
+#      RELEASE_APP_CLIENT_ID variable and a private key in the RELEASE_APP_PRIVATE_KEY secret.
+#   3. A GitHub Environment named production-publish (add required reviewers for a manual gate).
+
+on:
+    workflow_dispatch:
+
+permissions: {}
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        steps:
+            - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+              with:
+                  persist-credentials: false
+
+            - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+              with:
+                  node-version: 22
+                  cache: npm
+
+            - run: npm ci --ignore-scripts
+
+            - run: npm run build
+
+            - name: Upload dist artifact
+              uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+              with:
+                  name: dist
+                  path: dist
+                  retention-days: 1
+                  if-no-files-found: error
+
+    publish:
+        needs: build
+        environment: production-publish
+        runs-on: ubuntu-latest
+        permissions:
+            # contents: write lets the GitHub App token cut the release tag; id-token: write lets
+            # npm mint the OIDC publish token.
+            contents: write
+            id-token: write
+        steps:
+            - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+              id: app-token
+              with:
+                  client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+                  private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
+            - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+              with:
+                  token: ${{ steps.app-token.outputs.token }}
+
+            - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+              with:
+                  node-version: 22
+                  cache: npm
+
+            # OIDC trusted publishing requires npm >= 11.5.
+            - run: npm install -g npm@11.5
+
+            - name: Download dist artifact
+              uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+              with:
+                  name: dist
+                  path: dist
+
+            - name: Publish to npm if the version is new
+              id: publish
+              env:
+                  NPM_CONFIG_PROVENANCE: true
+              run: |
+                  VERSION="$(node -p "require('./package.json').version")"
+                  if npm view "cross-stitch@${VERSION}" version > /dev/null 2>&1; then
+                      echo "cross-stitch@${VERSION} is already published; nothing to do."
+                      echo "published=false" >> "$GITHUB_OUTPUT"
+                  else
+                      npm publish
+                      echo "published=true" >> "$GITHUB_OUTPUT"
+                      echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Tag and create the GitHub release
+              if: ${{ steps.publish.outputs.published == 'true' }}
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+                  HEAD_SHA: ${{ github.sha }}
+                  VERSION: ${{ steps.publish.outputs.version }}
+              run: gh release create "v${VERSION}" --title "v${VERSION}" --generate-notes --target "${HEAD_SHA}"
