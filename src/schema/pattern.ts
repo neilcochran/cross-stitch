@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { Color } from './palette';
 import { HexCode, NonEmptyString, PositiveInt } from './primitives';
 import { Stitch } from './stitch';
+import { addSemanticIssue } from './issues';
 
 /** Descriptive, non-structural information about a pattern. */
 export const Metadata = z.object({
@@ -32,11 +33,7 @@ export type Fabric = z.infer<typeof Fabric>;
  */
 export const CrossStitchPattern = z
     .object({
-        version: z
-            .literal(1)
-            .describe(
-                'Document format version this pattern conforms to. Independent of the cross-stitch package version; it stays 1 for the 2.0 format.'
-            ),
+        schemaVersion: z.literal(1).describe('Version of the cross-stitch document format. Currently 1.'),
         metadata: Metadata.optional(),
         fabric: Fabric.optional(),
         colors: z.array(Color).describe('The palette of colors used in the pattern.'),
@@ -47,32 +44,32 @@ export const CrossStitchPattern = z
         const seenSymbols = new Set<string>();
         for (const [index, color] of pattern.colors.entries()) {
             if (seenIds.has(color.id)) {
-                ctx.addIssue({
-                    code: 'custom',
-                    params: { kind: 'duplicate-color-id', colorId: color.id },
-                    message: `duplicate color id ${color.id}`,
-                    path: ['colors', index, 'id']
-                });
+                addSemanticIssue(
+                    ctx,
+                    { kind: 'duplicate-color-id', colorId: color.id },
+                    `duplicate color id ${color.id}`,
+                    ['colors', index, 'id']
+                );
             }
             seenIds.add(color.id);
             if (seenSymbols.has(color.symbol)) {
-                ctx.addIssue({
-                    code: 'custom',
-                    params: { kind: 'duplicate-color-symbol', symbol: color.symbol },
-                    message: `duplicate color symbol "${color.symbol}"`,
-                    path: ['colors', index, 'symbol']
-                });
+                addSemanticIssue(
+                    ctx,
+                    { kind: 'duplicate-color-symbol', symbol: color.symbol },
+                    `duplicate color symbol "${color.symbol}"`,
+                    ['colors', index, 'symbol']
+                );
             }
             seenSymbols.add(color.symbol);
         }
         for (const [index, stitch] of pattern.stitches.entries()) {
             if (!seenIds.has(stitch.colorId)) {
-                ctx.addIssue({
-                    code: 'custom',
-                    params: { kind: 'unknown-color-reference', colorId: stitch.colorId },
-                    message: `stitch references unknown color id ${stitch.colorId}`,
-                    path: ['stitches', index, 'colorId']
-                });
+                addSemanticIssue(
+                    ctx,
+                    { kind: 'unknown-color-reference', colorId: stitch.colorId },
+                    `stitch references unknown color id ${stitch.colorId}`,
+                    ['stitches', index, 'colorId']
+                );
             }
         }
     });
@@ -91,8 +88,8 @@ export type CrossStitchPatternInput = z.input<typeof CrossStitchPattern>;
  * A JSON-string codec for {@link CrossStitchPattern}. Decoding (`CrossStitchPatternJson.safeParse`
  * or `z.decode`) parses the JSON and validates it, so malformed JSON and schema violations both
  * surface as ordinary issues rather than thrown errors. Encoding (`z.encode` / `z.safeEncode`)
- * serializes a validated pattern back to a JSON string. The encode direction does not re-validate;
- * it serializes a value that is already a validated {@link CrossStitchPattern}.
+ * re-validates the pattern against {@link CrossStitchPattern} and serializes it back to a JSON
+ * string; an invalid pattern makes `z.encode` throw and `z.safeEncode` return the issues.
  */
 export const CrossStitchPatternJson = z.codec(z.string(), CrossStitchPattern, {
     decode: (json, payload) => {

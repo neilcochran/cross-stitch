@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CrossStitchPattern, CrossStitchPatternJson } from '../src';
+import { CrossStitchPattern, CrossStitchPatternJson } from '../src/schema';
 import { MALFORMED_JSON, UNKNOWN_COLOR_JSON, VALID_PATTERN, VALID_PATTERN_JSON, clonePattern } from './test-utils';
 
 test('CrossStitchPattern accepts a valid pattern', () => {
@@ -40,7 +40,7 @@ test('CrossStitchPatternJson decodes valid JSON and applies schema defaults', ()
     const result = CrossStitchPatternJson.safeParse(VALID_PATTERN_JSON);
     expect(result.success).toBe(true);
     if (result.success) {
-        expect(result.data.colors[0].strands[0].count).toBe(1);
+        expect(result.data.colors[0].strands[0].strandCount).toBe(1);
     }
 });
 

@@ -1,37 +1,32 @@
 import { z } from 'zod';
 import { CrossStitchPattern, CrossStitchPatternJson } from './schema';
-import type { StitchAngle, StitchPlacement } from './schema';
+import type { IssueParams, IssueKind } from './schema';
 
 /** A path to a location within a pattern: object keys and array indices. */
 export type PatternPath = (string | number)[];
 
+/** The location fields carried by every {@link PatternIssue}. */
+interface IssueLocation {
+    /** Path to the offending value within the pattern. */
+    path: PatternPath;
+    /** A human-readable description of the problem. */
+    message: string;
+}
+
 /**
- * A validation problem found in a pattern, as a discriminated union on `kind`. The named
- * variants describe cross-stitch-specific rule violations and carry structured data; the
- * `schema-violation` variant is the catch-all for structural and primitive failures, tagged
- * with a coarse `code`. Every variant also carries the offending `path` and a human-readable
+ * A validation problem found in a pattern, as a discriminated union on `kind`. The semantic
+ * variants describe cross-stitch-specific rule violations and derive from {@link IssueParams}
+ * (the single source of truth for those rules), each carrying structured data; the
+ * `schema-violation` variant is the catch-all for structural and primitive failures, tagged with
+ * a coarse owned `code`. Every variant also carries the offending `path` and a human-readable
  * `message`.
  */
 export type PatternIssue =
-    | { kind: 'duplicate-color-id'; colorId: number; path: PatternPath; message: string }
-    | { kind: 'duplicate-color-symbol'; symbol: string; path: PatternPath; message: string }
-    | { kind: 'unknown-color-reference'; colorId: number; path: PatternPath; message: string }
-    | {
-          kind: 'unreachable-placement';
-          angle: StitchAngle;
-          placement: StitchPlacement;
-          path: PatternPath;
-          message: string;
-      }
-    | { kind: 'segment-empty'; path: PatternPath; message: string }
-    | { kind: 'back-stitch-too-long'; path: PatternPath; message: string }
-    | { kind: 'long-stitch-too-short'; path: PatternPath; message: string }
-    | {
+    | (IssueParams & IssueLocation)
+    | ({
           kind: 'schema-violation';
           code: 'invalid-type' | 'out-of-range' | 'invalid-format' | 'invalid-value';
-          path: PatternPath;
-          message: string;
-      };
+      } & IssueLocation);
 
 /** The result of validating a pattern: the typed data on success, or the collected issues on failure. */
 export type PatternResult = { success: true; data: CrossStitchPattern } | { success: false; issues: PatternIssue[] };
@@ -58,35 +53,37 @@ function schemaViolationCode(code: string): 'invalid-type' | 'out-of-range' | 'i
     }
 }
 
+/**
+ * The semantic issue kinds as a runtime lookup. The `satisfies Record<IssueKind, true>` clause
+ * makes this fail to compile unless it lists exactly the {@link IssueKind} members, keeping it in
+ * step with {@link IssueParams}.
+ */
+const ISSUE_KINDS = {
+    'duplicate-color-id': true,
+    'duplicate-color-symbol': true,
+    'unknown-color-reference': true,
+    'unreachable-placement': true,
+    'segment-empty': true,
+    'back-stitch-too-long': true,
+    'long-stitch-too-short': true
+} as const satisfies Record<IssueKind, true>;
+
+/** True when a custom Zod issue's `params` is one of our semantic {@link IssueParams}. */
+function isIssueParams(params: unknown): params is IssueParams {
+    return (
+        typeof params === 'object' &&
+        params !== null &&
+        'kind' in params &&
+        typeof params.kind === 'string' &&
+        Object.prototype.hasOwnProperty.call(ISSUE_KINDS, params.kind)
+    );
+}
+
 function toPatternIssue(issue: z.core.$ZodIssue): PatternIssue {
     const path = toPath(issue.path);
     const message = issue.message;
-    if (issue.code === 'custom' && issue.params !== undefined) {
-        const params = issue.params;
-        switch (params.kind) {
-            case 'duplicate-color-id':
-                return { kind: 'duplicate-color-id', colorId: Number(params.colorId), path, message };
-            case 'duplicate-color-symbol':
-                return { kind: 'duplicate-color-symbol', symbol: String(params.symbol), path, message };
-            case 'unknown-color-reference':
-                return { kind: 'unknown-color-reference', colorId: Number(params.colorId), path, message };
-            case 'unreachable-placement':
-                return {
-                    kind: 'unreachable-placement',
-                    angle: params.angle,
-                    placement: params.placement,
-                    path,
-                    message
-                };
-            case 'segment-empty':
-                return { kind: 'segment-empty', path, message };
-            case 'back-stitch-too-long':
-                return { kind: 'back-stitch-too-long', path, message };
-            case 'long-stitch-too-short':
-                return { kind: 'long-stitch-too-short', path, message };
-            default:
-                break;
-        }
+    if (issue.code === 'custom' && isIssueParams(issue.params)) {
+        return { ...issue.params, path, message };
     }
     return { kind: 'schema-violation', code: schemaViolationCode(issue.code), path, message };
 }
@@ -124,7 +121,8 @@ export function parsePatternJson(json: string): PatternResult {
 }
 
 /**
- * Serialize a validated pattern to a JSON string.
+ * Serialize a validated pattern to a JSON string. Throws if given an invalid pattern; use
+ * {@link encodePatternSafe} for a non-throwing variant.
  *
  * @param pattern - The validated pattern to serialize.
  * @returns The pattern as a JSON string.

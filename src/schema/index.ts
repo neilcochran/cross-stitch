@@ -1,12 +1,4 @@
-export {
-    Coordinate,
-    IntegerCoordinate,
-    ColorId,
-    HexCode,
-    PatternSymbol,
-    NonEmptyString,
-    PositiveInt
-} from './primitives';
+export { SegmentCoordinate, CellCoordinate, ColorId, HexCode, PatternSymbol } from './primitives';
 export { BrandName } from './floss-brand';
 export { Floss, Color } from './palette';
 export {
@@ -25,3 +17,4 @@ export {
 export type { StitchKind } from './stitch';
 export { Metadata, Fabric, CrossStitchPattern, CrossStitchPatternJson } from './pattern';
 export type { CrossStitchPatternInput } from './pattern';
+export type { IssueParams, IssueKind } from './issues';

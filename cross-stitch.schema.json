@@ -1,0 +1,456 @@
+{
+    "$id": "https://raw.githubusercontent.com/neilcochran/cross-stitch/master/cross-stitch.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+        "schemaVersion": {
+            "type": "number",
+            "const": 1,
+            "description": "Version of the cross-stitch document format. Currently 1."
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "description": "Pattern title.",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "author": {
+                    "description": "Pattern author or designer.",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "copyright": {
+                    "description": "Copyright or license statement.",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "notes": {
+                    "description": "Free-form notes or comments.",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "fabric": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991,
+                    "description": "Fabric count in stitches per inch, e.g. 14 for 14-count Aida."
+                },
+                "hex": {
+                    "description": "Fabric color as a #rrggbb hexadecimal string.",
+                    "type": "string",
+                    "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "kind": {
+                    "description": "Fabric type, e.g. \"aida\", \"evenweave\", or \"linen\".",
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "required": [
+                "count"
+            ]
+        },
+        "colors": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991,
+                        "description": "Identifier referenced by stitches to select this color."
+                    },
+                    "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Name for the overall color (it may be a blend)."
+                    },
+                    "symbol": {
+                        "type": "string",
+                        "description": "Single ASCII character used to render this color on a chart. Unique within a pattern."
+                    },
+                    "strands": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "brand": {
+                                    "type": "string",
+                                    "enum": [
+                                        "Anchor",
+                                        "Appletons",
+                                        "Cosmo",
+                                        "DMC",
+                                        "J&P Coats",
+                                        "Kreinik",
+                                        "Madeira",
+                                        "Presencia",
+                                        "Sullivans",
+                                        "Unbranded"
+                                    ],
+                                    "description": "Manufacturer of the floss."
+                                },
+                                "code": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "description": "Brand-specific code for the color, such as \"721\" or \"Ecru\"."
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "description": "Brand name for the color, such as \"Burnt Orange\"."
+                                },
+                                "strandCount": {
+                                    "default": 1,
+                                    "description": "Number of strands of this floss to use. Defaults to 1.",
+                                    "type": "integer",
+                                    "exclusiveMinimum": 0,
+                                    "maximum": 9007199254740991
+                                },
+                                "hex": {
+                                    "description": "Optional published color of this floss as a #rrggbb hexadecimal string.",
+                                    "type": "string",
+                                    "pattern": "^#[0-9a-fA-F]{6}$"
+                                }
+                            },
+                            "required": [
+                                "brand",
+                                "code",
+                                "name"
+                            ]
+                        },
+                        "description": "The strands of floss that make up this color (its thread composition)."
+                    },
+                    "hex": {
+                        "description": "Authoritative display color as a #rrggbb hexadecimal string. When present, render this; the strands describe how it is achieved. Optional.",
+                        "type": "string",
+                        "pattern": "^#[0-9a-fA-F]{6}$"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "symbol",
+                    "strands"
+                ]
+            },
+            "description": "The palette of colors used in the pattern."
+        },
+        "stitches": {
+            "type": "array",
+            "items": {
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "colorId": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Id of the Color this stitch is worked in."
+                            },
+                            "x": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "X of the lower-left corner of the square."
+                            },
+                            "y": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Y of the lower-left corner of the square."
+                            },
+                            "kind": {
+                                "type": "string",
+                                "const": "full"
+                            }
+                        },
+                        "required": [
+                            "colorId",
+                            "x",
+                            "y",
+                            "kind"
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "colorId": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Id of the Color this stitch is worked in."
+                            },
+                            "x": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "X of the lower-left corner of the square."
+                            },
+                            "y": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Y of the lower-left corner of the square."
+                            },
+                            "kind": {
+                                "type": "string",
+                                "const": "half"
+                            },
+                            "angle": {
+                                "type": "string",
+                                "enum": [
+                                    "tl-br",
+                                    "bl-tr"
+                                ],
+                                "description": "Which diagonal the half stitch runs along."
+                            }
+                        },
+                        "required": [
+                            "colorId",
+                            "x",
+                            "y",
+                            "kind",
+                            "angle"
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "colorId": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Id of the Color this stitch is worked in."
+                            },
+                            "x": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "X of the lower-left corner of the square."
+                            },
+                            "y": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Y of the lower-left corner of the square."
+                            },
+                            "kind": {
+                                "type": "string",
+                                "const": "quarter"
+                            },
+                            "placement": {
+                                "type": "string",
+                                "enum": [
+                                    "top-right",
+                                    "bottom-right",
+                                    "bottom-left",
+                                    "top-left"
+                                ],
+                                "description": "Which corner of the square the quarter stitch reaches."
+                            }
+                        },
+                        "required": [
+                            "colorId",
+                            "x",
+                            "y",
+                            "kind",
+                            "placement"
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "colorId": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Id of the Color this stitch is worked in."
+                            },
+                            "x": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "X of the lower-left corner of the square."
+                            },
+                            "y": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Y of the lower-left corner of the square."
+                            },
+                            "kind": {
+                                "type": "string",
+                                "const": "three-quarter"
+                            },
+                            "angle": {
+                                "type": "string",
+                                "enum": [
+                                    "tl-br",
+                                    "bl-tr"
+                                ],
+                                "description": "The half-stitch diagonal of the three-quarter stitch."
+                            },
+                            "placement": {
+                                "type": "string",
+                                "enum": [
+                                    "top-right",
+                                    "bottom-right",
+                                    "bottom-left",
+                                    "top-left"
+                                ],
+                                "description": "The corner the quarter reaches; must be reachable for the angle."
+                            }
+                        },
+                        "required": [
+                            "colorId",
+                            "x",
+                            "y",
+                            "kind",
+                            "angle",
+                            "placement"
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "colorId": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Id of the Color this stitch is worked in."
+                            },
+                            "from": {
+                                "type": "object",
+                                "properties": {
+                                    "x": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "description": "X position on the grid; may be a half-step."
+                                    },
+                                    "y": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "description": "Y position on the grid; may be a half-step."
+                                    }
+                                },
+                                "required": [
+                                    "x",
+                                    "y"
+                                ],
+                                "description": "Start point of the stitch."
+                            },
+                            "to": {
+                                "type": "object",
+                                "properties": {
+                                    "x": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "description": "X position on the grid; may be a half-step."
+                                    },
+                                    "y": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "description": "Y position on the grid; may be a half-step."
+                                    }
+                                },
+                                "required": [
+                                    "x",
+                                    "y"
+                                ],
+                                "description": "End point of the stitch."
+                            },
+                            "kind": {
+                                "type": "string",
+                                "const": "back"
+                            }
+                        },
+                        "required": [
+                            "colorId",
+                            "from",
+                            "to",
+                            "kind"
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "colorId": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991,
+                                "description": "Id of the Color this stitch is worked in."
+                            },
+                            "from": {
+                                "type": "object",
+                                "properties": {
+                                    "x": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "description": "X position on the grid; may be a half-step."
+                                    },
+                                    "y": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "description": "Y position on the grid; may be a half-step."
+                                    }
+                                },
+                                "required": [
+                                    "x",
+                                    "y"
+                                ],
+                                "description": "Start point of the stitch."
+                            },
+                            "to": {
+                                "type": "object",
+                                "properties": {
+                                    "x": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "description": "X position on the grid; may be a half-step."
+                                    },
+                                    "y": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "description": "Y position on the grid; may be a half-step."
+                                    }
+                                },
+                                "required": [
+                                    "x",
+                                    "y"
+                                ],
+                                "description": "End point of the stitch."
+                            },
+                            "kind": {
+                                "type": "string",
+                                "const": "long"
+                            }
+                        },
+                        "required": [
+                            "colorId",
+                            "from",
+                            "to",
+                            "kind"
+                        ]
+                    }
+                ]
+            },
+            "description": "Every stitch in the pattern."
+        }
+    },
+    "required": [
+        "schemaVersion",
+        "colors",
+        "stitches"
+    ]
+}

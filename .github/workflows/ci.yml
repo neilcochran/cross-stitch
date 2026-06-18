@@ -31,6 +31,11 @@ jobs:
 
             - run: npm run build
 
+            - run: npm run schema
+
+            - name: Verify the committed JSON Schema is up to date
+              run: git diff --exit-code cross-stitch.schema.json
+
     test:
         runs-on: ubuntu-latest
         strategy:

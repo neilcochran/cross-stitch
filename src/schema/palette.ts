@@ -10,7 +10,7 @@ export const Floss = z.object({
     brand: BrandName.describe('Manufacturer of the floss.'),
     code: NonEmptyString.describe('Brand-specific code for the color, such as "721" or "Ecru".'),
     name: NonEmptyString.describe('Brand name for the color, such as "Burnt Orange".'),
-    count: PositiveInt.default(1).describe('Number of strands of this floss to use. Defaults to 1.'),
+    strandCount: PositiveInt.default(1).describe('Number of strands of this floss to use. Defaults to 1.'),
     hex: HexCode.optional().describe('Optional published color of this floss as a #rrggbb hexadecimal string.')
 });
 

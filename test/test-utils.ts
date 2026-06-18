@@ -2,7 +2,7 @@ import type { CrossStitchPatternInput } from '../src';
 
 /** A fully valid pattern that exercises all six stitch kinds across two colors. */
 export const VALID_PATTERN: CrossStitchPatternInput = {
-    version: 1,
+    schemaVersion: 1,
     metadata: { title: 'Tiny Sampler', author: 'Test', notes: 'A contrived example.' },
     fabric: { count: 14, hex: '#f5f5dc', kind: 'aida' },
     colors: [
@@ -10,15 +10,15 @@ export const VALID_PATTERN: CrossStitchPatternInput = {
             id: 0,
             name: 'Dark Blue',
             symbol: '@',
-            strands: [{ brand: 'DMC', code: '825', name: 'Dark Blue', count: 2 }]
+            strands: [{ brand: 'DMC', code: '825', name: 'Dark Blue', strandCount: 2 }]
         },
         {
             id: 1,
             name: 'Orange Blend',
             symbol: '&',
             strands: [
-                { brand: 'DMC', code: '721', name: 'Orange Spice', count: 1 },
-                { brand: 'DMC', code: '947', name: 'Burnt Orange', count: 1 }
+                { brand: 'DMC', code: '721', name: 'Orange Spice', strandCount: 1 },
+                { brand: 'DMC', code: '947', name: 'Burnt Orange', strandCount: 1 }
             ]
         }
     ],
@@ -43,9 +43,9 @@ export function clonePattern(): CrossStitchPatternInput {
     return JSON.parse(JSON.stringify(VALID_PATTERN));
 }
 
-/** Valid pattern JSON; `count` is omitted on the floss to exercise the schema default. */
+/** Valid pattern JSON; `strandCount` is omitted on the floss to exercise the schema default. */
 export const VALID_PATTERN_JSON = `{
-    "version": 1,
+    "schemaVersion": 1,
     "colors": [
         { "id": 0, "name": "Blue", "symbol": "@", "strands": [ { "brand": "DMC", "code": "825", "name": "Dark Blue" } ] }
     ],
@@ -53,11 +53,11 @@ export const VALID_PATTERN_JSON = `{
 }`;
 
 /** JSON with a syntax error. */
-export const MALFORMED_JSON = '{ "version": 1, "colors": [ ] ';
+export const MALFORMED_JSON = '{ "schemaVersion": 1, "colors": [ ] ';
 
 /** Structurally fine JSON that references a color which does not exist. */
 export const UNKNOWN_COLOR_JSON = `{
-    "version": 1,
+    "schemaVersion": 1,
     "colors": [
         { "id": 0, "name": "Blue", "symbol": "@", "strands": [ { "brand": "DMC", "code": "825", "name": "Dark Blue" } ] }
     ],

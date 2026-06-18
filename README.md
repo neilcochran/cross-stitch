@@ -14,7 +14,7 @@ Install via `npm` using the below terminal command
 
 ## Usage
 
-`cross-stitch` validates and serializes patterns through a small set of functions. The schemas underneath are built with [Zod](https://zod.dev) and are exported too (see [the Zod schemas](#advanced-the-zod-schemas) below), but you do not need to use Zod directly for everyday work. Parsing never throws; counts and dimensions are derived on demand and are not stored on the pattern.
+`cross-stitch` validates and serializes patterns through a small set of functions. The schemas underneath are built with [Zod](https://zod.dev) and are published on the `cross-stitch/schema` subpath (see [the Zod schemas](#advanced-the-zod-schemas) below), but you do not need to use Zod directly for everyday work. Parsing never throws, and `encodePattern` throws only on an invalid pattern (`encodePatternSafe` is the non-throwing variant). Counts and dimensions are derived on demand and are not stored on the pattern.
 
 ```ts
 import { parsePattern, parsePatternJson, encodePattern, calculateTotals, calculateDimensions } from 'cross-stitch';
@@ -58,11 +58,11 @@ const result = parsePattern(draft);
 
 ### Advanced: the Zod schemas
 
-Every schema is exported as well (`CrossStitchPattern`, `CrossStitchPatternJson`, `Stitch`, `Color`, and the rest). Reach for them to compose schemas (`.pick`, `.extend`) or to read raw Zod issues; they are the same validators the functions above are built on.
+Every schema is published on the `cross-stitch/schema` subpath (`CrossStitchPattern`, `CrossStitchPatternJson`, `Stitch`, `Color`, and the rest), kept off the root import so everyday use never pulls in Zod. Reach for them to compose schemas (`.pick`, `.extend`) or to read raw Zod issues; they are the same validators the functions above are built on.
 
 ```ts
 import { z } from 'zod';
-import { CrossStitchPattern, CrossStitchPatternJson } from 'cross-stitch';
+import { CrossStitchPattern, CrossStitchPatternJson } from 'cross-stitch/schema';
 
 const result = CrossStitchPattern.safeParse(value); // Zod's native result, with result.error.issues
 if (result.success) {
@@ -75,8 +75,16 @@ The full DMC floss palette is published on a separate subpath so you only load i
 ```ts
 import { dmcFloss } from 'cross-stitch/dmc';
 
-const orangeSpice = dmcFloss['721']; // { brand: 'DMC', code: '721', name: 'Orange Spice - Medium', count: 1, hex: '#...' }
+const orangeSpice = dmcFloss['721']; // e.g. { brand: 'DMC', code: '721', name: 'Orange Spice - Medium', strandCount: 1, hex: '#f27842' }
 ```
+
+Not every entry has a `hex`; it is present only where DMC publishes one.
+
+### JSON Schema
+
+A JSON Schema for the pattern document is generated from the Zod schema and published as [`cross-stitch.schema.json`](cross-stitch.schema.json). It is shipped in the package (importable as `cross-stitch/schema.json`) and carries the canonical `$id` `https://raw.githubusercontent.com/neilcochran/cross-stitch/master/cross-stitch.schema.json`, so non-JavaScript tooling can reference it to validate or annotate pattern documents.
+
+It validates document **structure** only. The semantic rules - three-quarter reachability, unique color ids and symbols, every stitch referencing a color that exists, and the back / long span limits - have no JSON Schema representation and are enforced only by the Zod schema and the `parse*` functions. Regenerate it with `npm run schema`.
 
 ## Versions
 
@@ -90,11 +98,11 @@ This project is licensed under the MIT License - see the <a href="/LICENSE.md">L
 
 ## **CrossStitchPattern Schema:**
 
-This section is the canonical reference for the pattern shape. See a full example [below](#full-schema-example).
+This section documents the pattern shape. See a full example [below](#full-schema-example).
 
 ```json
 {
-    "version": 1,
+    "schemaVersion": 1,
     "metadata": {},
     "fabric": {},
     "colors": [],
@@ -102,7 +110,7 @@ This section is the canonical reference for the pattern shape. See a full exampl
 }
 ```
 
--   `version` - The document format version this pattern conforms to. Must be the number `1`. This is independent of the `cross-stitch` package version and stays `1` for the 2.0 format.
+-   `schemaVersion` - The version of the cross-stitch document format. Must be the number `1`.
 
 -   `metadata` - An optional [`Metadata`](#metadata-schema) object holding descriptive, non-structural information about the pattern.
 
@@ -197,7 +205,7 @@ This represents floss of a single color and brand, and by default, a single stra
     "brand": "DMC",
     "code": "721",
     "name": "Orange Spice - Medium",
-    "count": 2,
+    "strandCount": 2,
     "hex": "#f27842"
 }
 ```
@@ -208,7 +216,7 @@ This represents floss of a single color and brand, and by default, a single stra
 
 -   `name` - The brand's name for the color.
 
--   `count` - A positive integer giving the number of strands of this floss to use in the color. If not given, defaults to `1`.
+-   `strandCount` - A positive integer giving the number of strands of this floss to use in the color. If not given, defaults to `1`.
 
 -   `hex` - An optional color value as a `#rrggbb` hexadecimal string.
 
@@ -238,8 +246,6 @@ A full stitch covers a single square on the pattern in an 'X' shape. It is the c
 ```
 
 -   `kind` - The literal `"full"`.
-
--   `colorId` - The `id` of the [`Color`](#color-schema) of the stitch.
 
 -   `x` - The x coordinate of the lower left corner of the square.
 
@@ -276,8 +282,6 @@ A half stitch is one diagonal across a grid square. It comes in two forms named 
 ```
 
 -   `kind` - The literal `"half"`.
-
--   `colorId` - The `id` of the [`Color`](#color-schema) of the stitch.
 
 -   `x` - The x coordinate of the lower left corner of the square.
 
@@ -336,8 +340,6 @@ A quarter stitch spans a quarter of a grid square and can be located in the `top
 ```
 
 -   `kind` - The literal `"quarter"`.
-
--   `colorId` - The `id` of the [`Color`](#color-schema) of the stitch.
 
 -   `x` - The x coordinate of the lower left corner of the square.
 
@@ -431,8 +433,6 @@ A three quarter stitch is a [half stitch](#half-stitch-schema) plus a [quarter s
 ```
 
 -   `kind` - The literal `"three-quarter"`.
-
--   `colorId` - The `id` of the [`Color`](#color-schema) of the stitch.
 
 -   `x` - The x coordinate of the lower left corner of the square.
 
@@ -530,8 +530,6 @@ Back stitches can go laterally, vertically, or diagonally. A back stitch may spa
 ```
 
 -   `kind` - The literal `"back"`.
-
--   `colorId` - The `id` of the [`Color`](#color-schema) of the stitch.
 
 -   `from` - The start point of the stitch as `{ x, y }`.
 
@@ -641,8 +639,6 @@ Long stitches span more than one space. They can move laterally, vertically, or 
 
 -   `kind` - The literal `"long"`.
 
--   `colorId` - The `id` of the [`Color`](#color-schema) of the stitch.
-
 -   `from` - The start point of the stitch as `{ x, y }`.
 
 -   `to` - The end point of the stitch as `{ x, y }`.
@@ -697,7 +693,7 @@ The image below shows a tiny 3x3 pattern that uses every stitch kind. Here is th
 
 ```json
 {
-    "version": 1,
+    "schemaVersion": 1,
     "metadata": {
         "title": "Tiny Sampler",
         "notes": "A tiny 3x3 example using every stitch kind."
@@ -716,7 +712,7 @@ The image below shows a tiny 3x3 pattern that uses every stitch kind. Here is th
                     "brand": "DMC",
                     "code": "825",
                     "name": "Dark Blue",
-                    "count": 2
+                    "strandCount": 2
                 }
             ]
         },
@@ -729,13 +725,13 @@ The image below shows a tiny 3x3 pattern that uses every stitch kind. Here is th
                     "brand": "DMC",
                     "code": "721",
                     "name": "Orange Spice",
-                    "count": 1
+                    "strandCount": 1
                 },
                 {
                     "brand": "DMC",
                     "code": "947",
                     "name": "Burnt Orange",
-                    "count": 1
+                    "strandCount": 1
                 }
             ]
         }
