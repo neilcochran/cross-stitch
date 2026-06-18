@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { ColorId, Coordinate, IntegerCoordinate } from './primitives';
+import { ColorId, SegmentCoordinate, CellCoordinate } from './primitives';
+import { addSemanticIssue } from './issues';
 
 /**
  * Every stitch kind discriminator, in canonical order. The single source of truth for which
@@ -26,8 +27,8 @@ export type StitchPlacement = z.infer<typeof StitchPlacement>;
 
 /** A point on the stitch grid. Coordinates may use half-step (0.5) values. */
 export const Point = z.object({
-    x: Coordinate.describe('X position on the grid; may be a half-step.'),
-    y: Coordinate.describe('Y position on the grid; may be a half-step.')
+    x: SegmentCoordinate.describe('X position on the grid; may be a half-step.'),
+    y: SegmentCoordinate.describe('Y position on the grid; may be a half-step.')
 });
 
 /** A validated grid point. */
@@ -43,8 +44,8 @@ const StitchBase = z.object({
 
 /** Internal base for cell-anchored stitches: a whole-integer lower-left corner. */
 const CellStitchBase = StitchBase.extend({
-    x: IntegerCoordinate.describe('X of the lower-left corner of the square.'),
-    y: IntegerCoordinate.describe('Y of the lower-left corner of the square.')
+    x: CellCoordinate.describe('X of the lower-left corner of the square.'),
+    y: CellCoordinate.describe('Y of the lower-left corner of the square.')
 });
 
 /** Internal base for segment stitches: a start and end point that may use half-steps. */
@@ -95,12 +96,12 @@ export const ThreeQuarterStitch = CellStitchBase.extend({
             ? stitch.placement === 'top-right' || stitch.placement === 'bottom-left'
             : stitch.placement === 'top-left' || stitch.placement === 'bottom-right';
     if (!reachable) {
-        ctx.addIssue({
-            code: 'custom',
-            params: { kind: 'unreachable-placement', angle: stitch.angle, placement: stitch.placement },
-            message: 'placement is not reachable for the given angle',
-            path: ['placement']
-        });
+        addSemanticIssue(
+            ctx,
+            { kind: 'unreachable-placement', angle: stitch.angle, placement: stitch.placement },
+            'placement is not reachable for the given angle',
+            ['placement']
+        );
     }
 });
 
@@ -114,21 +115,21 @@ export const BackStitch = SegmentStitchBase.extend({
     const dx = Math.abs(stitch.to.x - stitch.from.x);
     const dy = Math.abs(stitch.to.y - stitch.from.y);
     if (dx === 0 && dy === 0) {
-        ctx.addIssue({
-            code: 'custom',
-            params: { kind: 'segment-empty' },
-            message: 'a back stitch must not be empty (from and to are the same point)',
-            path: ['to']
-        });
+        addSemanticIssue(
+            ctx,
+            { kind: 'segment-empty' },
+            'a back stitch must not be empty (from and to are the same point)',
+            ['to']
+        );
         return;
     }
     if (dx > 1 || dy > 1) {
-        ctx.addIssue({
-            code: 'custom',
-            params: { kind: 'back-stitch-too-long' },
-            message: 'a back stitch may span at most one grid space in each direction',
-            path: ['to']
-        });
+        addSemanticIssue(
+            ctx,
+            { kind: 'back-stitch-too-long' },
+            'a back stitch may span at most one grid space in each direction',
+            ['to']
+        );
     }
 });
 
@@ -142,21 +143,21 @@ export const LongStitch = SegmentStitchBase.extend({
     const dx = Math.abs(stitch.to.x - stitch.from.x);
     const dy = Math.abs(stitch.to.y - stitch.from.y);
     if (dx === 0 && dy === 0) {
-        ctx.addIssue({
-            code: 'custom',
-            params: { kind: 'segment-empty' },
-            message: 'a long stitch must not be empty (from and to are the same point)',
-            path: ['to']
-        });
+        addSemanticIssue(
+            ctx,
+            { kind: 'segment-empty' },
+            'a long stitch must not be empty (from and to are the same point)',
+            ['to']
+        );
         return;
     }
     if (dx <= 1 && dy <= 1) {
-        ctx.addIssue({
-            code: 'custom',
-            params: { kind: 'long-stitch-too-short' },
-            message: 'a long stitch must span more than one grid space; use a back stitch for shorter segments',
-            path: ['to']
-        });
+        addSemanticIssue(
+            ctx,
+            { kind: 'long-stitch-too-short' },
+            'a long stitch must span more than one grid space; use a back stitch for shorter segments',
+            ['to']
+        );
     }
 });
 

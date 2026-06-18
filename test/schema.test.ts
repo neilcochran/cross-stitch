@@ -1,4 +1,4 @@
-import { BackStitch, Color, Floss, FullStitch, LongStitch, Stitch, ThreeQuarterStitch } from '../src';
+import { BackStitch, Color, Floss, FullStitch, LongStitch, Stitch, ThreeQuarterStitch } from '../src/schema';
 
 test('FullStitch coordinates must be non-negative integers', () => {
     expect(FullStitch.safeParse({ kind: 'full', colorId: 0, x: 1, y: 2 }).success).toBe(true);
@@ -121,12 +121,12 @@ test('Floss defaults count to 1 and validates brand and hex', () => {
     const parsed = Floss.safeParse({ brand: 'DMC', code: '721', name: 'Orange' });
     expect(parsed.success).toBe(true);
     if (parsed.success) {
-        expect(parsed.data.count).toBe(1);
+        expect(parsed.data.strandCount).toBe(1);
     }
     expect(Floss.safeParse({ brand: 'DMC', code: '721', name: 'Orange', hex: '#f27842' }).success).toBe(true);
 
     // expect false
-    expect(Floss.safeParse({ brand: 'DMC', code: '721', name: 'Orange', count: 0 }).success).toBe(false);
+    expect(Floss.safeParse({ brand: 'DMC', code: '721', name: 'Orange', strandCount: 0 }).success).toBe(false);
     expect(Floss.safeParse({ brand: 'Nope', code: '721', name: 'Orange' }).success).toBe(false);
     expect(Floss.safeParse({ brand: 'DMC', code: '721', name: 'Orange', hex: '0xf27842' }).success).toBe(false);
 });

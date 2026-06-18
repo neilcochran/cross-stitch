@@ -1,4 +1,5 @@
-import { CrossStitchPattern, calculateDimensions, calculateTotals } from '../src';
+import { calculateDimensions, calculateTotals } from '../src';
+import { CrossStitchPattern } from '../src/schema';
 import { VALID_PATTERN } from './test-utils';
 
 const pattern = CrossStitchPattern.parse(VALID_PATTERN);
@@ -9,7 +10,7 @@ test('calculateDimensions measures the pattern and reports a zero offset when an
 
 test('calculateDimensions reports the offset of a pattern not anchored at the origin', () => {
     const offset = CrossStitchPattern.parse({
-        version: 1,
+        schemaVersion: 1,
         colors: [{ id: 0, name: 'Blue', symbol: '@', strands: [{ brand: 'DMC', code: '825', name: 'Blue' }] }],
         stitches: [{ kind: 'full', colorId: 0, x: 5, y: 7 }]
     });
@@ -23,4 +24,9 @@ test('calculateTotals counts stitches overall and per color', () => {
         { colorId: 0, counts: { full: 1, half: 1, quarter: 1, threeQuarter: 1, back: 1, long: 1 } },
         { colorId: 1, counts: { full: 1, half: 1, quarter: 1, threeQuarter: 1, back: 1, long: 1 } }
     ]);
+});
+
+test('calculateDimensions returns all zeros for a pattern with no stitches', () => {
+    const empty = CrossStitchPattern.parse({ schemaVersion: 1, colors: [], stitches: [] });
+    expect(calculateDimensions(empty)).toEqual({ stitchWidth: 0, stitchHeight: 0, offsetX: 0, offsetY: 0 });
 });

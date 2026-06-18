@@ -22,24 +22,24 @@ export type PositiveInt = z.infer<typeof PositiveInt>;
  * (0.5) increments are valid; finer subdivisions correspond to no real stitch and are
  * rejected. Branded so it cannot be interchanged with a plain number or another scalar.
  */
-export const Coordinate = z
+export const SegmentCoordinate = z
     .number()
     .nonnegative()
     .refine(isHalfStep, { message: 'coordinate must be a whole number or a multiple of 0.5' })
-    .brand<'Coordinate'>();
+    .brand<'SegmentCoordinate'>();
 
 /** A validated grid coordinate. */
-export type Coordinate = z.infer<typeof Coordinate>;
+export type SegmentCoordinate = z.infer<typeof SegmentCoordinate>;
 
 /**
  * A non-negative whole-number grid coordinate, for stitches that can only begin on an
  * integer grid corner (full, half, quarter, and three-quarter stitches). Branded so it
  * cannot be interchanged with a plain number or another scalar.
  */
-export const IntegerCoordinate = z.number().int().nonnegative().brand<'IntegerCoordinate'>();
+export const CellCoordinate = z.number().int().nonnegative().brand<'CellCoordinate'>();
 
 /** A validated whole-number grid coordinate. */
-export type IntegerCoordinate = z.infer<typeof IntegerCoordinate>;
+export type CellCoordinate = z.infer<typeof CellCoordinate>;
 
 /**
  * A non-negative integer color identifier referenced by stitches. Branded so it cannot be

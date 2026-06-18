@@ -11,10 +11,15 @@
             "types": "./dist/index.d.ts",
             "default": "./dist/index.js"
         },
+        "./schema": {
+            "types": "./dist/schema/index.d.ts",
+            "default": "./dist/schema/index.js"
+        },
         "./dmc": {
             "types": "./dist/data/dmc.d.ts",
             "default": "./dist/data/dmc.js"
-        }
+        },
+        "./schema.json": "./cross-stitch.schema.json"
     },
     "scripts": {
         "lint": "eslint --fix --ext .ts \"src/**/*\"",
@@ -26,6 +31,7 @@
         "start": "node dist/index.js",
         "test": "jest",
         "doc": "typedoc --includeVersion --out docs src/",
+        "schema": "ts-node scripts/generate-schema.ts",
         "lint:check": "eslint --ext .ts \"src/**/*\""
     },
     "keywords": [
