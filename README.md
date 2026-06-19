@@ -253,7 +253,7 @@ A full stitch covers a single square on the pattern in an 'X' shape. It is the c
 
 **Example:**
 
-![FullStitch image](https://github.com/neilcochran/cross-stitch/blob/master/images/full-stitch.png)
+![FullStitch image](https://github.com/neilcochran/cross-stitch/raw/master/images/full-stitch.png)
 
 ```json
 {
@@ -293,7 +293,7 @@ A half stitch is one diagonal across a grid square. It comes in two forms named 
 
 **Half Stitch tl-br**
 
-![HalfStitch tl-br image](https://github.com/neilcochran/cross-stitch/blob/master/images/half-45.png)
+![HalfStitch tl-br image](https://github.com/neilcochran/cross-stitch/raw/master/images/half-45.png)
 
 ```json
 {
@@ -310,7 +310,7 @@ A half stitch is one diagonal across a grid square. It comes in two forms named 
 
 **Half Stitch bl-tr**
 
-![HalfStitch bl-tr image](https://github.com/neilcochran/cross-stitch/blob/master/images/half-135.png)
+![HalfStitch bl-tr image](https://github.com/neilcochran/cross-stitch/raw/master/images/half-135.png)
 
 ```json
 {
@@ -351,7 +351,7 @@ A quarter stitch spans a quarter of a grid square and can be located in the `top
 
 **Quarter Stitch Top Right**
 
-![QuarterStitch top right image](https://github.com/neilcochran/cross-stitch/blob/master/images/quarter-top-right.png)
+![QuarterStitch top right image](https://github.com/neilcochran/cross-stitch/raw/master/images/quarter-top-right.png)
 
 ```json
 {
@@ -368,7 +368,7 @@ A quarter stitch spans a quarter of a grid square and can be located in the `top
 
 **Quarter Stitch Bottom Right**
 
-![QuarterStitch bottom right image](https://github.com/neilcochran/cross-stitch/blob/master/images/quarter-bottom-right.png)
+![QuarterStitch bottom right image](https://github.com/neilcochran/cross-stitch/raw/master/images/quarter-bottom-right.png)
 
 ```json
 {
@@ -385,7 +385,7 @@ A quarter stitch spans a quarter of a grid square and can be located in the `top
 
 **Quarter Stitch Bottom Left**
 
-![QuarterStitch bottom left image](https://github.com/neilcochran/cross-stitch/blob/master/images/quarter-bottom-left.png)
+![QuarterStitch bottom left image](https://github.com/neilcochran/cross-stitch/raw/master/images/quarter-bottom-left.png)
 
 ```json
 {
@@ -402,7 +402,7 @@ A quarter stitch spans a quarter of a grid square and can be located in the `top
 
 **Quarter Stitch Top Left**
 
-![QuarterStitch top left image](https://github.com/neilcochran/cross-stitch/blob/master/images/quarter-top-left.png)
+![QuarterStitch top left image](https://github.com/neilcochran/cross-stitch/raw/master/images/quarter-top-left.png)
 
 ```json
 {
@@ -446,7 +446,7 @@ A three quarter stitch is a [half stitch](#half-stitch-schema) plus a [quarter s
 
 **Three Quarter Stitch Top Right** (`tl-br` + `top-right`)
 
-![ThreeQuarterStitch top right image](https://github.com/neilcochran/cross-stitch/blob/master/images/three-quarter-top-right.png)
+![ThreeQuarterStitch top right image](https://github.com/neilcochran/cross-stitch/raw/master/images/three-quarter-top-right.png)
 
 ```json
 {
@@ -464,7 +464,7 @@ A three quarter stitch is a [half stitch](#half-stitch-schema) plus a [quarter s
 
 **Three Quarter Stitch Bottom Left** (`tl-br` + `bottom-left`)
 
-![ThreeQuarterStitch bottom left image](https://github.com/neilcochran/cross-stitch/blob/master/images/three-quarter-bottom-left.png)
+![ThreeQuarterStitch bottom left image](https://github.com/neilcochran/cross-stitch/raw/master/images/three-quarter-bottom-left.png)
 
 ```json
 {
@@ -482,7 +482,7 @@ A three quarter stitch is a [half stitch](#half-stitch-schema) plus a [quarter s
 
 **Three Quarter Stitch Top Left** (`bl-tr` + `top-left`)
 
-![ThreeQuarterStitch top left image](https://github.com/neilcochran/cross-stitch/blob/master/images/three-quarter-top-left.png)
+![ThreeQuarterStitch top left image](https://github.com/neilcochran/cross-stitch/raw/master/images/three-quarter-top-left.png)
 
 ```json
 {
@@ -500,7 +500,7 @@ A three quarter stitch is a [half stitch](#half-stitch-schema) plus a [quarter s
 
 **Three Quarter Stitch Bottom Right** (`bl-tr` + `bottom-right`)
 
-![ThreeQuarterStitch bottom right image](https://github.com/neilcochran/cross-stitch/blob/master/images/three-quarter-bottom-right.png)
+![ThreeQuarterStitch bottom right image](https://github.com/neilcochran/cross-stitch/raw/master/images/three-quarter-bottom-right.png)
 
 ```json
 {
@@ -539,7 +539,7 @@ Back stitches can go laterally, vertically, or diagonally. A back stitch may spa
 
 **Back Stitch Lateral**
 
-![BackStitch lateral image](https://github.com/neilcochran/cross-stitch/blob/master/images/back-stitch-lateral.png)
+![BackStitch lateral image](https://github.com/neilcochran/cross-stitch/raw/master/images/back-stitch-lateral.png)
 
 Red:
 
@@ -568,7 +568,7 @@ Green:
 
 **Back Stitch Vertical**
 
-![BackStitch vertical image](https://github.com/neilcochran/cross-stitch/blob/master/images/back-stitch-vertical.png)
+![BackStitch vertical image](https://github.com/neilcochran/cross-stitch/raw/master/images/back-stitch-vertical.png)
 
 Red:
 
@@ -597,7 +597,7 @@ Green:
 
 **Back Stitch Diagonal**
 
-![BackStitch diagonal image](https://github.com/neilcochran/cross-stitch/blob/master/images/back-stitch-diagonal.png)
+![BackStitch diagonal image](https://github.com/neilcochran/cross-stitch/raw/master/images/back-stitch-diagonal.png)
 
 Red:
 
@@ -645,7 +645,7 @@ Long stitches span more than one space. They can move laterally, vertically, or 
 
 **Examples:**
 
-![LongStitch image](https://github.com/neilcochran/cross-stitch/blob/master/images/long-stitch.png)
+![LongStitch image](https://github.com/neilcochran/cross-stitch/raw/master/images/long-stitch.png)
 
 Red:
 
@@ -689,7 +689,7 @@ Stitch counts and pattern size are not stored in the schema. Derive them from a 
 
 The image below shows a tiny 3x3 pattern that uses every stitch kind. Here is the JSON that describes it:
 
-![full pattern example image](https://github.com/neilcochran/cross-stitch/blob/master/images/full-pattern-example.png)
+![full pattern example image](https://github.com/neilcochran/cross-stitch/raw/master/images/full-pattern-example.png)
 
 ```json
 {
